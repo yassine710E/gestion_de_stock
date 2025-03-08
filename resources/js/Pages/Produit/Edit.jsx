@@ -2,13 +2,14 @@ import React from 'react'
 import { useForm, Head } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
-function Create({errors, categories}) {
-    const { data, setData, post, processing } = useForm({
-        "nom_produit": null,
-        "category_id": null,
-        "photo": null,
-        "prix_p": null,
-        "code_barre": null,
+function Edit({errors, categories,produit}) {
+
+    const { data, setData, put, processing } = useForm({
+        "nom_produit": produit.nom_produit,
+        "category_id": produit.category_id,
+        "photo": produit.photo,
+        "prix_p": produit.prix_p,
+        "code_barre": produit.code_barre,
     });
 
     const handleFileChange = (e) => {
@@ -16,7 +17,6 @@ function Create({errors, categories}) {
         setData("photo", file);
       };
 
-    console.log(categories)
 
     const formHandling = (e) => {
         e.preventDefault();
@@ -29,17 +29,14 @@ function Create({errors, categories}) {
     formData.append("photo", data.photo);
     formData.append("code_barre", data.code_barre);
 
-        // post(route('produits.store', formData), {
-        //     onSuccess: () => setData('nom_cat', "")
-        // });
-        console.log(formData);
+    put(route('produits.update', produit.id), formData);
     }
     
     return (
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    <i className="fas fa-folder-open mr-2"></i>Create produit
+                    <i className="fas fa-folder-open mr-2"></i>Edit produit
                 </h2>
             }
         >
@@ -60,7 +57,7 @@ function Create({errors, categories}) {
                                             id="nom_produit"
                                             name="nom_produit" 
                                             value={data.nom_produit || ''} 
-                                            onChange={(e) => setData('nom_produit', e.target.value)}
+                                            onChange={(e) => setData('nom_produit', e.target.value) }
                                             className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.nom_produit ? 'border-red-500' : 'border-gray-300'}`}
                                             placeholder="Enter nom produit"
                                         />
@@ -94,7 +91,7 @@ function Create({errors, categories}) {
                                             <option value="">choisir un categorie :</option>
                                             {
                                                 categories.map((cat) => (
-                                                    <option value={cat.id}>{cat.nom_cat}</option>
+                                                    <option key={cat.id} value={cat.id} selected={cat.id === produit.id} >{cat.nom_cat}</option>
                                                 ))
                                             }
                                         </select>
@@ -137,7 +134,7 @@ function Create({errors, categories}) {
                                     disabled={processing}
                                     className={`w-full md:w-auto px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${processing ? 'opacity-75 cursor-not-allowed' : ''}`}
                                 >
-                                    {processing ? 'Creating...' : 'Create Category'}
+                                    {processing ? 'Creating...' : 'Edit Category'}
                                 </button>
                             </form>
                         </div>
@@ -148,4 +145,4 @@ function Create({errors, categories}) {
     )
 }
 
-export default Create
+export default Edit

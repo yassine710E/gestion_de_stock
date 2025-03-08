@@ -86,7 +86,7 @@ class ProduitController extends Controller
         
        $data =  $request->validated();
         
-       if ($request->file('photo')) {
+       if ($request->hasFile('photo')) {
             
             $request->validate([
                
@@ -96,9 +96,8 @@ class ProduitController extends Controller
             
             $image = $request->file("photo");
         
-            $imageName = time().".".$image->getClientOriginalExtension();
+            $path = $image->store("products", "public");
             
-            $path = $image->storeAs("public/products",$imageName);
         
             $data['photo'] = $path;
 

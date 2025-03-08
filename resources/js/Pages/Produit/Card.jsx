@@ -1,5 +1,5 @@
 // import { CheckCircle } from "lucide-react";
-
+import {Link} from "@inertiajs/react";
 import { useForm } from "@inertiajs/react";
 
 const Card = ({produit}) => {
@@ -45,14 +45,16 @@ const Card = ({produit}) => {
               <i className="fas fa-trash mr-1"></i>
             </button>
           </form>
-          <button className="text-blue-600 text-sm mt-2 hover:underline">
-            <i className="fas fa-edit mr-1"></i>
-            
-          </button>
-          <button className="text-green-600 text-sm mt-2 hover:underline">
-            <i className="fas fa-info-circle mr-1"></i>
-            
-          </button>
+          <Link className="text-blue-600 text-sm mt-2 hover:underline" href={route('produits.edit',produit.id)}>
+          <i className="fas fa-edit mr-1"></i>
+          </Link>
+         
+
+           <Link className="text-green-600 text-sm mt-2 hover:underline" href={route('produits.show',produit.id)}>
+           <i className="fas fa-info-circle mr-1"></i>
+
+           </Link>            
+          
         </div>
       </div>
     </div>
