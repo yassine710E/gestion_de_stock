@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('produits', function (Blueprint $table) {
             $table->id();
+            $table->string("nom_produit");
             $table->foreignId("category_id")->constrained()->onDelete("restrict");
             $table->decimal("prix_p",8,2);
             $table->string('photo');

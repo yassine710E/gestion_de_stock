@@ -18,6 +18,7 @@ class ProduitFactory extends Factory
     public function definition(): array
     {
         return [
+            "nom_produit" => fake()->text(25),
             "category_id" => Category::factory(),
             "prix_p" => fake()->randomFloat(2, 1, 1000),
             "photo" => fake()->imageUrl(),

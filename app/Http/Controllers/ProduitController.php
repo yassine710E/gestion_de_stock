@@ -6,6 +6,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProduitRequest;
 use App\Models\Category;
 use App\Models\Produit;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ProduitController extends Controller
@@ -35,20 +36,23 @@ class ProduitController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request)
+    public function store(Request $request)
     {
 
-
-        $data = $request->validated();
+        $data = $request->validate([
+            "nom_produit" => "required|min:4|max:25",
+            "category_id" => "required|exists:categories,id",
+            "prix_p" => "required|numeric|min:0",
+            "photo" => "required|image|mimes:jpeg,png,jpg|max:2048",
+            "code_barre" => "required|unique:produits,code_barre|string"
+        ]) ;
+            
         
         $image = $request->file("photo");
         
-        $imageName = time().".".$image->getClientOriginalExtension();
+        $path = $image->store("products", "public");
         
-        $path = $image->storeAs("public/products",$imageName);
-    
         $data['photo'] = $path;
-        
         Produit::create($data);
         
         return redirect()->route('produits.index')->with('success', 'Produit créé avec succès');
@@ -112,5 +116,6 @@ class ProduitController extends Controller
     public function destroy(Produit $produit)
     {
         $produit->delete();
+        return redirect()->route('produits.index')->with('success', 'Produit supprimer avec succès');
     }
 }
