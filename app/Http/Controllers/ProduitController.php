@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\StoreProduitRequest;
 use App\Http\Requests\UpdateProduitRequest;
 use App\Models\Category;
 use App\Models\Produit;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProduitController extends Controller
@@ -16,9 +16,9 @@ class ProduitController extends Controller
      */
     public function index()
     {
-        $produits = Produit::with('category')->paginate(10);
+        $produits = Produit::with('category')->paginate(12);
 
-        return Inertia::render("Produit/Index",["produits"=>$produits]);
+        return Inertia::render("Produit/Index",compact("produits"));
     }
 
     
@@ -30,22 +30,18 @@ class ProduitController extends Controller
     {
 
         $categories = Category::all();
+        
         return Inertia::render("Produit/Create",compact("categories"));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProduitRequest $request)
     {
 
-        $data = $request->validate([
-            "nom_produit" => "required|min:4|max:25",
-            "category_id" => "required|exists:categories,id",
-            "prix_p" => "required|numeric|min:0",
-            "photo" => "required|image|mimes:jpeg,png,jpg|max:2048",
-            "code_barre" => "required|unique:produits,code_barre|string"
-        ]) ;
+        $data = $request->validated() ;
+
             
         
         $image = $request->file("photo");
@@ -53,6 +49,8 @@ class ProduitController extends Controller
         $path = $image->store("products", "public");
         
         $data['photo'] = $path;
+
+        
         Produit::create($data);
         
         return redirect()->route('produits.index')->with('success', 'Produit créé avec succès');
@@ -64,7 +62,7 @@ class ProduitController extends Controller
     public function show(Produit $produit)
     {
         
-        return Inertia::render("Produit/Show" , ["produit"=>$produit]);
+        return Inertia::render("Produit/Show" , compact("produit"));
     }
 
     /**
@@ -85,10 +83,15 @@ class ProduitController extends Controller
     {
         
        $data =  $request->validated();
+
+       
         
        if ($request->hasFile('photo')) {
             
-            $request->validate([
+
+        Storage::disk('public')->delete($produit->photo);            
+            
+        $request->validate([
                
                 "photo" => "image|mimes:jpeg,png,jpg|max:2048",
             
@@ -102,6 +105,7 @@ class ProduitController extends Controller
             $data['photo'] = $path;
 
         }    
+
         
         $produit->update($data);
         
@@ -114,7 +118,11 @@ class ProduitController extends Controller
      */
     public function destroy(Produit $produit)
     {
+        
         $produit->delete();
+
+        Storage::disk('public')->delete($produit->photo);
+        
         return redirect()->route('produits.index')->with('success', 'Produit supprimer avec succès');
     }
 }

@@ -1,64 +1,64 @@
-// import { CheckCircle } from "lucide-react";
-import {Link} from "@inertiajs/react";
-import { useForm } from "@inertiajs/react";
+// In your existing code, modify the image container and img tag styles:
 
-const Card = ({produit}) => {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit, faEye, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { useForm } from '@inertiajs/react';
 
-  const {delete : destroy} = useForm()
+function Card({ produit }) {
 
-  const Delete = (e, id) => {
-    e.preventDefault()
-    if(confirm("are you sure")){
-      destroy(route("produits.destroy", id))
-    }
-  }
-  return (
-    <div className="flex items-start justify-between border-b pb-4">
-      {/* Product Image */}
-      <div className="w-24 h-24 bg-gray-100 rounded-lg overflow-hidden">
-        <img
-          src={`storage/${produit.photo}`}
-          alt="Artwork Tee"
-          className="w-full h-full object-cover"
-        />
-      </div>
+    const { delete: destroy } = useForm();
 
-      {/* Product Details */}
-      <div className="flex-1 ml-4">
-        <h2 className="text-lg font-medium text-gray-900">{produit.nom_produit}</h2>
-        <p className="text-gray-500 text-sm">{produit.category.nom_cat}</p>
-        <p className="text-gray-500 text-sm">{produit.code_barre}</p>
+    //delete handling
+    const deleteHandler = (e, id) => {
+        e.preventDefault();
+        if (confirm('are you sure !!!')) {
+            destroy(route('produits.destroy', id));
+        }
 
-        {/* Stock Status */}
-        <div className="flex items-center mt-2 text-green-600 text-sm">
-          <i className="fas fa-check-circle mr-1"></i>
-          <span>In stock</span>
+    };
+    return (
+        <div key={produit.id} className="group relative bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-4">
+            <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8 h-[200px]"> {/* Added fixed height */}
+                <img
+                    alt={produit.nom_produit}
+                    src={`/storage/${produit.photo}`}
+                    className="h-[200px] w-full object-cover object-center group-hover:opacity-75"
+                    style={{ objectFit: 'cover' }} // Ensures image covers the area without distortion
+                />
+            </div>
+            <div className="mt-4 space-y-2">
+                <div className="flex justify-between items-start">
+                    <h3 className="text-lg font-medium text-gray-900 truncate">
+                        {produit.nom_produit}
+                    </h3>
+                    <p className="text-lg font-bold text-indigo-600">
+                        ${parseFloat(produit.prix_p).toFixed(2)}
+                    </p>
+                </div>
+                <div className="flex items-center space-x-2">
+                    <span className="px-2 py-1 text-xs font-semibold bg-gray-100 text-gray-600 rounded-full">
+                        {produit.category.nom_cat}
+                    </span>
+                    <span className="text-sm text-gray-500">
+                        Code: {produit.code_barre}
+                    </span>
+                </div>
+                <div className="flex justify-end space-x-2 mt-2">
+                    <button className="p-2 text-blue-600 hover:text-blue-800" onClick={() => window.location.href = route('produits.show', produit.id)}>
+                        <FontAwesomeIcon icon={faEye} />
+                    </button>
+                    <button className="p-2 text-green-600 hover:text-green-800" onClick={() => window.location.href = route('produits.edit', produit.id)}>
+                        <FontAwesomeIcon icon={faEdit} />
+                    </button>
+                    <form onSubmit={(e) => deleteHandler(e, produit.id)}>
+                        <button type='submit' className="p-2 text-red-600 hover:text-red-800">
+                            <FontAwesomeIcon icon={faTrash} />
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
+    )
+}
 
-      {/* Price & Remove */}
-      <div className="flex flex-col items-end">
-        <p className="text-lg font-medium text-gray-900">{produit.prix_p} $</p>
-        <div className="flex gap-4">
-          <form onSubmit={(e) => Delete(e, produit.id)}>
-            <button type="submit" className="text-red-600 text-sm mt-2 hover:underline">
-              <i className="fas fa-trash mr-1"></i>
-            </button>
-          </form>
-          <Link className="text-blue-600 text-sm mt-2 hover:underline" href={route('produits.edit',produit.id)}>
-          <i className="fas fa-edit mr-1"></i>
-          </Link>
-         
-
-           <Link className="text-green-600 text-sm mt-2 hover:underline" href={route('produits.show',produit.id)}>
-           <i className="fas fa-info-circle mr-1"></i>
-
-           </Link>            
-          
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default Card;
+export default Card

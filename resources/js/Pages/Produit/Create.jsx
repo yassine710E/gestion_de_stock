@@ -1,45 +1,70 @@
-import React from 'react'
 import { useForm, Head } from '@inertiajs/react'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import React, { useState } from 'react'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
-function Create({errors, categories}) {
+
+
+
+function Create({ categories, errors }) {
+    const [preview, setPreview] = useState(null);
+
     const { data, setData, post, processing } = useForm({
-        "nom_produit": null,
-        "category_id": null,
+        "category_id": "",
+        "nom_produit": "",
+        "prix_p": "",
         "photo": null,
-        "prix_p": null,
-        "code_barre": null,
-    });
+        "code_barre": ""
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        setData("photo", file);
-      };
-
-    console.log(categories)
+    })
 
     const formHandling = (e) => {
         e.preventDefault();
+        
+        post(route('produits.store'), {
+            onSuccess: () => {
+                // Clear the form
+                setData({
+                    category_id: "",
+                    nom_produit: "",
+                    prix_p: "",
+                    photo: null,
+                    code_barre: ""
+                });
+                setPreview(null);
+                
+                // You can add a success message or redirect here if needed
+            },
+            // Preserve the scroll position after submission
+            preserveScroll: true,
+        });
+    };
 
-    const formData = new FormData();
-
-    formData.append("nom_produit", data.nom_produit);
-    formData.append("prix_p", data.prix_p);
-    formData.append("category_id", data.category_id);
-    formData.append("photo", data.photo);
-    formData.append("code_barre", data.code_barre);
-
-        // post(route('produits.store', formData), {
-        //     onSuccess: () => setData('nom_cat', "")
-        // });
-        console.log(formData);
+    const changeHandling = (e) => {
+        const { id, value } = e.target;
+        setData(id, value);
     }
-    
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+            setData('photo', file);
+        }
+    };
+
+
+    const handleRemove = () => {
+        setPreview(null);
+        reset('photo');
+    };
     return (
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    <i className="fas fa-folder-open mr-2"></i>Create produit
+                    <i className="fas fa-folder-open mr-2"></i>Create Produit
                 </h2>
             }
         >
@@ -49,95 +74,119 @@ function Create({errors, categories}) {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
-                        <form onSubmit={formHandling} className="space-y-6">
-                            <div className="grid grid-cols-2 gap-4">
+                            <form onSubmit={formHandling} className="space-y-6">
                                 <div className="flex flex-col space-y-2">
-                                        <label htmlFor="nom_produit" className="text-sm font-medium text-gray-700">
-                                            nom produit
-                                        </label>
-                                        <input 
-                                            type="text" 
-                                            id="nom_produit"
-                                            name="nom_produit" 
-                                            value={data.nom_produit || ''} 
-                                            onChange={(e) => setData('nom_produit', e.target.value)}
-                                            className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.nom_produit ? 'border-red-500' : 'border-gray-300'}`}
-                                            placeholder="Enter nom produit"
-                                        />
-                                        {errors.nom_produit && <div className="text-sm text-red-600">{errors.nom_produit}</div>}
-                                    </div>
+                                    <label htmlFor="nom_produit" className="text-sm font-medium text-gray-700">
+                                        nom produit
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="nom_produit"
+                                        name="nom_produit"
+                                        value={data.nom_produit || ''}
+                                        onChange={changeHandling}
+                                        className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.nom_produit ? 'border-red-500' : 'border-gray-300'}`}
+                                        placeholder="Enter category name"
+                                    />
+                                    {errors.nom_produit && <div className="text-sm text-red-600">{errors.nom_produit}</div>}
+                                </div>
 
-                                    <div className="flex flex-col space-y-2">
-                                        <label htmlFor="prix_p" className="text-sm font-medium text-gray-700">
-                                            prix produit
-                                        </label>
+                                <div className="flex flex-col space-y-2">
+                                    <label htmlFor="category_id" className="text-sm font-medium text-gray-700">
+                                        nom category
+                                    </label>
+                                    <select
+                                        onChange={changeHandling}
+                                        className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.category_id ? 'border-red-500' : 'border-gray-300'}`}
+                                        name="category_id"
+                                        id="category_id"
+                                    >
+
+                                        <option value=''>---choisir categorie---</option>
+                                        {categories.map((category) => (
+                                            <option value={category.id}>{category.nom_cat}</option>
+                                        ))}
+                                    </select>
+
+                                    {errors.category_id && <div className="text-sm text-red-600">{errors.category_id}</div>}
+                                </div>
+
+                                <div className="flex flex-col space-y-2">
+                                    <label htmlFor="prix_p" className="text-sm font-medium text-gray-700">
+                                        prix produit
+                                    </label>
+                                    <input
+                                        type="number"
+                                        id="prix_p"
+                                        name="prix_p"
+                                        value={data.prix_p || ''}
+                                        onChange={changeHandling}
+                                        className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.prix_p ? 'border-red-500' : 'border-gray-300'}`}
+                                        placeholder="Enter prix produit"
+                                    />
+                                    {errors.prix_p && <div className="text-sm text-red-600">{errors.prix_p}</div>}
+                                </div>
+
+                                <div className="flex flex-col space-y-2">
+                                    <label htmlFor="code_barre" className="text-sm font-medium text-gray-700">
+                                        Code Barre
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="code_barre"
+                                        name="code_barre"
+                                        value={data.code_barre || ''}
+                                        onChange={changeHandling}
+                                        className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.code_barre ? 'border-red-500' : 'border-gray-300'}`}
+                                        placeholder="Enter category name"
+                                    />
+                                    {errors.code_barre && <div className="text-sm text-red-600">{errors.code_barre}</div>}
+                                </div>
+                                <div className="flex flex-col space-y-2">
+
+
+                                    <label className={`w-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-100 hover:text-blue-800 ${errors.photo ? 'border-red-500' : 'border-gray-300'} `}>
+                                        <svg className="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                            <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                                        </svg>
+                                        <span className="mt-2 text-sm">Select an image</span>
                                         <input
-                                            type="text"
-                                            id="prix_p"
-                                            name="prix_p"
-                                            value={data.prix_p || ''}
-                                            onChange={(e) => setData('prix_p', e.target.value)}
-                                            className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.prix_p ? 'border-red-500' : 'border-gray-300'}`}
-                                            placeholder="Enter prix de produit"
+                                            type="file"
+                                            className="hidden"
+                                            accept="image/*"
+                                            onChange={handleFileChange}
                                         />
-                                        {errors.prix_p && <div className="text-sm text-red-600">{errors.prix_p}</div>}
-                                    </div>
-                                </div>
+                                    </label>
+                                    {errors.photo && <div className="text-sm text-red-600">{errors.photo}</div>}
 
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="flex flex-col space-y-2">
-                                        <label htmlFor="category" className="text-sm font-medium text-gray-700">
-                                            Category
-                                        </label>
-                                        <select onChange={(e) => setData("category_id", e.target.value)} name="category_id" id="category" className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.category_id ? 'border-red-500' : 'border-gray-300'}`}
+                                </div>
+                                {/* Image Preview */}
+                                {preview && (
+                                    <div className="relative group">
+                                        <img
+                                            src={preview}
+                                            alt="Preview"
+                                            className="w-full h-64 object-cover rounded-lg border-2 border-dashed border-gray-200"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={handleRemove}
+                                            className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                                         >
-                                            <option value="">choisir un categorie :</option>
-                                            {
-                                                categories.map((cat) => (
-                                                    <option value={cat.id}>{cat.nom_cat}</option>
-                                                ))
-                                            }
-                                        </select>
-                                        {errors.category_id && <div className="text-sm text-red-600">{errors.category_id}</div>}
+                                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
                                     </div>
+                                )}
 
-                                    <div className="flex flex-col space-y-2">
-                                        <label htmlFor="photo" className="text-sm font-medium text-gray-700">
-                                            Photo
-                                        </label>
-                                        <input 
-                                            type="file" 
-                                            id="photo"
-                                            name="photo" 
-                                            onChange={(e) => handleFileChange(e)}
-                                            className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.photo ? 'border-red-500' : 'border-gray-300'}`}
-                                            placeholder="Enter category name"
-                                        />
-                                        {errors.photo && <div className="text-sm text-red-600">{errors.photo}</div>}
-                                    </div>
-                                    <div className="flex flex-col space-y-2">
-                                        <label htmlFor="code_barre" className="text-sm font-medium text-gray-700">
-                                            code barre
-                                        </label>
-                                        <input 
-                                            type="number" 
-                                            id="code_barre"
-                                            name="code_barre" 
-                                            value={data.code_barre || ''} 
-                                            onChange={(e) => setData('code_barre', e.target.value)}
-                                            className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.code_barre ? 'border-red-500' : 'border-gray-300'}`}
-                                            placeholder="Enter category name"
-                                        />
-                                        {errors.code_barre && <div className="text-sm text-red-600">{errors.code_barre}</div>}
-                                    </div>
-                                </div>
 
-                                <button 
-                                    type="submit" 
+                                <button
+                                    type="submit"
                                     disabled={processing}
                                     className={`w-full md:w-auto px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${processing ? 'opacity-75 cursor-not-allowed' : ''}`}
                                 >
-                                    {processing ? 'Creating...' : 'Create Category'}
+                                    {processing ? 'Creating...' : 'Create Produit'}
                                 </button>
                             </form>
                         </div>

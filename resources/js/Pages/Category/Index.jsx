@@ -3,8 +3,9 @@ import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 
 import React from 'react'
 
-function Index({ categories , flash}) {
+function Index({ categories }) {
 
+    const {flash} = usePage().props;
 
     
     
@@ -16,9 +17,7 @@ function Index({ categories , flash}) {
 
     const deleteSubmit = (id,e)=>{
         e.preventDefault();
-        if(confirm('are you sure')){
-            destroy(route('categories.destroy',id));
-        }
+        destroy(route('categories.destroy',id));
     }
     const search = (e) => {
         e.preventDefault();
@@ -98,7 +97,7 @@ function Index({ categories , flash}) {
                                             <td className="px-6 py-4 whitespace-nowrap">{category.nom_cat}</td>
                                             <td className="px-6 py-4 whitespace-nowrap space-x-2 gap-3 flex">
                                                 <form onSubmit={(e)=>deleteSubmit(category.id,e)} >
-                                                  <button type='submit'  className="text-red-600 hover:text-red-900 p-2 hover:bg-red-100 rounded-full transition duration-150">
+                                                  <button type='submit' onClick={()=>confirm('are you sure !!')}  className="text-red-600 hover:text-red-900 p-2 hover:bg-red-100 rounded-full transition duration-150">
                                                     <i className="fas fa-trash"></i>
                                                   </button>
                                                 </form>
