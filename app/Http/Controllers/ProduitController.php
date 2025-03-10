@@ -6,6 +6,7 @@ use App\Http\Requests\StoreProduitRequest;
 use App\Http\Requests\UpdateProduitRequest;
 use App\Models\Category;
 use App\Models\Produit;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -16,9 +17,36 @@ class ProduitController extends Controller
      */
     public function index()
     {
+        
         $produits = Produit::with('category')->paginate(12);
+        $categories = Category::all();
 
-        return Inertia::render("Produit/Index",compact("produits"));
+        $query = Produit::query()->with("category");
+
+        if(request("nom_produit") || request("category_id") || request("min_prix") || request("max_prix")){
+
+            if(request("nom_produit")){
+                $query->where("nom_produit","like", "%". request("nom_produit"). "%");
+            }
+            if(request("category_id")){
+                $query->where("category_id", request("category_id"));
+            }
+            if(request("min_prix")){
+                $query->where("prix_p", ">=", request("min_prix"))
+                      ->orderBy("prix_p");
+            }
+            if(request("max_prix")){
+                $query->where("prix_p","<=",  request("max_prix"))
+                      ->orderByDesc("prix_p");
+            }
+
+            
+            $produits = $query->join('categories', 'produits.category_id', '=', 'categories.id')
+                              ->select('produits.*', 'categories.nom_cat')
+                              ->paginate(12);
+        }
+
+        return Inertia::render("Produit/Index",compact("produits", "categories"));
     }
 
     
