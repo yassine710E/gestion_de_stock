@@ -16,8 +16,8 @@ function Index({ produits, flash }) {
 
             <div className="py-12 bg-gray-50">
                 <div className="mx-auto max-w-10xl sm:px-12 lg:px-8">
-                    <Link 
-                        href={route('produits.create')} 
+                    <Link
+                        href={route('produits.create')}
                         className="inline-block mb-6 px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 ease-in-out shadow-md"
                     >
                         <i className="fas fa-plus-circle mr-2"></i>Add Produit
@@ -32,10 +32,19 @@ function Index({ produits, flash }) {
                         </div>
                     )}
 
+                    {flash.info && (
+                        <div className="mb-4 px-4 py-3 bg-blue-100 border  border-blue-400 text-blue-700 rounded relative" role="alert">
+                            <span className="block sm:inline">{flash.info}</span>
+                            <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
+                                <i className="fas fa-info-circle"></i>
+                            </span>
+                        </div>
+                    )}
+
                     <div className="bg-white shadow-lg rounded-xl p-6">
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                             {produits?.data && produits.data.map((produit, index) => (
-                                <Card key={index} produit={produit}/>
+                                <Card key={index} produit={produit} />
                             ))}
                         </div>
 
@@ -44,11 +53,10 @@ function Index({ produits, flash }) {
                                 <Link
                                     key={index}
                                     href={link.url}
-                                    className={`px-4 py-2 text-sm font-medium rounded-lg transition duration-300 ease-in-out ${
-                                        link.active
-                                            ? 'bg-blue-600 text-white shadow-md'
-                                            : 'bg-white text-gray-700 hover:bg-gray-50 border'
-                                    } ${!link.url && 'opacity-50 cursor-not-allowed'}`}
+                                    className={`px-4 py-2 text-sm font-medium rounded-lg transition duration-300 ease-in-out ${link.active
+                                        ? 'bg-blue-600 text-white shadow-md'
+                                        : 'bg-white text-gray-700 hover:bg-gray-50 border'
+                                        } ${!link.url && 'opacity-50 cursor-not-allowed'}`}
                                     dangerouslySetInnerHTML={{ __html: link.label }}
                                 />
                             ))}
