@@ -61,6 +61,14 @@ function Index({ categories, flash }) {
                             </span>
                         </div>
                     )}
+                    {flash.info && (
+                        <div className="mb-4 px-4 py-3 bg-blue-100 border  border-blue-400 text-blue-700 rounded relative" role="alert">
+                            <span className="block sm:inline">{flash.info}</span>
+                            <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
+                                <i className="fas fa-info-circle"></i>
+                            </span>
+                        </div>
+                    )}
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg ">
 
                         <div className="p-6 text-gray-900 my-3">

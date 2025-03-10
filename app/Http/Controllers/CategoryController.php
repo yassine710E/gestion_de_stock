@@ -79,12 +79,17 @@ class CategoryController extends Controller
             "nom_cat"=>['required'],
         ]);
 
-        if ($category->nom_cat !== $data['nom_cat']) {
-        
-            $category->update($data);
+        $category->fill($data);
 
-
+        if ($category->isDirty()) {
+            $category->save();
+            return redirect()->route('categories.index')->with("success", "Catégorie {$data['nom_cat']} modifiée avec succès");
         }
+
+        return redirect()->route('categories.index')->with("info", "Aucune modification détectée.");
+
+
+
 
         
 

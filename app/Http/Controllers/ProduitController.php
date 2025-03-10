@@ -109,7 +109,15 @@ class ProduitController extends Controller
             $data['photo'] = $path;
 
         }   
-        
+
+
+        $produit->fill($data);
+
+        if ($produit->isDirty()) {
+            $produit->save();
+            return redirect()->route('produits.index')->with("success", "Produit {$data['nom_produit']} modifiée avec succès");
+
+        }
 
 
 
@@ -119,10 +127,9 @@ class ProduitController extends Controller
 
   
 
+        return redirect()->route('produits.index')->with("info", "Aucune modification détectée.");
+
         
-        $produit->update($data);
-        
-        return redirect()->route('produits.index')->with('success', 'Produit modifiee avec succès');
         
     }
 
