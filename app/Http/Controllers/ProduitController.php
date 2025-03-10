@@ -119,14 +119,6 @@ class ProduitController extends Controller
 
         }
 
-
-
-
-        
-
-
-  
-
         return redirect()->route('produits.index')->with("info", "Aucune modification détectée.");
 
         

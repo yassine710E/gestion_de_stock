@@ -1,6 +1,9 @@
 import { useForm, Head } from '@inertiajs/react'
 import React, { useState } from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
+import InputLabel from '@/Components/InputLabel';
+import TextInput from '@/Components/TextInput';
+import PrimaryButton from '@/Components/PrimaryButton';
 
 
 
@@ -79,31 +82,30 @@ function Edit({ produit, categories, errors }) {
                         <div className="p-6 text-gray-900">
                             <form onSubmit={formHandling} className="space-y-6">
                                 <div className="flex flex-col space-y-2">
-                                    <label htmlFor="nom_produit" className="text-sm font-medium text-gray-700">
+                                    <InputLabel htmlFor="nom_produit">
                                         nom produit
-                                    </label>
-                                    <input
+                                    </InputLabel>
+                                    <TextInput
                                         type="text"
                                         id="nom_produit"
                                         name="nom_produit"
                                         value={data.nom_produit || ''}
                                         onChange={changeHandling}
-                                        className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.nom_produit ? 'border-red-500' : 'border-gray-300'}`}
                                         placeholder="Enter category name"
                                     />
                                     {errors.nom_produit && <div className="text-sm text-red-600">{errors.nom_produit}</div>}
                                 </div>
 
                                 <div className="flex flex-col space-y-2">
-                                    <label htmlFor="category_id" className="text-sm font-medium text-gray-700">
+                                    <InputLabel htmlFor="category_id" className="text-sm font-medium text-gray-700">
                                         nom category
-                                    </label>
+                                    </InputLabel>
                                     <select
                                         onChange={changeHandling}
-                                        className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.category_id ? 'border-red-500' : 'border-gray-300'}`}
                                         name="category_id"
                                         id="category_id"
                                         value={data.category_id}
+                                        className='border-gray-300 rounded'
                                     >
 
                                         <option value=''>---choisir categorie---</option>
@@ -116,32 +118,30 @@ function Edit({ produit, categories, errors }) {
                                 </div>
 
                                 <div className="flex flex-col space-y-2">
-                                    <label htmlFor="prix_p" className="text-sm font-medium text-gray-700">
+                                    <InputLabel htmlFor="prix_p">
                                         prix produit
-                                    </label>
-                                    <input
+                                    </InputLabel>
+                                    <TextInput
                                         type="number"
                                         id="prix_p"
                                         name="prix_p"
                                         value={data.prix_p || ''}
                                         onChange={changeHandling}
-                                        className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.prix_p ? 'border-red-500' : 'border-gray-300'}`}
                                         placeholder="Enter prix produit"
                                     />
                                     {errors.prix_p && <div className="text-sm text-red-600">{errors.prix_p}</div>}
                                 </div>
 
                                 <div className="flex flex-col space-y-2">
-                                    <label htmlFor="code_barre" className="text-sm font-medium text-gray-700">
+                                    <InputLabel htmlFor="code_barre" className="text-sm font-medium text-gray-700">
                                         Code Barre
-                                    </label>
-                                    <input
+                                    </InputLabel>
+                                    <TextInput
                                         type="text"
                                         id="code_barre"
                                         name="code_barre"
                                         value={data.code_barre || ''}
                                         onChange={changeHandling}
-                                        className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.code_barre ? 'border-red-500' : 'border-gray-300'}`}
                                         placeholder="Enter category name"
                                     />
                                     {errors.code_barre && <div className="text-sm text-red-600">{errors.code_barre}</div>}
@@ -149,19 +149,19 @@ function Edit({ produit, categories, errors }) {
                                 <div className="flex flex-col space-y-2">
 
 
-                                    <label className={`w-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-100 hover:text-blue-800 ${errors.photo ? 'border-red-500' : 'border-gray-300'} `}>
+                                    <InputLabel className={`w-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-100 hover:text-blue-800 ${errors.photo ? 'border-red-500' : 'border-gray-300'} `}>
                                         <svg className="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                             <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                                         </svg>
                                         <span className="mt-2 text-sm">Select an image</span>
-                                        <input
+                                        <TextInput
                                             type="file"
                                             className="hidden"
                                             accept="image/*"
                                             onChange={handleFileChange}
                                             key={preview}
                                         />
-                                    </label>
+                                    </InputLabel>
                                     {errors.photo && <div className="text-sm text-red-600">{errors.photo}</div>}
 
                                 </div>
@@ -173,7 +173,7 @@ function Edit({ produit, categories, errors }) {
                                             alt="Preview"
                                             className="w-full h-64 object-cover rounded-lg border-2 border-dashed border-gray-200"
                                         />
-                                        <button
+                                        <PrimaryButton
                                             type="button"
                                             onClick={handleRemove}
                                             className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -181,7 +181,7 @@ function Edit({ produit, categories, errors }) {
                                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                                             </svg>
-                                        </button>
+                                        </PrimaryButton>
                                     </div>
                                 )}
 

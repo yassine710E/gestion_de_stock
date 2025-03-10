@@ -1,6 +1,9 @@
 import { useForm, Head } from '@inertiajs/react'
 import React, { useState } from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
+import TextInput from '@/Components/TextInput';
+import InputLabel from '@/Components/InputLabel';
+import PrimaryButton from '@/Components/PrimaryButton';
 
 
 
@@ -76,25 +79,24 @@ function Create({ categories, errors }) {
                         <div className="p-6 text-gray-900">
                             <form onSubmit={formHandling} className="space-y-6">
                                 <div className="flex flex-col space-y-2">
-                                    <label htmlFor="nom_produit" className="text-sm font-medium text-gray-700">
+                                    <InputLabel htmlFor="nom_produit">
                                         nom produit
-                                    </label>
-                                    <input
+                                    </InputLabel>
+                                    <TextInput
                                         type="text"
                                         id="nom_produit"
                                         name="nom_produit"
                                         value={data.nom_produit || ''}
                                         onChange={changeHandling}
-                                        className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.nom_produit ? 'border-red-500' : 'border-gray-300'}`}
                                         placeholder="Enter category name"
                                     />
                                     {errors.nom_produit && <div className="text-sm text-red-600">{errors.nom_produit}</div>}
                                 </div>
 
                                 <div className="flex flex-col space-y-2">
-                                    <label htmlFor="category_id" className="text-sm font-medium text-gray-700">
+                                    <InputLabel htmlFor="category_id">
                                         nom category
-                                    </label>
+                                    </InputLabel>
                                     <select
                                         onChange={changeHandling}
                                         className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.category_id ? 'border-red-500' : 'border-gray-300'}`}
@@ -112,32 +114,30 @@ function Create({ categories, errors }) {
                                 </div>
 
                                 <div className="flex flex-col space-y-2">
-                                    <label htmlFor="prix_p" className="text-sm font-medium text-gray-700">
+                                    <InputLabel htmlFor="prix_p" className="text-sm font-medium text-gray-700">
                                         prix produit
-                                    </label>
-                                    <input
+                                    </InputLabel>
+                                    <TextInput
                                         type="number"
                                         id="prix_p"
                                         name="prix_p"
                                         value={data.prix_p || ''}
                                         onChange={changeHandling}
-                                        className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.prix_p ? 'border-red-500' : 'border-gray-300'}`}
                                         placeholder="Enter prix produit"
                                     />
                                     {errors.prix_p && <div className="text-sm text-red-600">{errors.prix_p}</div>}
                                 </div>
 
                                 <div className="flex flex-col space-y-2">
-                                    <label htmlFor="code_barre" className="text-sm font-medium text-gray-700">
+                                    <InputLabel htmlFor="code_barre" className="text-sm font-medium text-gray-700">
                                         Code Barre
-                                    </label>
-                                    <input
+                                    </InputLabel>
+                                    <TextInput
                                         type="text"
                                         id="code_barre"
                                         name="code_barre"
                                         value={data.code_barre || ''}
                                         onChange={changeHandling}
-                                        className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.code_barre ? 'border-red-500' : 'border-gray-300'}`}
                                         placeholder="Enter category name"
                                     />
                                     {errors.code_barre && <div className="text-sm text-red-600">{errors.code_barre}</div>}
@@ -145,18 +145,18 @@ function Create({ categories, errors }) {
                                 <div className="flex flex-col space-y-2">
 
 
-                                    <label className={`w-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-100 hover:text-blue-800 ${errors.photo ? 'border-red-500' : 'border-gray-300'} `}>
+                                    <InputLabel className={`w-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-100 hover:text-blue-800 ${errors.photo ? 'border-red-500' : 'border-gray-300'} `}>
                                         <svg className="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                             <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                                         </svg>
                                         <span className="mt-2 text-sm">Select an image</span>
-                                        <input
+                                        <TextInput
                                             type="file"
                                             className="hidden"
                                             accept="image/*"
                                             onChange={handleFileChange}
                                         />
-                                    </label>
+                                    </InputLabel>
                                     {errors.photo && <div className="text-sm text-red-600">{errors.photo}</div>}
 
                                 </div>
@@ -181,13 +181,13 @@ function Create({ categories, errors }) {
                                 )}
 
 
-                                <button
+                                <PrimaryButton
                                     type="submit"
                                     disabled={processing}
                                     className={`w-full md:w-auto px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${processing ? 'opacity-75 cursor-not-allowed' : ''}`}
                                 >
                                     {processing ? 'Creating...' : 'Create Produit'}
-                                </button>
+                                </PrimaryButton>
                             </form>
                         </div>
                     </div>

@@ -2,6 +2,10 @@ import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import Card from "../../Components/Card";
 import { Link, Head } from "@inertiajs/react";
+import SecondaryButton from "@/Components/SecondaryButton";
+import Success from "@/Components/Success";
+import Error from "@/Components/Error";
+import Info from "@/Components/Info";
 
 function Index({ produits, flash }) {
     return (
@@ -16,30 +20,18 @@ function Index({ produits, flash }) {
 
             <div className="py-12 bg-gray-50">
                 <div className="mx-auto max-w-10xl sm:px-12 lg:px-8">
-                    <Link
-                        href={route('produits.create')}
-                        className="inline-block mb-6 px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 ease-in-out shadow-md"
-                    >
-                        <i className="fas fa-plus-circle mr-2"></i>Add Produit
-                    </Link>
+                    <SecondaryButton className="bg-green-500 hover:bg-green-700 my-5 py-4 px-6 text-xl">
+                        <Link
+                        className="text-md"
+                            href={route('produits.create')}
+                        >
+                            <i className="fas fa-plus-circle mr-2"></i>Add Produit
+                        </Link>
+                    </SecondaryButton>
 
-                    {flash.success && (
-                        <div className="mb-6 px-4 py-3 bg-green-100 border border-green-400 text-green-700 rounded-lg shadow-sm" role="alert">
-                            <span className="block sm:inline">{flash.success}</span>
-                            <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
-                                <i className="fas fa-check"></i>
-                            </span>
-                        </div>
-                    )}
-
-                    {flash.info && (
-                        <div className="mb-4 px-4 py-3 bg-blue-100 border  border-blue-400 text-blue-700 rounded relative" role="alert">
-                            <span className="block sm:inline">{flash.info}</span>
-                            <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
-                                <i className="fas fa-info-circle"></i>
-                            </span>
-                        </div>
-                    )}
+                    {flash.success && (<Success flash={flash} />)}
+                    {flash.error && (<Error flash={flash} />)}
+                    {flash.info && (<Info flash={flash} />)}
 
                     <div className="bg-white shadow-lg rounded-xl p-6">
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

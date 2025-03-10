@@ -1,5 +1,9 @@
+import DangerButton from '@/Components/DangerButton';
 import Info from '@/Components/Info';
+import PrimaryButton from '@/Components/PrimaryButton';
+import SecondaryButton from '@/Components/SecondaryButton';
 import Success from '@/Components/Success';
+import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 
@@ -44,8 +48,10 @@ function Index({ categories, flash }) {
 
 
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <Link href={route('categories.create')} className="inline-block mb-4 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition duration-150 ease-in-out">
-                        <i className="fas fa-plus-circle mr-2"></i>Add Category
+                    <Link href={route('categories.create')}>
+                        
+                        <SecondaryButton className='px-4 py-3 my-4 bg-green-500 hover:bg-green-700'><i className="fas fa-plus-circle mr-2"></i> Add Category</SecondaryButton>
+                        
                     </Link>
                     {flash.success && (<Success flash={flash} />)}
                     {flash.error && (<Error flash={flash} />)}
@@ -55,27 +61,27 @@ function Index({ categories, flash }) {
                         <div className="p-6 text-gray-900 my-3">
                             <form action="" onSubmit={search} className="flex items-center gap-3">
                                 
-                                <input
+                                <TextInput
                                     type="text"
                                     name='search'
                                     value={data.search}
                                     onChange={(e) => setData("search", e.target.value)}
-                                    className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    className="mt-1 block w-full"
                                     placeholder="Search categories..."
                                 />
-                                <button
+                                <PrimaryButton
                                     disabled={processing}
-                                    className='px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 transition duration-150 ease-in-out'
+                                    className='px-4 py-3 bg-indigo-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 transition duration-150 ease-in-out'
                                 >
                                     <i className="fas fa-search mr-2"></i>Search
-                                </button>
-                                <button
+                                </PrimaryButton>
+                                <DangerButton
                                     type="button"
                                     onClick={() => router.get(route('categories.index'))}
-                                    className='px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition duration-150 ease-in-out'
+                                    className='px-4 py-3 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition duration-150 ease-in-out'
                                 >
                                     <i className="fas fa-times mr-2"></i>Cancel
-                                </button>
+                                </DangerButton>
                             </form>
                         </div>
 
