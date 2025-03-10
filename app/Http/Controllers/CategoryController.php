@@ -82,7 +82,9 @@ class CategoryController extends Controller
         $category->fill($data);
 
         if ($category->isDirty()) {
+            
             $category->save();
+            
             return redirect()->route('categories.index')->with("success", "Catégorie {$data['nom_cat']} modifiée avec succès");
         }
 
@@ -93,7 +95,6 @@ class CategoryController extends Controller
 
         
 
-        return redirect()->route('categories.index')->with("success","catégorie {$data['nom_cat']} modifiée avec succès");
 
         
     }
