@@ -81,17 +81,21 @@ class ProduitController extends Controller
      */
     public function update(UpdateProduitRequest $request, Produit $produit)
     {
+    
+  
         
        $data =  $request->validated();
+
+
 
        
         
        if ($request->hasFile('photo')) {
             
 
-        Storage::disk('public')->delete($produit->photo);            
-            
-        $request->validate([
+            Storage::disk('public')->delete($produit->photo);            
+                
+            $request->validate([
                
                 "photo" => "image|mimes:jpeg,png,jpg|max:2048",
             
@@ -104,7 +108,16 @@ class ProduitController extends Controller
         
             $data['photo'] = $path;
 
-        }    
+        }   
+        
+
+
+
+
+        
+
+
+  
 
         
         $produit->update($data);

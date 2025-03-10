@@ -1,21 +1,21 @@
-// ... (previous imports remain the same)
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import Card from "./Card";
-import { Link , Head  } from "@inertiajs/react";
-function Index({produits , flash}) {
+import { Link, Head } from "@inertiajs/react";
+
+function Index({ produits, flash }) {
     return (
         <AuthenticatedLayout
             header={
-                    <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                            <i className="fas fa-folder-open mr-2"></i>Produit
-                    </h2>
+                <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                    <i className="fas fa-folder-open mr-2"></i>Produit
+                </h2>
             }
         >
             <Head title="Produit" />
 
-            <div className="py-12  bg-gray-50"> {/* Added background color */}
-                <div className="mx-auto max-w-10xl sm:px-12 lg:px-8 ">
+            <div className="py-12 bg-gray-50">
+                <div className="mx-auto max-w-10xl sm:px-12 lg:px-8">
                     <Link 
                         href={route('produits.create')} 
                         className="inline-block mb-6 px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 ease-in-out shadow-md"
@@ -33,13 +33,13 @@ function Index({produits , flash}) {
                     )}
 
                     <div className="bg-white shadow-lg rounded-xl p-6">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"> {/* Adjusted grid and gap */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                             {produits?.data && produits.data.map((produit, index) => (
                                 <Card key={index} produit={produit}/>
                             ))}
                         </div>
 
-                        <div className="mt-8 flex items-center justify-center gap-2"> {/* Added gap between pagination items */}
+                        <div className="mt-8 flex items-center justify-center gap-2">
                             {produits.links.map((link, index) => (
                                 <Link
                                     key={index}
@@ -57,7 +57,7 @@ function Index({produits , flash}) {
                 </div>
             </div>
         </AuthenticatedLayout>
-    )
+    );
 }
 
-export default Index
+export default Index;

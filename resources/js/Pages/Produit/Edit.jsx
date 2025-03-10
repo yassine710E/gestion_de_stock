@@ -1,4 +1,4 @@
-import { useForm, Head, router } from '@inertiajs/react'
+import { useForm, Head } from '@inertiajs/react'
 import React, { useState } from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
@@ -20,15 +20,24 @@ function Edit({ produit, categories, errors }) {
         e.preventDefault();
 
 
-        router.post(route('produits.update', produit.id), {
-            _method: 'put',
-            "category_id": data.category_id,
-            "nom_produit": data.nom_produit,
-            "prix_p": data.prix_p,
-            "photo": data.photo,
-            "code_barre": data.code_barre
 
-        })
+        post(route('produits.update',produit.id) , {
+            onSuccess: () => {
+                // Clear the form
+                setData({
+                    category_id: "",
+                    nom_produit: "",
+                    prix_p: "",
+                    photo: null,
+                    code_barre: ""
+                });
+                setPreview(null);
+                
+                // You can add a success message or redirect here if needed
+            },
+            // Preserve the scroll position after submission
+            preserveScroll: true,        
+        });
 
 
     };
@@ -182,7 +191,7 @@ function Edit({ produit, categories, errors }) {
                                     disabled={processing}
                                     className={`w-full md:w-auto px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${processing ? 'opacity-75 cursor-not-allowed' : ''}`}
                                 >
-                                    {processing ? 'Creating...' : 'Edit Produit'}
+                                    {processing ? 'Updating...' : 'Updating Produit'}
                                 </button>
                             </form>
                         </div>

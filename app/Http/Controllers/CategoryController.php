@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Produit;
 use Inertia\Inertia;
 
 class CategoryController extends Controller
@@ -63,6 +64,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+
+        
+
         return Inertia::render("Category/Edit",['category'=>$category]);
     }
 
@@ -75,7 +79,14 @@ class CategoryController extends Controller
             "nom_cat"=>['required'],
         ]);
 
-        $category->update($data);
+        if ($category->nom_cat !== $data['nom_cat']) {
+        
+            $category->update($data);
+
+
+        }
+
+        
 
         return redirect()->route('categories.index')->with("success","catégorie {$data['nom_cat']} modifiée avec succès");
 
@@ -88,6 +99,13 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
 
+        $produits = Produit::where("category_id" , $category->id);
+
+        if ($produits->count()) 
+        {
+            return redirect()->route("categories.index")->with("error","operation interdit : ce categorie liee avec un produit ");
+            
+        }
         
         $category->delete();
 
