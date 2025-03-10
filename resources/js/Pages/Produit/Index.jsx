@@ -1,6 +1,6 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import Card from "./Card";
+import Card from "../../Components/Card";
 import { Link, Head } from "@inertiajs/react";
 
 function Index({ produits, flash }) {

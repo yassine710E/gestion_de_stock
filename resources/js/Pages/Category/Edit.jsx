@@ -1,6 +1,10 @@
 import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Head, useForm } from '@inertiajs/react'
+import InputLabel from '@/Components/InputLabel';
+import TextInput from '@/Components/TextInput';
+import InputError from '@/Components/InputError';
+import PrimaryButton from '@/Components/PrimaryButton';
 
 function Edit({ category, errors }) {
 
@@ -12,6 +16,7 @@ function Edit({ category, errors }) {
     e.preventDefault();
     put(route("categories.update", category.id))
   }
+ 
   return (
     <AuthenticatedLayout
       header={
@@ -29,29 +34,28 @@ function Edit({ category, errors }) {
             <div className="p-6 text-gray-900">
               <form onSubmit={formHandling} className="space-y-6">
                 <div className="flex flex-col space-y-2">
-                  <label htmlFor="nom_cat" className="text-sm font-medium text-gray-700">
-                    Category Name
-                  </label>
-                  <input
-                    type="text"
-                    id="nom_cat"
-                    name="nom_cat"
-                    value={data.nom_cat || ''}
-                    onChange={(e) => setData('nom_cat', e.target.value)}
-                    className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.nom_cat ? 'border-red-500' : 'border-gray-300'}`}
-                    placeholder="Enter category name"
-                  />
-                  {errors.nom_cat && <div className="text-sm text-red-600">{errors.nom_cat}</div>}
 
+                  <InputLabel htmlFor="nom_cat" value="nom_cat" />
+                  <TextInput
+                    id="nom_cat"
+                    type="text"
+                    name="nom_cat"
+                    value={data.nom_cat || ""}
+                    className="mt-1 block w-full"
+                    autoComplete="current-password"
+                    onChange={(e) => setData('nom_cat', e.target.value)}
+                    placeholder="Enter category name"
+
+                  />
+
+                  <InputError message={errors.nom_cat} className="mt-2" />
                 </div>
 
-                <button
-                  type="submit"
-                  disabled={processing}
+                <PrimaryButton
                   className={`w-full md:w-auto px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${processing ? 'opacity-75 cursor-not-allowed' : ''}`}
-                >
-                  {processing ? 'Updating...' : 'Update Category'}
-                </button>
+                  disabled={processing}>
+                  {processing ? 'Creating...' : 'Create Category'}
+                </PrimaryButton>
               </form>
             </div>
           </div>

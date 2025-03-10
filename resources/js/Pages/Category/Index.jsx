@@ -1,3 +1,5 @@
+import Info from '@/Components/Info';
+import Success from '@/Components/Success';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 
@@ -45,34 +47,14 @@ function Index({ categories, flash }) {
                     <Link href={route('categories.create')} className="inline-block mb-4 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition duration-150 ease-in-out">
                         <i className="fas fa-plus-circle mr-2"></i>Add Category
                     </Link>
-                    {flash.success && (
-                        <div className="mb-4 px-4 py-3 bg-green-100 border  border-green-400 text-green-700 rounded relative" role="alert">
-                            <span className="block sm:inline">{flash.success}</span>
-                            <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
-                                <i className="fas fa-check"></i>
-                            </span>
-                        </div>
-                    )}
-                    {flash.error && (
-                        <div className="mb-4 px-4 py-3 bg-red-100 border  border-red-400 text-red-700 rounded relative" role="alert">
-                            <span className="block sm:inline">{flash.error}</span>
-                            <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
-                                <i className="fas fa-times"></i>
-                            </span>
-                        </div>
-                    )}
-                    {flash.info && (
-                        <div className="mb-4 px-4 py-3 bg-blue-100 border  border-blue-400 text-blue-700 rounded relative" role="alert">
-                            <span className="block sm:inline">{flash.info}</span>
-                            <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
-                                <i className="fas fa-info-circle"></i>
-                            </span>
-                        </div>
-                    )}
+                    {flash.success && (<Success flash={flash} />)}
+                    {flash.error && (<Error flash={flash} />)}
+                    {flash.info && (<Info flash={flash} />)}
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg ">
 
                         <div className="p-6 text-gray-900 my-3">
                             <form action="" onSubmit={search} className="flex items-center gap-3">
+                                
                                 <input
                                     type="text"
                                     name='search'

@@ -1,5 +1,5 @@
 import React from 'react'
-import CardCategory from './CardCategory';
+import CardCategory from '../../Components/CardCategory';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 
