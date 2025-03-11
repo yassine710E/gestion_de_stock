@@ -10,6 +10,7 @@ import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import Select from "@/Components/Select";
 import { debounce } from "lodash";
+import DangerButton from "@/Components/DangerButton";
 
 function Index({ produits, flash, categories }) {
 
@@ -48,6 +49,14 @@ function Index({ produits, flash, categories }) {
         setData((prev) => ({...prev, [name] : value}))
     }
 
+    const status = () => {
+        if(data.nom_produit || data.category_id || data.min_prix || data.max_prix){
+            return false
+        }
+        return true
+    }
+    
+
 
 
     return (
@@ -75,8 +84,8 @@ function Index({ produits, flash, categories }) {
                     {flash.error && (<Error flash={flash} />)}
                     {flash.info && (<Info flash={flash} />)}
 
-                    <div className="bg-white rounded-lg shadow-md p-6 my-3">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-center" >
+                    <div className="bg-white rounded-lg shadow-md p-6 my-3 flex justify-between gap-3">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-center w-full" >
                             <div className="flex flex-col">
                                 <InputLabel className="text-gray-700 font-medium">Nom produit:</InputLabel>
                                 <TextInput
@@ -116,8 +125,11 @@ function Index({ produits, flash, categories }) {
                                     placeholder="Prix max..."
                                 />
                             </div>
-                            
-
+                        </div>
+                        <div className={`mt-6`} hidden={status()}>
+                            <Link href={route("produits.index")}>
+                                <DangerButton>X</DangerButton>
+                            </Link>
                         </div>
                     </div>
 

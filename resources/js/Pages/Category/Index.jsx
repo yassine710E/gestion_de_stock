@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { debounce } from 'lodash';
 
 import React from 'react'
+import DangerButton from '@/Components/DangerButton';
 
 function Index({ categories, flash }) {
 
@@ -46,6 +47,13 @@ function Index({ categories, flash }) {
         destroy(route('categories.destroy', id));
     }
 
+    const status = () =>{
+        if(data.search){
+            return false
+        }
+        return true
+    }
+
 
     return (
         <AuthenticatedLayout
@@ -70,19 +78,23 @@ function Index({ categories, flash }) {
                     {flash.success && (<Success flash={flash} />)}
                     {flash.error && (<Error flash={flash} />)}
                     {flash.info && (<Info flash={flash} />)}
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg ">
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
 
-                        <div className="p-6 text-gray-900 my-3">
+                        <div className="p-6 text-gray-900 my-3 flex gap-4 items-center">
 
                             <TextInput
                                 type="text"
                                 name='search'
                                 value={data.search}
                                 onChange={(e) => setData("search", e.target.value)}
-                                className="mt-1 block w-full"
+                                className=" mt-6 block w-full"
                                 placeholder="Search categories..."
                             />
-
+                            <div className={`mt-6`} hidden={status()}>
+                                <Link href={route("categories.index")}>
+                                    <DangerButton>X</DangerButton>
+                                </Link>
+                            </div>
 
                         </div>
 
