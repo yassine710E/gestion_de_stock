@@ -18,33 +18,32 @@ class ProduitController extends Controller
     public function index()
     {
         
-        $produits = Produit::with('category')->paginate(12);
+        $query = Produit::with('category');
+        
         $categories = Category::all();
-
-        $query = Produit::query()->with("category");
-
-        if(request("nom_produit") || request("category_id") || request("min_prix") || request("max_prix")){
 
             if(request("nom_produit")){
                 $query->where("nom_produit","like", "%". request("nom_produit"). "%");
             }
             if(request("category_id")){
                 $query->where("category_id", request("category_id"));
+
             }
             if(request("min_prix")){
                 $query->where("prix_p", ">=", request("min_prix"))
                       ->orderBy("prix_p");
+                
             }
             if(request("max_prix")){
                 $query->where("prix_p","<=",  request("max_prix"))
                       ->orderByDesc("prix_p");
+
             }
 
-            
-            $produits = $query->join('categories', 'produits.category_id', '=', 'categories.id')
-                              ->select('produits.*', 'categories.nom_cat')
-                              ->paginate(12);
-        }
+           $produits = $query->paginate(12);
+
+
+        
 
         return Inertia::render("Produit/Index",compact("produits", "categories"));
     }

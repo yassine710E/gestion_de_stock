@@ -1,11 +1,12 @@
-import DangerButton from '@/Components/DangerButton';
 import Info from '@/Components/Info';
-import PrimaryButton from '@/Components/PrimaryButton';
 import SecondaryButton from '@/Components/SecondaryButton';
 import Success from '@/Components/Success';
 import TextInput from '@/Components/TextInput';
+import Error from '@/Components/Error';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
+import { useEffect } from 'react';
+import { debounce } from 'lodash';
 
 import React from 'react'
 
@@ -15,9 +16,28 @@ function Index({ categories, flash }) {
 
 
 
-    const { data, setData, get, processing } = useForm({
+    const { data, setData, get } = useForm({
         "search": null,
     })
+
+
+
+    // Create debounced search function using useEffect
+    useEffect(() => {
+        const debouncedSearch = debounce(() => {
+            get(route('categories.index'), {
+                preserveState: true
+
+            });
+        }, 600); // 300ms delay
+
+        if (data.search !== null) {
+            debouncedSearch();
+        }
+
+        // Cleanup function
+        return () => debouncedSearch.cancel();
+    }, [data.search]);
 
     const { delete: destroy } = useForm();
 
@@ -25,13 +45,7 @@ function Index({ categories, flash }) {
         e.preventDefault();
         destroy(route('categories.destroy', id));
     }
-    const search = (e) => {
-        e.preventDefault();
-        get(route('categories.index', {
-            onSucess: () => setData('search', "")
-        }))
 
-    }
 
     return (
         <AuthenticatedLayout
@@ -49,9 +63,9 @@ function Index({ categories, flash }) {
 
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <Link href={route('categories.create')}>
-                        
+
                         <SecondaryButton className='px-4 py-3 my-4 bg-green-500 hover:bg-green-700'><i className="fas fa-plus-circle mr-2"></i> Add Category</SecondaryButton>
-                        
+
                     </Link>
                     {flash.success && (<Success flash={flash} />)}
                     {flash.error && (<Error flash={flash} />)}
@@ -59,30 +73,17 @@ function Index({ categories, flash }) {
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg ">
 
                         <div className="p-6 text-gray-900 my-3">
-                            <form action="" onSubmit={search} className="flex items-center gap-3">
-                                
-                                <TextInput
-                                    type="text"
-                                    name='search'
-                                    value={data.search}
-                                    onChange={(e) => setData("search", e.target.value)}
-                                    className="mt-1 block w-full"
-                                    placeholder="Search categories..."
-                                />
-                                <PrimaryButton
-                                    disabled={processing}
-                                    className='px-4 py-3 bg-indigo-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 transition duration-150 ease-in-out'
-                                >
-                                    <i className="fas fa-search mr-2"></i>Search
-                                </PrimaryButton>
-                                <DangerButton
-                                    type="button"
-                                    onClick={() => router.get(route('categories.index'))}
-                                    className='px-4 py-3 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition duration-150 ease-in-out'
-                                >
-                                    <i className="fas fa-times mr-2"></i>Cancel
-                                </DangerButton>
-                            </form>
+
+                            <TextInput
+                                type="text"
+                                name='search'
+                                value={data.search}
+                                onChange={(e) => setData("search", e.target.value)}
+                                className="mt-1 block w-full"
+                                placeholder="Search categories..."
+                            />
+
+
                         </div>
 
                         <div className="p-6 text-gray-900 ">
