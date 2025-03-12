@@ -47,8 +47,8 @@ function Index({ categories, flash }) {
         destroy(route('categories.destroy', id));
     }
 
-    const status = () =>{
-        if(data.search){
+    const status = () => {
+        if (data.search) {
             return false
         }
         return true
@@ -91,9 +91,14 @@ function Index({ categories, flash }) {
                                 placeholder="Search categories..."
                             />
                             <div className={`mt-6`} hidden={status()}>
-                                <Link href={route("categories.index")}>
+                                <button onClick={()=>{
+                                    setData({
+                                        "search": "",
+                                    })
+                                }}>
                                     <DangerButton>X</DangerButton>
-                                </Link>
+
+                                </button>
                             </div>
 
                         </div>

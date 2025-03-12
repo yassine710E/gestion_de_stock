@@ -15,47 +15,47 @@ import DangerButton from "@/Components/DangerButton";
 function Index({ produits, flash, categories }) {
 
 
-    
+
 
     const { data, setData, get } = useForm({
-        'nom_produit' : '',
-        'category_id' : '',
-        'min_prix' : '',
-        'max_prix' : '',
+        'nom_produit': null,
+        'category_id': null,
+        'min_prix': null,
+        'max_prix': null,
     })
 
 
 
 
-    useEffect(()=>{
-        const debouncedSearch = debounce(()=>{
-            get(route('produits.index'),{
-                preserveState : true
+    useEffect(() => {
+        const debouncedSearch = debounce(() => {
+            get(route('produits.index'), {
+                preserveState: true
             });
-        },1000);
+        }, 1000);
 
-        if (data.nom_produit || data.category_id || data.min_prix || data.max_prix) {
+        if (data.nom_produit !== null || data.category_id !== null || data.min_prix !== null || data.max_prix !== null) {
             debouncedSearch();
         }
 
         return () => debouncedSearch.cancel();
-    },[data])
+    }, [data.nom_produit, data.category_id, data.min_prix, data.max_prix])
 
 
-    const changeHandler  = (e) => {
-        
-        const {name, value} = e.target;
+    const changeHandler = (e) => {
 
-        setData((prev) => ({...prev, [name] : value}))
+        const { name, value } = e.target;
+
+        setData((prev) => ({ ...prev, [name]: value }))
     }
 
     const status = () => {
-        if(data.nom_produit || data.category_id || data.min_prix || data.max_prix){
+        if (data.nom_produit || data.category_id || data.min_prix || data.max_prix) {
             return false
         }
         return true
     }
-    
+
 
 
 
@@ -73,7 +73,7 @@ function Index({ produits, flash, categories }) {
                 <div className="mx-auto max-w-10xl sm:px-12 lg:px-8">
                     <SecondaryButton className="bg-green-500 hover:bg-green-700 my-5 py-4 px-6 text-xl">
                         <Link
-                        className="text-md"
+                            className="text-md"
                             href={route('produits.create')}
                         >
                             <i className="fas fa-plus-circle mr-2"></i>Add Produit
@@ -101,7 +101,8 @@ function Index({ produits, flash, categories }) {
                                 <Select
                                     data={categories}
                                     name="category_id"
-                                    method={changeHandler}                                    
+                                    method={changeHandler}
+                                    currentData={data.category_id}
                                     placeholder="Filtrer par catégorie..."
                                 />
                             </div>
@@ -111,7 +112,7 @@ function Index({ produits, flash, categories }) {
                                     type="number"
                                     name="min_prix"
                                     value={data.min_prix}
-                                    onChange={changeHandler}                                    
+                                    onChange={changeHandler}
                                     placeholder="Prix min..."
                                 />
                             </div>
@@ -121,15 +122,22 @@ function Index({ produits, flash, categories }) {
                                     type="number"
                                     name="max_prix"
                                     value={data.max_prix}
-                                    onChange={changeHandler}                                    
+                                    onChange={changeHandler}
                                     placeholder="Prix max..."
                                 />
                             </div>
                         </div>
-                        <div className={`mt-6`} hidden={status()}>
-                            <Link href={route("produits.index")}>
+                        <div className="mt-6" style={{ display: status() ? 'none' : 'block' }} hidden={status()}>
+                            <button onClick={() => {
+                                setData({
+                                    nom_produit: "",
+                                    category_id: "",
+                                    min_prix: "",
+                                    max_prix: "",
+                                });
+                            }}>
                                 <DangerButton>X</DangerButton>
-                            </Link>
+                            </button>
                         </div>
                     </div>
 
