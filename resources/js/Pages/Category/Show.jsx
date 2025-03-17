@@ -33,7 +33,9 @@ function Show({ category }) {
                                     ))}
                                 </div>
                             ) : (
-                                <p className="text-gray-500">No products found in this category.</p>
+                                <div className="text-center">
+                                <h1 className="text-red-500 text-xl "> <i className="fa fa-circle-exclamation mx-2"></i>pas du Produits</h1>
+                             </div>
                             )}
                         </div>
                     </div>

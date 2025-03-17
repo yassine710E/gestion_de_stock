@@ -45,11 +45,19 @@ export default function AuthenticatedLayout({ header, children }) {
                                     Produits
                                 </NavLink>
                                 <NavLink
+<<<<<<< HEAD
                                     href={route('clients.index')}
                                     active={route().current('clients.*')}
                                     
                                 >
                                     Clients
+=======
+                                    href={route('stocks.index')}
+                                    active={route().current('stocks.*')}
+                                    
+                                >
+                                    stocks
+>>>>>>> 2c98ec8f72708ff0e6684b7f7df0094dfefa0407
                                 </NavLink>
 
                             </div>

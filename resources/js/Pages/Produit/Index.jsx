@@ -71,14 +71,16 @@ function Index({ produits, flash, categories }) {
 
             <div className="py-12 bg-gray-50">
                 <div className="mx-auto max-w-10xl sm:px-12 lg:px-8">
-                    <SecondaryButton className="bg-green-500 hover:bg-green-700 my-5 py-4 px-6 text-xl">
-                        <Link
-                            className="text-md"
-                            href={route('produits.create')}
-                        >
-                            <i className="fas fa-plus-circle mr-2"></i>Add Produit
-                        </Link>
-                    </SecondaryButton>
+                    <Link
+                        href={route('produits.create')}
+                        className="text-md"
+
+                    >
+
+                        <SecondaryButton className='px-4 py-3 my-4 bg-green-500 hover:bg-green-700'><i className="fas fa-plus-circle mr-2"></i> Add Produit</SecondaryButton>
+
+                    </Link>
+
 
                     {flash.success && (<Success flash={flash} />)}
                     {flash.error && (<Error flash={flash} />)}
@@ -148,23 +150,32 @@ function Index({ produits, flash, categories }) {
                             ))}
                         </div>
 
-                        <div className="mt-8 flex items-center justify-center gap-2">
-                            {produits?.links.map((link, index) => (
-                                <Link
-                                    key={index}
-                                    href={link.url}
-                                    className={`px-4 py-2 text-sm font-medium rounded-lg transition duration-300 ease-in-out ${link.active
-                                        ? 'bg-blue-600 text-white shadow-md'
-                                        : 'bg-white text-gray-700 hover:bg-gray-50 border'
-                                        } ${!link.url && 'opacity-50 cursor-not-allowed'}`}
-                                    dangerouslySetInnerHTML={{ __html: link.label }}
-                                />
-                            ))}
-                        </div>
+
+                        {produits.data.length ? (
+                            < div className="mt-8 flex items-center justify-center gap-2">
+                                {produits?.links.map((link, index) => (
+                                    <Link
+                                        key={index}
+                                        href={link.url}
+                                        className={`px-4 py-2 text-sm font-medium rounded-lg transition duration-300 ease-in-out ${link.active
+                                            ? 'bg-blue-600 text-white shadow-md'
+                                            : 'bg-white text-gray-700 hover:bg-gray-50 border'
+                                            } ${!link.url && 'opacity-50 cursor-not-allowed'}`}
+                                        dangerouslySetInnerHTML={{ __html: link.label }}
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="text-center">
+                                <h1 className="text-red-500 text-xl "> <i className="fa fa-circle-exclamation mx-2"></i>pas du resultas</h1>
+                            </div>
+                        )}
+
                     </div>
+
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </AuthenticatedLayout >
     );
 }
 
