@@ -22,7 +22,7 @@ function Show({ category }) {
 
                     <div className="bg-white shadow-md rounded-lg p-6">
 
-                        <div className="mt-8">
+                        <div className="mt-8 cursor-pointer">
                             <h2 className="text-xl font-semibold text-gray-700 mb-4">Products</h2>
                             {category.produits && category.produits.length > 0 ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
