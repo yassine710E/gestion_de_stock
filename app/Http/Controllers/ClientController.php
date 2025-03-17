@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
+use App\Models\Client;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -11,7 +13,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+        $clients = Client::paginate(10);
+        return Inertia::render("Client/Index",compact("clients"));
     }
 
     /**

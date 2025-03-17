@@ -30,7 +30,7 @@ function Index({ categories, flash }) {
                 preserveState: true
 
             });
-        }, 600); // 300ms delay
+        }, 600); // 600ms delay
 
         if (data.search !== null) {
             debouncedSearch();
