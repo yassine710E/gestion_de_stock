@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Stock;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class StockController extends Controller
 {
@@ -12,9 +13,8 @@ class StockController extends Controller
      */
     public function index()
     {
-        $stock = Stock::find(1);
-        $stock->update(['produit_id'=>1]);
-        dd($stock);
+        $stocks = Stock::paginate(6) ;
+        return Inertia::render("Stock/Index", compact("stocks"));
     }
 
     /**
