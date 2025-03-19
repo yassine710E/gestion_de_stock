@@ -59,7 +59,7 @@ function Index({ categories, flash }) {
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    <i className="fas fa-folder-open mr-2"></i>Category
+                    <i class="fa-solid fa-list"></i> Category
                 </h2>
             }
         >

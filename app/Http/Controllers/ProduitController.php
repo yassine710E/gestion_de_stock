@@ -40,7 +40,7 @@ class ProduitController extends Controller
 
             }
 
-           $produits = $query->paginate(12);
+           $produits = $query->paginate(8);
 
 
         

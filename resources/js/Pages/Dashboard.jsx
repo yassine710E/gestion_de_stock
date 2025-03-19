@@ -6,7 +6,7 @@ export default function Dashboard() {
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Dashboard
+                    <i class="fa-solid fa-chart-simple"></i> Dashboard
                 </h2>
             }
         >

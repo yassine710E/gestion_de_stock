@@ -9,7 +9,7 @@ function Show({ category }) {
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    <i className="fas fa-folder-open mr-2"></i>{category.nom_cat}
+                    <i class="fa-solid fa-list"></i> {category.nom_cat}
                 </h2>
             }
         >
