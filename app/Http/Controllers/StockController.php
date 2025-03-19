@@ -13,16 +13,13 @@ class StockController extends Controller
      */
     public function index()
     {
-        $stocks = Stock::paginate(6) ;
+        $stocks = Stock::with("produit")->paginate(6) ;
         return Inertia::render("Stock/Index", compact("stocks"));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        
     }
 
     /**

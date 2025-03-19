@@ -22,5 +22,10 @@ class Stock extends Model
     const CREATED_AT = "date_achat";
     const UPDATED_AT = "date_utilisation";
 
+    public function produit()
+    {
+        return $this->belongsTo(Produit::class);
+    }
+
 
 }

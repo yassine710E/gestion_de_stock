@@ -2,6 +2,7 @@ import React from 'react'
 import Card from './Card';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
+import CardCategory from '@/Components/CardCategory';
 
 function Show({ produit }) {
     console.log(produit);
@@ -18,10 +19,7 @@ function Show({ produit }) {
             <div className="py-12">
 
             <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-         
-
                     <div className="bg-white shadow-md rounded-lg p-6">
-
                         <div className="mt-8">
                             <h2 className="text-xl font-semibold text-gray-700 mb-4">Products</h2>
                             {category.produits && category.produits.length > 0 ? (

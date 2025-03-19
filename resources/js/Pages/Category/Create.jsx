@@ -1,10 +1,11 @@
-import { useForm, Head, usePage } from '@inertiajs/react'
+import { useForm, Head, usePage, Link } from '@inertiajs/react'
 import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
+import DangerButton from '@/Components/DangerButton';
 
 function Create({ errors }) {
 
@@ -32,6 +33,11 @@ function Create({ errors }) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <Link href={route("categories.index")}>
+                        <DangerButton className='mb-8 gap-4'>
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>annuler</span></DangerButton>
+                    </Link>
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
                             <form onSubmit={formHandling} className="space-y-6">
