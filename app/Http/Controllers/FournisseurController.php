@@ -52,7 +52,7 @@ class FournisseurController extends Controller
      */
     public function edit(Fournisseur $fournisseur)
     {
-        //
+        return Inertia::render("Fournisseur/Edit", compact('fournisseur'));
     }
 
     /**
@@ -60,7 +60,17 @@ class FournisseurController extends Controller
      */
     public function update(Request $request, Fournisseur $fournisseur)
     {
-        //
+        $data = $request->validate([
+            "nom_complet" => ["required", "min:6"],
+            "email" => ["required"],
+            "telephone" => ["required"],
+            "address" => ["required"]
+        ]) ;
+
+        $fournisseur->update($data);
+
+        return redirect()->route("fournisseurs.index")->with("success", "fournisseur modifier avec success !");
+
     }
 
     /**
@@ -68,6 +78,7 @@ class FournisseurController extends Controller
      */
     public function destroy(Fournisseur $fournisseur)
     {
-        //
+        $fournisseur->delete();
+        return redirect()->route("fournisseurs.index")->with("success", "fournisseur supprimer avec success !");
     }
 }

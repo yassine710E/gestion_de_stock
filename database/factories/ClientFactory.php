@@ -21,7 +21,7 @@ class ClientFactory extends Factory
             'prenom' => fake()->lastName(),
             'email' => fake()->email(),
             'telephone' => fake()->phoneNumber(),
-            'fax' => fake()->number_format(),
+            'fax' => fake()->phoneNumber(),
             'adresse' => fake()->address(),
             'age' => fake()->numberBetween(18,80),
             'societe' => fake()->company(),

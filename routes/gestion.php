@@ -15,7 +15,8 @@ Route::middleware("auth")->group(function(){
     Route::post("produits/{produit}",[ProduitController::class,"update"])->name("produits.update");
     Route::resource("clients",ClientController::class);
     Route::resource("stocks",StockController::class);
-    Route::resource("fournisseurs",FournisseurController::class);
+    Route::resource("fournisseurs",FournisseurController::class)->except('update');
+    Route::post("fournisseurs/{fournisseur}",[FournisseurController::class,"update"])->name("fournisseurs.update");
 });
 
 

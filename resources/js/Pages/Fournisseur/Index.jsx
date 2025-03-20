@@ -11,6 +11,14 @@ import React from 'react'
 function Index({ fournisseurs, flash }) {
 
 
+    const {delete:destroy} = useForm();
+
+    const deleteSubmit = (id, e) => {
+        e.preventDefault();
+        destroy(route('fournisseurs.destroy', id))
+    }
+
+    
     return (
         <AuthenticatedLayout
             header={
@@ -58,7 +66,7 @@ function Index({ fournisseurs, flash }) {
                                             <td className="px-6 py-4 whitespace-nowrap">{fourni.address}</td>
 
                                             <td className="px-6 py-4 whitespace-nowrap space-x-2 gap-3 flex">
-                                                <form>
+                                            <form onSubmit={(e) => deleteSubmit(fourni.id, e)} >
                                                     <button type='submit' onClick={() => confirm('are you sure !!')} className="text-red-600 hover:text-red-900 p-2 hover:bg-red-100 rounded-full transition duration-150">
                                                         <i className="fas fa-trash"></i>
                                                     </button>

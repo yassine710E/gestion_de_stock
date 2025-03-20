@@ -108,18 +108,11 @@ class ProduitController extends Controller
      */
     public function update(UpdateProduitRequest $request, Produit $produit)
     {
-    
-  
         
        $data =  $request->validated();
-
-
-
-       
         
        if ($request->hasFile('photo')) {
             
-
             Storage::disk('public')->delete($produit->photo);            
                 
             $request->validate([
@@ -137,7 +130,6 @@ class ProduitController extends Controller
 
         }   
 
-
         $produit->fill($data);
 
         if ($produit->isDirty()) {
@@ -145,10 +137,7 @@ class ProduitController extends Controller
             return redirect()->route('produits.index')->with("success", "Produit {$data['nom_produit']} modifiée avec succès");
 
         }
-
         return redirect()->route('produits.index')->with("info", "Aucune modification détectée.");
-
-        
         
     }
 
