@@ -17,7 +17,7 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
                     <div className="overflow-hidden bg-white shadow-lg sm:rounded-lg">
                         <div className="p-6">
                             <div className="grid md:grid-cols-4 gap-6">
-                                {/* Categories Card */}
+
                                 <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-md transition-transform hover:scale-105">
                                     <div className="p-4">
                                         <div className="flex items-center justify-between">
@@ -32,7 +32,6 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
                                     </div>
                                 </div>
 
-                                {/* Products Card */}
                                 <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-lg shadow-md transition-transform hover:scale-105">
                                     <div className="p-4">
                                         <div className="flex items-center justify-between">
@@ -84,7 +83,7 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
                                                 <h3 className="text-2xl font-bold">{stocks}</h3>
                                             </div>
                                             <div className="bg-red-400 rounded-full p-3">
-                                                <i className="fas fa-users text-white text-xl"></i>
+                                            <i class="fa-solid fa-arrow-down text-xl text-white"></i>
                                             </div>
                                         </div>
                                     </div>
