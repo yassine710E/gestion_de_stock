@@ -45,6 +45,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// ERROR 404
+Route::fallback(function () {
+    return inertia('Errors/404');
+});
+
+
 require __DIR__ . '/auth.php';
 
 require __DIR__ . '/gestion.php';
+
