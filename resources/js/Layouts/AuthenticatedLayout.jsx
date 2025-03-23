@@ -59,6 +59,7 @@ export default function AuthenticatedLayout({ header, children }) {
                             <i class="fa-solid fa-user-group"></i>
                             <span>Clients</span>
                         </NavLink>
+                        
                         <NavLink
                             href={route('fournisseurs.index')}
                             active={route().current('fournisseurs.*')}

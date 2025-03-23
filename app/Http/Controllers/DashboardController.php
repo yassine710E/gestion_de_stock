@@ -19,12 +19,13 @@ class DashboardController extends Controller
         $clients = Client::all()->count();
         $fournisseurs = Fournisseur::all()->count();
         $stocks = Stock::all()->count();
+        
         return Inertia::render("Dashboard", compact([
-                                                                                "categories",
-                                                                                "products",
-                                                                                "clients",
-                                                                                "fournisseurs",
-                                                                                "stocks"
-                                                                            ]));
+            "categories",
+            "products",
+            "clients",
+            "fournisseurs",
+            "stocks"
+        ]));
     }
 }

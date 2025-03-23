@@ -14,8 +14,6 @@ const Index = ({ clients, flash }) => {
 
             <div className="py-12">
 
-hhi world
-
  
             </div>
         </AuthenticatedLayout>

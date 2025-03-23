@@ -6,7 +6,7 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
-                    <i className="fas fa-chart-line"></i> Dashboard Overview
+                    <i className="fas fa-chart-line"></i> <span>Dashboard Overview</span>
                 </h2>
             }
         >
@@ -93,6 +93,7 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
                     </div>
                 </div>
             </div>
+
         </AuthenticatedLayout>
     );
 }
