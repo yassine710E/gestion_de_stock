@@ -82,6 +82,7 @@ export default function Register() {
                                         value={data.name}
                                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm  bg-zinc-50"
                                         autoComplete="name"
+                                        placeholder="Jhon Doe"
                                         isFocused={true}
                                         onChange={(e) =>
                                             setData("name", e.target.value)
@@ -97,6 +98,7 @@ export default function Register() {
                                         id="email"
                                         type="email"
                                         name="email"
+                                        placeholder="email@example.com"
                                         value={data.email}
                                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-zinc-50"
                                         autoComplete="username"
@@ -115,6 +117,7 @@ export default function Register() {
                                     id="password"
                                     type="password"
                                     name="password"
+                                    placeholder="Password"
                                     value={data.password}
                                     className="mt-1 block w-full rounded-md border-gray-100 shadow-sm bg-zinc-50"
                                     autoComplete="new-password"
@@ -132,6 +135,7 @@ export default function Register() {
                                     id="password_confirmation"
                                     type="password"
                                     name="password_confirmation"
+                                    placeholder="Password"
                                     value={data.password_confirmation}
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-zinc-50"
                                     autoComplete="new-password"
