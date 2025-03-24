@@ -9,21 +9,19 @@ use Inertia\Inertia;
 class CategoryController extends Controller
 {
     /**
-     
      * get all data from category tabel 
      * return the view with data
-
      */
+    
     public function index()
     {
         if (request("search")) {
-            $categories = Category::where('nom_cat',"like","%".request("search")."%")->paginate(10);
+            $categories = Category::where('nom_cat', "like", "%" . request("search") . "%")->paginate(10);
         } else {
             $categories = Category::paginate(10);
         }
-         
-        return Inertia::render("Category/Index",["categories"=>$categories]);
 
+        return Inertia::render("Category/Index", ["categories" => $categories]);
     }
 
     /**
@@ -31,7 +29,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-         return Inertia::render("Category/Create");
+        return Inertia::render("Category/Create");
     }
 
     /**
@@ -40,13 +38,13 @@ class CategoryController extends Controller
      */
     public function store()
     {
-       $category =  request()->validate([
-            "nom_cat"=>['required'],
+        $category =  request()->validate([
+            "nom_cat" => ['required'],
         ]);
-        
+
         Category::create($category);
 
-        return redirect()->route('categories.index')->with("success","nouvelle catégorie ajoutée avec succès");
+        return redirect()->route('categories.index')->with("success", "nouvelle catégorie ajoutée avec succès");
     }
 
     /**
@@ -55,8 +53,8 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         $category->load("produits");
-        
-        return Inertia::render("Category/Show",['category'=>$category]);
+
+        return Inertia::render("Category/Show", ['category' => $category]);
     }
 
     /**
@@ -65,9 +63,9 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
 
-        
 
-        return Inertia::render("Category/Edit",['category'=>$category]);
+
+        return Inertia::render("Category/Edit", ['category' => $category]);
     }
 
     /**
@@ -76,20 +74,19 @@ class CategoryController extends Controller
     public function update(Category $category)
     {
         $data =  request()->validate([
-            "nom_cat"=>['required'],
+            "nom_cat" => ['required'],
         ]);
 
         $category->fill($data);
 
         if ($category->isDirty()) {
-            
+
             $category->save();
-            
+
             return redirect()->route('categories.index')->with("success", "Catégorie {$data['nom_cat']} modifiée avec succès");
         }
 
         return redirect()->route('categories.index')->with("info", "Aucune modification détectée.");
-        
     }
 
     /**
@@ -98,16 +95,14 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
 
-        $produits = Produit::where("category_id" , $category->id);
+        $produits = Produit::where("category_id", $category->id);
 
-        if ($produits->count()) 
-        {
-            return redirect()->route("categories.index")->with("error","operation interdit : ce categorie liee avec un produit ");
-            
+        if ($produits->count()) {
+            return redirect()->route("categories.index")->with("error", "operation interdit : ce categorie liee avec un produit ");
         }
-        
+
         $category->delete();
 
-        return redirect()->route('categories.index')->with("success","catégorie supprimee avec succès"); 
+        return redirect()->route('categories.index')->with("success", "catégorie supprimee avec succès");
     }
 }

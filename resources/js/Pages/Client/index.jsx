@@ -143,6 +143,7 @@ const Index = ({ clients, flash }) => {
                         </div>
                     )}
                 </div>
+ 
             </div>
         </AuthenticatedLayout>
     );

@@ -13,14 +13,9 @@ import DangerButton from '@/Components/DangerButton';
 
 function Index({ categories, flash }) {
 
-
-
-
-
     const { data, setData, get } = useForm({
         "search": null,
     })
-
 
 
     // Create debounced search function using useEffect
@@ -42,7 +37,7 @@ function Index({ categories, flash }) {
 
     const { delete: destroy } = useForm();
 
-    const deleteSubmit = (id, e) => {
+    const handleDelete = (id, e) => {
         e.preventDefault();
         destroy(route('categories.destroy', id));
     }
@@ -54,21 +49,17 @@ function Index({ categories, flash }) {
         return true
     }
 
-
     return (
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    <i class="fa-solid fa-list"></i> Category
+                    <i class="fa-solid fa-list"></i> <span>Category</span>
                 </h2>
             }
         >
             <Head title="Category" />
 
             <div className="py-12">
-
-
-
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <Link href={route('categories.create')}>
 
