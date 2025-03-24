@@ -13,7 +13,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::paginate(10);
+        $clients = Client::paginate(12);
         return Inertia::render("Client/Index",compact("clients"));
     }
 
@@ -22,7 +22,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render("Client/Create");
     }
 
     /**
@@ -30,38 +30,64 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'nom' => ['required','string', 'min:3', 'max:30'],
+            'prenom' => ['required', 'string', 'min:3', 'max:30'],
+            'age' => ['required', 'integer', 'min:18'],
+            'adresse' => ['required', 'string', 'min:5', 'max:255'],
+            'telephone' => ['required', 'regex:/^(?:\+212|06)[\s-]?\d{8}$/'],
+            'fax' => ['nullable', 'regex:/^(?:\+2125|05)[\s-]?\d{8}$/'],
+            'societe' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'email', 'max:255'],
+        ]);
+
+        Client::create($data);
+        return redirect()->route("clients.index")->with("success", "client ajouter avec success !");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Client $client)
     {
-        //
+        return Inertia::render("Client/Show" , compact("client"));
+
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Client $client)
     {
-        //
+        return Inertia::render("Client/Edit", compact('client'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Client $client)
     {
-        //
+        $data = $request->validate([
+            'nom' => ['required','string', 'min:3', 'max:30'],
+            'prenom' => ['required', 'string', 'min:3', 'max:30'],
+            'age' => ['required', 'integer', 'min:18'],
+            'adresse' => ['required', 'string', 'min:5', 'max:255'],
+            'telephone' => ['required', 'regex:/^(?:\+212|06)[\s-]?\d{8}$/'],
+            'fax' => ['nullable', 'regex:/^(?:\+2125|05)[\s-]?\d{8}$/'],
+            'societe' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'email', 'max:255'],
+        ]);
+        $client->update($data);
+        return redirect()->route("clients.index")->with("success", "client modifier avec success !");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Client $client)
     {
-        //
+        $client->delete();
+        return redirect()->route("clients.index")->with("success", "client supprimer avec success !");
+
     }
 }

@@ -13,7 +13,8 @@ Route::middleware("auth")->group(function(){
     Route::resource("categories",CategoryController::class);
     Route::resource("produits",ProduitController::class)->except("update");
     Route::post("produits/{produit}",[ProduitController::class,"update"])->name("produits.update");
-    Route::resource("clients",ClientController::class);
+    Route::resource("clients",ClientController::class)->except('update');
+    Route::post("clients/{client}",[ClientController::class,'update'])->name('clients.update');
     Route::resource("stocks",StockController::class);
     Route::resource("fournisseurs",FournisseurController::class)->except('update');
     Route::post("fournisseurs/{fournisseur}",[FournisseurController::class,"update"])->name("fournisseurs.update");

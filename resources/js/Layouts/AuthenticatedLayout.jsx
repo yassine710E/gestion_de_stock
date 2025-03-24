@@ -28,7 +28,7 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current('dashboard')}
                             className='flex gap-2'
                         >
-                            <i class="fa-solid fa-chart-simple"></i>
+                            <i className="fa-solid fa-chart-simple"></i>
                             <span>Dashboard</span>
                         </NavLink>
 
@@ -37,7 +37,7 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current('categories.*')}
                             className='flex gap-2'
                         >
-                            <i class="fa-solid fa-list"></i>
+                            <i className="fa-solid fa-list"></i>
                             <span>Category</span>
                             
                         </NavLink>
@@ -47,7 +47,7 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current('produits.*')}
                             className='flex gap-2'
                         >
-                            <i class="fa-solid fa-cart-shopping"></i>
+                            <i className="fa-solid fa-cart-shopping"></i>
                             <span>Produits</span>
                         </NavLink>
 
@@ -56,7 +56,7 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current('clients.*')}
                             className='flex gap-2'
                         >
-                            <i class="fa-solid fa-user-group"></i>
+                            <i className="fa-solid fa-user-group"></i>
                             <span>Clients</span>
                         </NavLink>
                         <NavLink
@@ -64,7 +64,7 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current('fournisseurs.*')}
                             className='flex gap-2'
                         >
-                            <i class="fa-solid fa-users"></i>
+                            <i className="fa-solid fa-users"></i>
                             <span>Fournisseurs</span>
                         </NavLink>
 
@@ -73,7 +73,7 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current('stocks.*')}
                             className='flex gap-2'
                         >
-                            <i class="fa-solid fa-file-arrow-down"></i>
+                            <i className="fa-solid fa-file-arrow-down"></i>
                             <span>Stocks</span>
                         </NavLink>
                     </div>
