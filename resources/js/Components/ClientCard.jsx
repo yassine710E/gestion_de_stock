@@ -27,7 +27,7 @@ function ClientCard({ client }) {
         <div
             key={client.id}
             // onClick={() => navigateToDetails(client.id)}
-            className="group relative bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-4 cursor-pointer"
+            className="group col-span-2 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-4 cursor-pointer"
         >
             {/* Client Information */}
             <div className="mt-4 space-y-2">

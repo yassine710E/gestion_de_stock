@@ -95,7 +95,7 @@ const Index = ({ clients, flash }) => {
                                         className="absolute left-3 top-3 text-gray-500"
                                     />
                                 </div>
-                                <button className="absolute top-0 right-1 text-white  bg-red-500 hover:bg-red-700 px-7 py-2 rounded-lg">
+                                <button className="absolute top-0 right-1 text-white  bg-red-500 hover:bg-red-700 px-6 py-2 rounded-lg">
                                     x
                                 </button>
                             </div>
@@ -106,10 +106,10 @@ const Index = ({ clients, flash }) => {
                     {flash.error && <Error flash={flash} />}
                     {flash.info && <Info flash={flash} />}
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
+                    <div className="grid grid-cols-12 gap-6 mt-6">
                         {clients?.data?.length > 0 ? (
                             clients.data.map((client) => (
-                                <ClientCard key={client.id} client={client} />
+                                <ClientCard key={client.id} client={client} className='col-span-4' />
                             ))
                         ) : (
                             <div className="col-span-full text-center">
