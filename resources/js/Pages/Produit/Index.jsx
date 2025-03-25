@@ -58,7 +58,6 @@ function Index({ produits, flash, categories }) {
 
 
 
-
     return (
         <AuthenticatedLayout
             header={

@@ -8,6 +8,7 @@ import { Textarea } from "@headlessui/react";
 import DangerButton from "@/Components/DangerButton";
 
 function Edit({ client, errors }) {
+
     const { data, setData, post, processing } = useForm({
         nom: client.nom,
         prenom: client.prenom,

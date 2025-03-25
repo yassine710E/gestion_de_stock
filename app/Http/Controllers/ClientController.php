@@ -13,7 +13,21 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::paginate(12);
+        $searchByNom = request("nomSearching");
+        $query = Client::query();
+            if(request("nomSearching")){
+                $query->where("nom","like", "%". request("nomSearching"). "%")
+                ->orWhere("prenom","like", "%". request("nomSearching"). "%");
+            }
+            if(request("emailSearching")){
+                $query->where("email", request("emailSearching"));
+
+            }
+            if(request("telephoneSearching")){
+                $query->where("telephone", "like", request("telephoneSearching"));
+            }
+
+           $clients = $query->orderBy('nom','asc')->paginate(12);
         return Inertia::render("Client/Index",compact("clients"));
     }
 

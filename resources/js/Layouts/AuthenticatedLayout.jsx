@@ -12,8 +12,8 @@ export default function AuthenticatedLayout({ header, children }) {
         useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100 flex">
-            <nav className="w-64 bg-white border-r border-gray-100 max-h-screen">
+        <div className="min-h-screen bg-gray-100 flex" >
+            <nav className="w-64 bg-white border-r border-gray-100 max-h-screen ">
                 <div className="flex flex-col h-full space-x-4">
                     <div className="p-4">
                         <Link href="/">

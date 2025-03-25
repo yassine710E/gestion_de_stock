@@ -4,20 +4,60 @@ import Success from "@/Components/Success";
 import Error from "@/Components/Error";
 import Info from "@/Components/Info";
 import ClientCard from "@/Components/ClientCard";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Link, Head, useForm, router } from "@inertiajs/react";
+import { debounce } from "lodash";
+import TextInput from "@/Components/TextInput";
+import DangerButton from "@/Components/DangerButton";
 
 const Index = ({ clients, flash }) => {
     const { data, setData, get } = useForm({
-        'nomSearching': null,
-        'telephoneSearching': null,
-        'emailSearching': null,
+        nomSearching: "",
+        telephoneSearching: "",
+        emailSearching: "",
     });
 
     const handleSearch = (e) => {
         e.preventDefault();
+    };
+
+    useEffect(() => {
+        const debouncedSearch = debounce(() => {
+            get(route("clients.index"), {
+                preserveState: true,
+            });
+        }, 1000);
+
+        if (
+            data.nomSearching !== null ||
+            data.telephoneSearching !== null ||
+            data.emailSearching !== null
+        ) {
+            debouncedSearch();
+        }
+
+        return () => debouncedSearch.cancel();
+    }, [data.nomSearching, data.telephoneSearching, data.emailSearching]);
+
+    const changeHandler = (e) => {
+        const { name, value } = e.target;
+
+        setData((prev) => ({ ...prev, [name]: value }));
+
+
+    };
+
+    const status = () => {
+        if (
+            data.nomSearching ||
+            data.emailSearching ||
+            data.telephoneSearching
+        ) {
+            return false;
+        }
+        return true;
     };
 
     return (
@@ -32,7 +72,7 @@ const Index = ({ clients, flash }) => {
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-9 gap-4 items-center">
+                    <div className="grid grid-cols-12 gap-4 items-center mb-2">
                         <Link
                             href={route("clients.create")}
                             className="text-md col-span-2"
@@ -44,18 +84,17 @@ const Index = ({ clients, flash }) => {
                         </Link>
                         <form
                             onSubmit={handleSearch}
-                            className="relative col-span-7"
+                            className="relative col-span-10"
                         >
                             <div className="grid grid-cols-12 gap-2">
                                 <div className="col-span-4">
-                                    <input
+                                    <TextInput
                                         type="text"
+                                        id="nom"
                                         name="nomSearching"
                                         placeholder="Recherche via le nom"
-                                        value=""
-                                        onChange={(e) => {
-                                            e.preventDefault();
-                                        }}
+                                        value={data.nomSearching}
+                                        onChange={changeHandler}
                                         className="w-full  pl-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"
                                     />
                                     <FontAwesomeIcon
@@ -63,15 +102,15 @@ const Index = ({ clients, flash }) => {
                                         className="absolute left-3 top-3 text-gray-500"
                                     />
                                 </div>
-                                <div className="relative col-span-3">
-                                    <input
+                                <div
+                                 className={`relative col-span-${!status() ? '3' : '4'}`}>
+                                    <TextInput
                                         type="text"
-                                        name="emailSearching"
+                                        id="email"
+                                        name="telephoneSearching"
                                         placeholder="Recherche via le phone"
-                                        value=""
-                                        onChange={(e) => {
-                                            e.preventDefault();
-                                        }}
+                                        value={data.telephoneSearching}
+                                        onChange={changeHandler}
                                         className="w-full  pl-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"
                                     />
                                     <FontAwesomeIcon
@@ -80,14 +119,13 @@ const Index = ({ clients, flash }) => {
                                     />
                                 </div>
                                 <div className="relative col-span-4">
-                                    <input
+                                    <TextInput
                                         type="text"
-                                        name="telephoneSearching"
+                                        id="telephone"
+                                        name="emailSearching"
                                         placeholder="Recherche via l'email"
-                                        value=""
-                                        onChange={(e) => {
-                                            e.preventDefault();
-                                        }}
+                                        value={data.emailSearching}
+                                        onChange={changeHandler}
                                         className="w-full  pl-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"
                                     />
                                     <FontAwesomeIcon
@@ -95,21 +133,36 @@ const Index = ({ clients, flash }) => {
                                         className="absolute left-3 top-3 text-gray-500"
                                     />
                                 </div>
-                                <button className="absolute top-0 right-1 text-white  bg-red-500 hover:bg-red-700 px-6 py-2 rounded-lg">
+                                <DangerButton
+                                style={{ display: status() ? 'none' : 'block' }}
+                                hidden={status}
+                                    onClick={() => {
+                                        setData({
+                                            nomSearching: "",
+                                            emailSearching: "",
+                                            telephoneSearching: "",
+                                        });
+                                    }}
+                                    className="absolute top-1 right-1 text-white  bg-red-500 hover:bg-red-700 px-4 py-2 rounded-lg"
+                                >
                                     x
-                                </button>
+                                </DangerButton>
                             </div>
                         </form>
                     </div>
 
-                    {flash.success && <Success flash={flash} />}
+                    {flash.success && <Success flash={flash}  />}
                     {flash.error && <Error flash={flash} />}
                     {flash.info && <Info flash={flash} />}
 
-                    <div className="grid grid-cols-12 gap-6 mt-6">
+                    <div className="grid grid-cols-4 gap-6 mt-6">
                         {clients?.data?.length > 0 ? (
                             clients.data.map((client) => (
-                                <ClientCard key={client.id} client={client} className='col-span-4' />
+                                <ClientCard
+                                    key={client.id}
+                                    client={client}
+                                    className="col-span-2"
+                                />
                             ))
                         ) : (
                             <div className="col-span-full text-center">
@@ -143,7 +196,6 @@ const Index = ({ clients, flash }) => {
                         </div>
                     )}
                 </div>
- 
             </div>
         </AuthenticatedLayout>
     );
