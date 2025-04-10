@@ -13,14 +13,12 @@ class Stock extends Model
     protected $fillable = [
         'produit_id',
         "stock_quantite",
-        "prix_achat",
-        "min_stock",
-        "status_stock",
+        "prix_stock",
         "operation"
     ];
 
     const CREATED_AT = "date_achat";
-    const UPDATED_AT = "date_utilisation";
+    const UPDATED_AT = "date_operation";
 
     public function produit()
     {

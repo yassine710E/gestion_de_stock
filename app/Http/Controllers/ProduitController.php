@@ -69,11 +69,10 @@ class ProduitController extends Controller
 
         $data = $request->validated() ;
 
-            
         
         $image = $request->file("photo");
         
-        $path = $image->store("products", "public");
+        $path = $image->store("products", options: "public");
         
         $data['photo'] = $path;
 
@@ -88,6 +87,7 @@ class ProduitController extends Controller
      */
     public function show(Produit $produit)
     {
+        $produit->load("stock");
         
         return Inertia::render("Produit/Show" , compact("produit"));
     }
@@ -133,7 +133,9 @@ class ProduitController extends Controller
         $produit->fill($data);
 
         if ($produit->isDirty()) {
+           
             $produit->save();
+           
             return redirect()->route('produits.index')->with("success", "Produit {$data['nom_produit']} modifiée avec succès");
 
         }

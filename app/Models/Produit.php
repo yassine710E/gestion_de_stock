@@ -15,12 +15,19 @@ class Produit extends Model
     protected $fillable = [
         "category_id",
         "nom_produit",
-        "prix_p",
+        "prix_vente",
+        "min_stock",
+        "max_stock",
         "photo",
-        "code_barre"
+        "code_barre",
+        "localisation"
     ];
 
     public function category(){
         return $this->belongsTo(Category::class);
+    }
+
+    public function stock(){
+        return $this->hasOne(Stock::class);
     }
 }

@@ -23,20 +23,20 @@ Route::get('/', function () {
 Route::get('/dashboard', DashboardController::class)
     ->middleware(['auth', 'verified'])->name('dashboard');
 
-    Route::get('/category', [CategoryController::class, 'index'])
-    ->middleware(['auth', 'verified'])->name('category');
+// Route::get('/category', [CategoryController::class, 'index'])
+//     ->middleware(['auth', 'verified'])->name('category');
 
-Route::get('/products', [ProduitController::class, 'index'])
-    ->middleware(['auth', 'verified'])->name('products');
+// Route::get('/products', [ProduitController::class, 'index'])
+//     ->middleware(['auth', 'verified'])->name('products');
 
-Route::get('/clients', [ClientController::class, 'index'])
-    ->middleware(['auth', 'verified'])->name('clients');
+// Route::get('/clients', [ClientController::class, 'index'])
+//     ->middleware(['auth', 'verified'])->name('clients');
 
-Route::get('/fournisseur', [FournisseurController::class, 'index'])
-    ->middleware(['auth', 'verified'])->name('fournisseur');
+// Route::get('/fournisseur', [FournisseurController::class, 'index'])
+//     ->middleware(['auth', 'verified'])->name('fournisseur');
 
-Route::get('/stock', [StockController::class, 'index'])
-    ->middleware(['auth', 'verified'])->name('stock');
+// Route::get('/stock', [StockController::class, 'index'])
+//     ->middleware(['auth', 'verified'])->name('stock');
 
     
 Route::middleware('auth')->group(function () {

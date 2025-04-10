@@ -14,9 +14,12 @@ function Edit({ produit, categories, errors }) {
     const { data, setData, post, processing } = useForm({
         "category_id": produit.category_id,
         "nom_produit": produit.nom_produit,
-        "prix_p": produit.prix_p,
+        "prix_vente": produit.prix_vente,
+        "min_stock": produit.min_stock,
+        "max_stock": produit.max_stock,
         "photo": null,
-        "code_barre": produit.code_barre
+        "code_barre": produit.code_barre,
+        "localisation": produit.localisation
 
     })
 
@@ -25,22 +28,25 @@ function Edit({ produit, categories, errors }) {
 
 
 
-        post(route('produits.update',produit.id) , {
+        post(route('produits.update', produit.id), {
             onSuccess: () => {
                 // Clear the form
                 setData({
                     category_id: "",
                     nom_produit: "",
-                    prix_p: "",
+                    prix_vente: "",
+                    min_stock: "",
+                    max_stock: "",
                     photo: null,
-                    code_barre: ""
+                    code_barre: "",
+                    localisation: ""
                 });
                 setPreview(null);
-                
+
                 // You can add a success message or redirect here if needed
             },
             // Preserve the scroll position after submission
-            preserveScroll: true,        
+            preserveScroll: true,
         });
 
 
@@ -124,18 +130,47 @@ function Edit({ produit, categories, errors }) {
                                 </div>
 
                                 <div className="flex flex-col space-y-2">
-                                    <InputLabel htmlFor="prix_p">
+                                    <InputLabel htmlFor="prix_vente">
                                         prix produit
                                     </InputLabel>
                                     <TextInput
                                         type="number"
-                                        id="prix_p"
-                                        name="prix_p"
-                                        value={data.prix_p || ''}
+                                        id="prix_vente"
+                                        name="prix_vente"
+                                        value={data.prix_vente || ''}
                                         onChange={changeHandling}
                                         placeholder="Enter prix produit"
                                     />
-                                    {errors.prix_p && <div className="text-sm text-red-600">{errors.prix_p}</div>}
+                                    {errors.prix_vente && <div className="text-sm text-red-600">{errors.prix_vente}</div>}
+                                </div>
+                                <div className="flex flex-col space-y-2">
+                                    <InputLabel htmlFor="min_stock" className="text-sm font-medium text-gray-700">
+                                        Min Stock
+                                    </InputLabel>
+                                    <TextInput
+                                        type="number"
+                                        id="min_stock"
+                                        name="min_stock"
+                                        value={data.min_stock || ''}
+                                        onChange={changeHandling}
+                                        placeholder="Enter Min Quantity Stock"
+                                    />
+                                    {errors.min_stock && <div className="text-sm text-red-600">{errors.min_stock}</div>}
+                                </div>
+
+                                <div className="flex flex-col space-y-2">
+                                    <InputLabel htmlFor="max_stock" className="text-sm font-medium text-gray-700">
+                                        Max Stock
+                                    </InputLabel>
+                                    <TextInput
+                                        type="number"
+                                        id="max_stock"
+                                        name="max_stock"
+                                        value={data.max_stock || ''}
+                                        onChange={changeHandling}
+                                        placeholder="Enter Max Quantity Stock"
+                                    />
+                                    {errors.max_stock && <div className="text-sm text-red-600">{errors.max_stock}</div>}
                                 </div>
 
                                 <div className="flex flex-col space-y-2">
@@ -151,6 +186,20 @@ function Edit({ produit, categories, errors }) {
                                         placeholder="Enter category name"
                                     />
                                     {errors.code_barre && <div className="text-sm text-red-600">{errors.code_barre}</div>}
+                                </div>
+                                <div className="flex flex-col space-y-2">
+                                    <InputLabel htmlFor="localisation" className="text-sm font-medium text-gray-700">
+                                        Localistaion
+                                    </InputLabel>
+                                    <TextInput
+                                        type="text"
+                                        id="localisation"
+                                        name="localisation"
+                                        value={data.localisation || ''}
+                                        onChange={changeHandling}
+                                        placeholder="Enter Location of product Stock"
+                                    />
+                                    {errors.localisation && <div className="text-sm text-red-600">{errors.localisation}</div>}
                                 </div>
                                 <div className="flex flex-col space-y-2">
 

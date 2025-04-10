@@ -15,9 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string("nom_produit");
             $table->foreignId("category_id")->constrained()->onDelete("restrict");
-            $table->decimal("prix_p",8,2);
+            $table->decimal("prix_vente",8,2);
+            $table->bigInteger("min_stock")->unsigned();
+            $table->bigInteger("max_stock")->unsigned();
             $table->string('photo');
             $table->string('code_barre')->unique();
+            $table->string("localisation");
             $table->timestamps();
         });
     }

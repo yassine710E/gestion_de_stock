@@ -32,7 +32,7 @@ function Card({ produit }) {
                         {produit.nom_produit}
                     </h3>
                     <p className="text-lg font-bold text-indigo-600">
-                        ${parseFloat(produit.prix_p).toFixed(2)}
+                        ${parseFloat(produit.prix_vente).toFixed(2)}
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">

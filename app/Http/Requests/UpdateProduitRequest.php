@@ -25,8 +25,11 @@ class UpdateProduitRequest extends FormRequest
         return [
             "nom_produit" => "required|min:4|max:255",
             "category_id" => "required|exists:categories,id",
-            "prix_p" => "required|numeric|min:0",
-            "code_barre" => ['required', Rule::unique('produits')->ignore($this->produit->id)]
+            "prix_vente" => "required|numeric|min:0.5",
+            "min_stock"=>"required|integer|max:20|min:10",
+            "max_stock"=>"required|integer|max:1000|min:900",
+            "code_barre" => ['required', Rule::unique('produits')->ignore($this->produit->id)],
+            "localisation"=>"required|string",
         ];
     }
 }

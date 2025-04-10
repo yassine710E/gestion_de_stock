@@ -1,43 +1,132 @@
 import React from 'react'
-import Card from './Card';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import CardCategory from '@/Components/CardCategory';
 
 function Show({ produit }) {
-    console.log(produit);
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    <i className="fas fa-folder-open mr-2"></i>{produit.nom}
+                <h2 className="flex items-center text-2xl font-bold leading-tight text-gray-800">
+                    <i className="fas fa-folder-open mr-3 text-blue-600"></i>
+                    {produit.nom_produit}
                 </h2>
             }
         >
             <Head title="Produit info" />
 
-            <div className="py-12">
+            <div className="py-12 bg-gray-50">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div className="overflow-hidden bg-white rounded-xl shadow-lg">
+                        <div className="p-8">
+                            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                                {/* Product Details Section */}
+                                <div className="space-y-8">
+                                    <div className="p-6 bg-gray-50 rounded-lg">
+                                        <h3 className="mb-4 text-xl font-bold text-gray-800 border-b border-gray-200 pb-2">
+                                            Product Details
+                                        </h3>
+                                        <div className="space-y-3">
+                                            <p className="flex justify-between items-center text-gray-700">
+                                                <span className="font-semibold">Name:</span>
+                                                <span>{produit.nom_produit}</span>
+                                            </p>
+                                            <p className="flex justify-between items-center text-gray-700">
+                                                <span className="font-semibold">Price:</span>
+                                                <span className="text-green-600 font-medium">{produit.prix_vente}$</span>
+                                            </p>
+                                            <p className="flex justify-between items-center text-gray-700">
+                                                <span className="font-semibold">Barcode:</span>
+                                                <span className="font-mono">{produit.code_barre}</span>
+                                            </p>
+                                            <p className="flex justify-between items-center text-gray-700">
+                                                <span className="font-semibold">Location:</span>
+                                                <span>{produit.localisation}</span>
+                                            </p>
+                                        </div>
+                                    </div>
 
-            <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="bg-white shadow-md rounded-lg p-6">
-                        <div className="mt-8">
-                            <h2 className="text-xl font-semibold text-gray-700 mb-4">Products</h2>
-                            {category.produits && category.produits.length > 0 ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    {category.produits.map((produit) => (
+                                    <div className="p-6 bg-gray-50 rounded-lg">
+                                        <h3 className="mb-4 text-xl font-bold text-gray-800 border-b border-gray-200 pb-2">
+                                            Stock Information
+                                        </h3>
+                                        <div className="space-y-3">
+                                            <p className="flex justify-between items-center text-gray-700">
+                                                <span className="font-semibold">Minimum Stock:</span>
+                                                <span className="bg-yellow-100 px-3 py-1 rounded-full">
+                                                    {produit.min_stock}
+                                                </span>
+                                            </p>
+                                            <p className="flex justify-between items-center text-gray-700">
+                                                <span className="font-semibold">Maximum Stock:</span>
+                                                <span className="bg-blue-100 px-3 py-1 rounded-full">
+                                                    {produit.max_stock}
+                                                </span>
+                                            </p>
+                                            {produit.stock ? (
+                                                <>
+                                                    <p className="flex justify-between items-center text-gray-700">
+                                                        <span className="font-semibold">Stock Quantite:</span>
+                                                        <span className="bg-green-100 px-3 py-1 rounded-full">
+                                                            {produit.stock.stock_quantite}
+                                                        </span>
+                                                    </p>
+                                                    <p className="flex justify-between items-center text-gray-700">
+                                                        <span className="font-semibold">Date D'achat:</span>
+                                                        <span className="bg-green-100 px-3 py-1 rounded-full">
+                                                            {new Date(produit.stock.date_achat).toLocaleDateString()}
 
-                                        <Card produit={produit} />
+                                                        </span>
+                                                    </p>
+                                                    <p className="flex justify-between items-center text-gray-700">
+                                                        <span className="font-semibold">Date D'operation:</span>
+                                                        <span className="bg-green-100 px-3 py-1 rounded-full">
+                                                            {new Date(produit.stock.date_operation).toLocaleDateString()}
+                                                        </span>
+                                                    </p>
+                                                    <p className="flex justify-between items-center text-gray-700">
+                                                        <span className="font-semibold">Prix De Stock:</span>
+                                                        <span className="bg-purple-100 px-3 py-1 rounded-full">
+                                                            {produit.stock.prix_stock}$
+                                                        </span>
+                                                    </p>
+                                                    <p className="flex justify-between items-center text-gray-700">
+                                                        <span className="font-semibold">dernière opération:</span>
+                                                        {produit.stock.operation === "S" ? (
+                                                            <span className="bg-red-200 px-3 py-1 rounded-full">
+                                                                Sortie
+                                                            </span>
+                                                        ) : (
+                                                            <span className="bg-green-200 px-3 py-1 rounded-full">
+                                                                entrée
+                                                            </span>
+                                                        )}
+                                                    </p>
+                                                </>
+                                            ):(
+                                                <>
+                                                <p className='text-center text-red-700'>Outside Of Stock</p>
+                                                </>
+                                            )}
 
-                                    ))}
+                                        </div>
+                                    </div>
                                 </div>
-                            ) : (
-                                <p className="text-gray-500">No products found in this category.</p>
-                            )}
+
+                                {/* Product Image Section */}
+                                <div className="flex justify-center items-start">
+                                    <div className="relative group">
+                                        <img
+                                            src={`/storage/${produit.photo}`}
+                                            alt={produit.nom_produit}
+                                            className="w-full h-auto rounded-lg shadow-lg transition-transform duration-300 group-hover:scale-105"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </AuthenticatedLayout>
     )
 }

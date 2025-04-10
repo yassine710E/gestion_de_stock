@@ -20,9 +20,12 @@ class ProduitFactory extends Factory
         return [
             "nom_produit" => fake()->text(25),
             "category_id" => Category::factory(),
-            "prix_p" => fake()->randomFloat(2, 1, 1000),
+            "prix_vente" => fake()->randomFloat(2, 1, 1000),
+            "min_stock"=>fake()->numberBetween(10, 20),
+            "max_stock"=>fake()->numberBetween(900,1000),
             "photo" => fake()->imageUrl(),
-            "code_barre" => fake()->unique()->ean13()
+            "code_barre" => fake()->unique()->ean13(),
+            "localisation"=>"Block ".fake()->numberBetween(1,10)
         ];
     }
 }

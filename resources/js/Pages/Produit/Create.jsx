@@ -14,27 +14,33 @@ function Create({ categories, errors }) {
     const { data, setData, post, processing } = useForm({
         "category_id": "",
         "nom_produit": "",
-        "prix_p": "",
+        "prix_vente": "",
+        "min_stock": "",
+        "max_stock": "",
         "photo": null,
-        "code_barre": ""
+        "code_barre": "",
+        "localisation": ""
 
     })
 
     const formHandling = (e) => {
         e.preventDefault();
-        
+
         post(route('produits.store'), {
             onSuccess: () => {
                 // Clear the form
                 setData({
                     category_id: "",
                     nom_produit: "",
-                    prix_p: "",
+                    prix_vente: "",
+                    min_stock: "",
+                    max_stock: "",
                     photo: null,
-                    code_barre: ""
+                    code_barre: "",
+                    localisation: ""
                 });
                 setPreview(null);
-                
+
                 // You can add a success message or redirect here if needed
             },
             // Preserve the scroll position after submission
@@ -114,18 +120,48 @@ function Create({ categories, errors }) {
                                 </div>
 
                                 <div className="flex flex-col space-y-2">
-                                    <InputLabel htmlFor="prix_p" className="text-sm font-medium text-gray-700">
-                                        prix produit
+                                    <InputLabel htmlFor="prix_vente" className="text-sm font-medium text-gray-700">
+                                        prix Produit
                                     </InputLabel>
                                     <TextInput
                                         type="number"
-                                        id="prix_p"
-                                        name="prix_p"
-                                        value={data.prix_p || ''}
+                                        id="prix_vente"
+                                        name="prix_vente"
+                                        value={data.prix_vente || ''}
                                         onChange={changeHandling}
                                         placeholder="Enter prix produit"
                                     />
-                                    {errors.prix_p && <div className="text-sm text-red-600">{errors.prix_p}</div>}
+                                    {errors.prix_vente && <div className="text-sm text-red-600">{errors.prix_vente}</div>}
+                                </div>
+
+                                <div className="flex flex-col space-y-2">
+                                    <InputLabel htmlFor="min_stock" className="text-sm font-medium text-gray-700">
+                                        Min Stock
+                                    </InputLabel>
+                                    <TextInput
+                                        type="number"
+                                        id="min_stock"
+                                        name="min_stock"
+                                        value={data.min_stock || ''}
+                                        onChange={changeHandling}
+                                        placeholder="Enter Min Quantity Stock"
+                                    />
+                                    {errors.min_stock && <div className="text-sm text-red-600">{errors.min_stock}</div>}
+                                </div>
+
+                                <div className="flex flex-col space-y-2">
+                                    <InputLabel htmlFor="max_stock" className="text-sm font-medium text-gray-700">
+                                        Max Stock
+                                    </InputLabel>
+                                    <TextInput
+                                        type="number"
+                                        id="max_stock"
+                                        name="max_stock"
+                                        value={data.max_stock || ''}
+                                        onChange={changeHandling}
+                                        placeholder="Enter Max Quantity Stock"
+                                    />
+                                    {errors.max_stock && <div className="text-sm text-red-600">{errors.max_stock}</div>}
                                 </div>
 
                                 <div className="flex flex-col space-y-2">
@@ -142,9 +178,23 @@ function Create({ categories, errors }) {
                                     />
                                     {errors.code_barre && <div className="text-sm text-red-600">{errors.code_barre}</div>}
                                 </div>
+
                                 <div className="flex flex-col space-y-2">
+                                    <InputLabel htmlFor="localisation" className="text-sm font-medium text-gray-700">
+                                        Localisation
+                                    </InputLabel>
+                                    <TextInput
+                                        type="text"
+                                        id="localisation"
+                                        name="localisation"
+                                        value={data.localisation || ''}
+                                        onChange={changeHandling}
+                                        placeholder="Enter Location of product Stock"
+                                    />
+                                    {errors.localisation && <div className="text-sm text-red-600">{errors.localisation}</div>}
+                                </div>
 
-
+                                <div className="flex flex-col space-y-2">
                                     <InputLabel className={`w-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-100 hover:text-blue-800 ${errors.photo ? 'border-red-500' : 'border-gray-300'} `}>
                                         <svg className="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                             <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />

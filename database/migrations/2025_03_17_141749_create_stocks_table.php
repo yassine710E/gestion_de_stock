@@ -15,11 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId("produit_id")->constrained("produits")->onDelete("cascade");
             $table->bigInteger("stock_quantite");
-            $table->timestamp("date_achat")->useCurrent()->nullable();
-            $table->timestamp("date_utilisation")->useCurrentOnUpdate()->nullable();
-            $table->decimal("prix_achat",8,2);
-            $table->integer("min_stock")->default(10);
-            $table->enum("status_stock",['disponible',"q-faible","non-disponible"]);
+            $table->timestamp("date_achat")->useCurrent();
+            $table->timestamp("date_operation")->useCurrentOnUpdate();
+            $table->decimal("prix_stock",8,2);
             $table->enum('operation',["S","E"]);
         });
     }

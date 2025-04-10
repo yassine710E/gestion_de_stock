@@ -6,10 +6,33 @@ import Error from '@/Components/Error';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 
-import React from 'react'
+import React, { useEffect } from 'react'
+import DangerButton from '@/Components/DangerButton';
+import { debounce } from 'lodash';
+
+
 
 function Index({ stocks, flash }) {
-// console.log(stocks);
+
+
+
+
+
+
+    const { delete: destroy } = useForm();
+
+
+    //delete handling
+    const deleteHandler = (e, id) => {
+
+        e.preventDefault();
+
+        destroy(route('stocks.destroy', id));
+
+
+    };
+
+
 
     return (
         <AuthenticatedLayout
@@ -25,6 +48,7 @@ function Index({ stocks, flash }) {
 
 
 
+
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <Link href={route('stocks.create')}>
 
@@ -36,41 +60,17 @@ function Index({ stocks, flash }) {
                     {flash.info && (<Info flash={flash} />)}
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
 
-                        {/* <div className="p-6 text-gray-900 my-3 flex gap-4 items-center">
-
-                            <TextInput
-                                type="text"
-                                name='search'
-                                value={data.search}
-                                onChange={(e) => setData("search", e.target.value)}
-                                className=" mt-6 block w-full"
-                                placeholder="Search stocks..."
-                            />
-                            <div className={`mt-6`} hidden={status()}>
-                                <button onClick={()=>{
-                                    setData({
-                                        "search": "",
-                                    })
-                                }}>
-                                    <DangerButton>X</DangerButton>
-
-                                </button>
-                            </div>
-
-                        </div> */}
 
                         <div className="p-6 text-gray-900 ">
-                            <table className="min-w-full divide-y divide-gray-200">
+                            <table className="min-w-full divide-y divide-gra</table>y-200">
                                 <thead className="bg-gray-50">
                                     <tr>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">produit</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">image</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantite</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">prix d'achat</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">min_stock</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">status</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">operation</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">localisation</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                     </tr>
                                 </thead>
@@ -83,16 +83,13 @@ function Index({ stocks, flash }) {
                                                 <img className='w-[70px] rounded' src={`/storage/${stock.produit.photo}`} alt="" />
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">{stock.stock_quantite}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{stock.prix_achat}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{stock.min_stock}</td>
-                                            <td className={`px-6 py-4 whitespace-nowrap ${stock.status_stock === "disponible" ?
-                                                                                        'text-green-600' : stock.status_stock === "q-faible" ?
-                                                                                        'text-red-600' : 'text-gray-600'}`}>
-                                                                                        {stock.status_stock}
-                                            </td>
+
+
                                             <td className={`px-6 py-4 whitespace-nowrap ${stock.operation === "E" ? "text-green-700" : "text-red-600"}`}>{stock.operation}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap">{stock.produit.localisation}</td>
+
                                             <td className="px-6 py-4 whitespace-nowrap space-x-2 gap-3 flex">
-                                                <form>
+                                                <form onSubmit={(e) => deleteHandler(e, stock.id)} >
                                                     <button type='submit' onClick={() => confirm('are you sure !!')} className="text-red-600 hover:text-red-900 p-2 hover:bg-red-100 rounded-full transition duration-150">
                                                         <i className="fas fa-trash"></i>
                                                     </button>
@@ -104,12 +101,7 @@ function Index({ stocks, flash }) {
                                                 >
                                                     <i className="fas fa-edit"></i>
                                                 </Link>
-                                                <Link
-                                                    className="text-green-600 hover:text-green-900 p-2 hover:bg-green-100 rounded-full transition duration-150"
-                                                    href={route('stocks.show', stock.id)}
-                                                >
-                                                    <i className="fas fa-eye"></i>
-                                                </Link>
+
                                             </td>
                                         </tr>
                                     )) : (
