@@ -27,8 +27,8 @@ class ClientController extends Controller
                 $query->where("telephone", "like", request("telephoneSearching"));
             }
 
-           $clients = $query->orderBy('nom','asc')->paginate(12);
-        return Inertia::render("Client/Index",compact("clients"));
+            $clients = $query->orderBy('nom','asc')->paginate(12);
+        return Inertia::render("Client/index",compact("clients"));
     }
 
     /**

@@ -21,7 +21,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', DashboardController::class)
-    ->middleware(['auth', 'verified'])->name('dashboard');
+    ->middleware(['auth'])->name('dashboard');
 
 // Route::get('/category', [CategoryController::class, 'index'])
 //     ->middleware(['auth', 'verified'])->name('category');
