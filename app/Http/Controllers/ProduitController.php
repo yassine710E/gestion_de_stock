@@ -6,7 +6,6 @@ use App\Http\Requests\StoreProduitRequest;
 use App\Http\Requests\UpdateProduitRequest;
 use App\Models\Category;
 use App\Models\Produit;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 

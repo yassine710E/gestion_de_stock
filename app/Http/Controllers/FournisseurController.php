@@ -13,7 +13,12 @@ class FournisseurController extends Controller
      */
     public function index()
     {
+       if (request('search')) {
+        $fournisseurs = Fournisseur::where("nom_complet","like","%".request('search')."%")->paginate(5);
+       }else{
         $fournisseurs = Fournisseur::paginate(5) ;
+
+       }
         return Inertia::render("Fournisseur/Index", compact("fournisseurs"));
     }
 

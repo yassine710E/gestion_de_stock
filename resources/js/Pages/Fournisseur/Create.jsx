@@ -4,43 +4,21 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import TextInput from '@/Components/TextInput';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
+import useCreateForm from '@/hooks/Create';
 
 
 
 
-function Create({ categories, errors }) {
-    const [preview, setPreview] = useState(null);
+function Create({errors }) {
 
-    const { data, setData, post, processing } = useForm({
+    const { data, processing ,formHandling ,changeHandling } = useCreateForm({
         "nom_complet": "",
         "email": "",
         "telephone": "",
-        "address": null,
-    })
+        "address": "",
+    },'fournisseurs.store');
 
-    const formHandling = (e) => {
-        e.preventDefault();
-        
-        post(route('fournisseurs.store'), {
-            onSuccess: () => {
-                // Clear the form
-                setData({
-                    nom_complet: "",
-                    email: "",
-                    telephone: "",
-                    address: "",
-                });
-                setPreview(null);
-                
-            },
-            preserveScroll: true,
-        });
-    };
-
-    const changeHandling = (e) => {
-        const { id, value } = e.target;
-        setData(id, value);
-    }
+   
     return (
         <AuthenticatedLayout
             header={

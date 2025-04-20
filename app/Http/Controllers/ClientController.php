@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ClientRequest;
 use Inertia\Inertia;
 use App\Models\Client;
 use Illuminate\Http\Request;
@@ -13,22 +14,21 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $searchByNom = request("nomSearching");
         $query = Client::query();
-            if(request("nomSearching")){
-                $query->where("nom","like", "%". request("nomSearching"). "%")
-                ->orWhere("prenom","like", "%". request("nomSearching"). "%");
+            if(request("name")){
+                $query->where("nom","like", "%". request("name"). "%")
+                ->orWhere("prenom","like", "%". request("name"). "%");
             }
-            if(request("emailSearching")){
-                $query->where("email", request("emailSearching"));
+            if(request("email")){
+                $query->where("email","like" ,"%".request("email")."%");
 
             }
-            if(request("telephoneSearching")){
-                $query->where("telephone", "like", request("telephoneSearching"));
+            if(request("telephone")){
+                $query->where("telephone", "like", "%".request("telephone")."%");
             }
 
            $clients = $query->orderBy('nom','asc')->paginate(12);
-        return Inertia::render("Client/Index",compact("clients"));
+        return Inertia::render("Client/index",compact("clients"));
     }
 
     /**
@@ -42,18 +42,9 @@ class ClientController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ClientRequest $request)
     {
-        $data = $request->validate([
-            'nom' => ['required','string', 'min:3', 'max:30'],
-            'prenom' => ['required', 'string', 'min:3', 'max:30'],
-            'age' => ['required', 'integer', 'min:18'],
-            'adresse' => ['required', 'string', 'min:5', 'max:255'],
-            'telephone' => ['required', 'regex:/^(?:\+212|06)[\s-]?\d{8}$/'],
-            'fax' => ['nullable', 'regex:/^(?:\+2125|05)[\s-]?\d{8}$/'],
-            'societe' => ['required', 'string', 'max:100'],
-            'email' => ['required', 'email', 'max:255'],
-        ]);
+        $data = $request->validated();
 
         Client::create($data);
         return redirect()->route("clients.index")->with("success", "client ajouter avec success !");
@@ -79,19 +70,18 @@ class ClientController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Client $client)
+    public function update(ClientRequest $request, Client $client)
     {
-        $data = $request->validate([
-            'nom' => ['required','string', 'min:3', 'max:30'],
-            'prenom' => ['required', 'string', 'min:3', 'max:30'],
-            'age' => ['required', 'integer', 'min:18'],
-            'adresse' => ['required', 'string', 'min:5', 'max:255'],
-            'telephone' => ['required', 'regex:/^(?:\+212|06)[\s-]?\d{8}$/'],
-            'fax' => ['nullable', 'regex:/^(?:\+2125|05)[\s-]?\d{8}$/'],
-            'societe' => ['required', 'string', 'max:100'],
-            'email' => ['required', 'email', 'max:255'],
-        ]);
-        $client->update($data);
+        $data = $request->validated();
+
+        $client->fill($data);
+
+        if ($client->isClean()) {
+            return redirect()->route("clients.index")->with("info", "Aucune modification détectée.");
+
+        }
+
+        $client->save();
         return redirect()->route("clients.index")->with("success", "client modifier avec success !");
     }
 

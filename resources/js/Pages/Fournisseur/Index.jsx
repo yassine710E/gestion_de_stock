@@ -4,19 +4,27 @@ import Success from '@/Components/Success';
 import TextInput from '@/Components/TextInput';
 import Error from '@/Components/Error';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link} from '@inertiajs/react';
 
 import React from 'react'
+import useFilterForm from '@/hooks/Index';
+import DangerButton from '@/Components/DangerButton';
 
 function Index({ fournisseurs, flash }) {
 
+        const {
+            data,
+            changeHandler,
+            resetFilters,
+            handleDelete,
+            status
+        } = useFilterForm(
+            {
+                "search": null,
+            },
+            "fournisseurs.index"
+        );
 
-    const {delete:destroy} = useForm();
-
-    const deleteSubmit = (id, e) => {
-        e.preventDefault();
-        destroy(route('fournisseurs.destroy', id))
-    }
 
     
     return (
@@ -33,7 +41,7 @@ function Index({ fournisseurs, flash }) {
 
 
 
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-10xl sm:px-12  lg:px-8">
                     <Link href={route('fournisseurs.create')}>
 
                         <SecondaryButton className='px-4 py-3 my-4 bg-green-500 hover:bg-green-700'><i className="fas fa-plus-circle mr-2"></i> ajouter fournisseurs</SecondaryButton>
@@ -42,8 +50,28 @@ function Index({ fournisseurs, flash }) {
                     {flash.success && (<Success flash={flash} />)}
                     {flash.error && (<Error flash={flash} />)}
                     {flash.info && (<Info flash={flash} />)}
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
 
+
+
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                        <div className="p-6 text-gray-900 my-3 flex gap-4 items-center">
+
+                            <TextInput
+                                type="text"
+                                name='search'
+                                value={data.search}
+                                onChange={changeHandler}
+                                className=" mt-6 block w-full"
+                                placeholder="Nom Complet ..."
+                            />
+                            <div className={`mt-6`} hidden={status()}>
+                                <button onClick={resetFilters}>
+                                    <DangerButton>X</DangerButton>
+
+                                </button>
+                            </div>
+
+                        </div>
                         <div className="p-6 text-gray-900 ">
                             <table className="min-w-full divide-y divide-gray-200">
                                 <thead className="bg-gray-50">
@@ -51,8 +79,6 @@ function Index({ fournisseurs, flash }) {
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">nom complet</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">email</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">telephone</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">address</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                     </tr>
                                 </thead>
@@ -62,12 +88,10 @@ function Index({ fournisseurs, flash }) {
                                             <td className="px-6 py-4 whitespace-nowrap">{fourni.id}</td>
                                             <td className="px-6 py-4 whitespace-nowrap">{fourni.nom_complet}</td>
                                             <td className="px-6 py-4 whitespace-nowrap">{fourni.email}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{fourni.telephone}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{fourni.address}</td>
 
                                             <td className="px-6 py-4 whitespace-nowrap space-x-2 gap-3 flex">
-                                            <form onSubmit={(e) => deleteSubmit(fourni.id, e)} >
-                                                    <button type='submit' onClick={() => confirm('are you sure !!')} className="text-red-600 hover:text-red-900 p-2 hover:bg-red-100 rounded-full transition duration-150">
+                                            <form onSubmit={(e) => handleDelete(e,fourni.id)} >
+                                                    <button type='submit'  className="text-red-600 hover:text-red-900 p-2 hover:bg-red-100 rounded-full transition duration-150">
                                                         <i className="fas fa-trash"></i>
                                                     </button>
                                                 </form>

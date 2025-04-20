@@ -1,48 +1,28 @@
-import { useForm, Head } from '@inertiajs/react'
-import React, { useState } from 'react'
+import { Head } from '@inertiajs/react'
+import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import TextInput from '@/Components/TextInput';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
+import useEditForm from '@/hooks/Edit';
 
 
 
 
 function Edit({ fournisseur, errors }) {
 
-    const { data, setData, post, processing } = useForm({
+    const { data, processing,formHandling,changeHandling } = useEditForm({
         "nom_complet": fournisseur.nom_complet,
         "email": fournisseur.email,
         "telephone": fournisseur.telephone,
         "address": fournisseur.address,
-    })
-
-
-    const formHandling = (e) => {
-        e.preventDefault();
+    },"fournisseurs.update",fournisseur.id);
 
 
 
-        post(route('fournisseurs.update',fournisseur.id) , {
-            onSuccess: () => {
-                // Clear the form
-                setData({
-                    nom_complet: "",
-                    telephone: "",
-                    email: "",
-                    address: "",
-                });
-                            },
-            preserveScroll: true,        
-        });
 
 
-    };
 
-    const changeHandling = (e) => {
-        const { id, value } = e.target;
-        setData(id, value);
-    }
     return (
         <AuthenticatedLayout
             header={
@@ -124,7 +104,7 @@ function Edit({ fournisseur, errors }) {
                                     disabled={processing}
                                     className={`w-full md:w-auto px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${processing ? 'opacity-75 cursor-not-allowed' : ''}`}
                                 >
-                                    {processing ? 'Creating...' : 'Edit fournisseur'}
+                                    {processing ? 'Updating...' : 'Update fournisseur'}
                                 </PrimaryButton>
                             </form>
                         </div>

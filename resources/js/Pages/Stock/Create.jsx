@@ -6,32 +6,20 @@ import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
 import DangerButton from '@/Components/DangerButton';
+import useCreateForm from '@/hooks/Create';
 
 function Create({ produits, errors }) {
 
 
 
-    const { data, setData, post, processing } = useForm({
+    const { data, processing,formHandling,changeHandling } = useCreateForm({
         'produit_id': "",
         "stock_quantite": "",
         "prix_stock": "",
         "operation": ""
-    });
-    const formHandling = (e) => {
-        e.preventDefault();
-        post(route('stocks.store'), {
-            onSuccess: () => setData({
-                'produit_id': "",
-                "stock_quantite": "",
-                "prix_stock": "",
-                "operation": ""
-            })
-        });
-    }
-    const changeHandling = (e) => {
-        const { id, value } = e.target;
-        setData(id, value);
-    }
+    },"stocks.store");
+
+
 
     return (
         <AuthenticatedLayout

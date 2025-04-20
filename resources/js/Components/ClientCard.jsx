@@ -1,28 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { Link, useForm } from "@inertiajs/react";
+import {  faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "@inertiajs/react";
 
-function ClientCard({ client }) {
-    const { delete: destroy } = useForm();
-
-    // Handle client deletion
-    const deleteHandler = (e, id) => {
-        e.preventDefault();
-        if (confirm("Are you sure you want to delete this client?")) {
-            destroy(route("clients.destroy", id));
-        }
-    };
-
-    // Navigate to client details
-    const navigateToDetails = (id) => {
-        window.location.href = route("clients.show", id);
-    };
-
-    // Navigate to client edit page
-    const navigateToEdit = (id) => {
-        window.location.href = route("clients.edit", id);
-    };
-
+function ClientCard({ client ,handleDelete }) {
     return (
         <div
             key={client.id}
@@ -65,7 +45,7 @@ function ClientCard({ client }) {
                     {/* Edit Button */}
                     <Link
                         className="text-blue-600 hover:text-blue-900 p-2 hover:bg-blue-100 rounded-full transition duration-150"
-                        href={route("clients.edit", client)}
+                        href={route("clients.edit", client.id)}
                     >
                         <i className="fas fa-edit"></i>
                     </Link>
@@ -73,8 +53,8 @@ function ClientCard({ client }) {
                     {/* Delete Button */}
                     <form
                         onSubmit={(e) => {
-                            e.stopPropagation();
-                            deleteHandler(e, client.id);
+                            
+                            handleDelete(e, client.id);
                         }}
                     >
                         <button

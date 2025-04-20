@@ -23,6 +23,6 @@ class DatabaseSeeder extends Seeder
         Produit::factory(50)->create();
         Client::factory(20)->create();
         Stock::factory(20)->create();
-        // Fournisseur::factory(20)->create();
+        Fournisseur::factory(20)->create();
     }
 }

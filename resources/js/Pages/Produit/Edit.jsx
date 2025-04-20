@@ -5,13 +5,21 @@ import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import PrimaryButton from '@/Components/PrimaryButton';
 import DangerButton from '@/Components/DangerButton';
+import useEditForm from '@/hooks/Edit';
 
 
 
 
 function Edit({ produit, categories, errors }) {
-    const [preview, setPreview] = useState(produit.photo ? `/storage/${produit.photo}` : null);
-    const { data, setData, post, processing } = useForm({
+    const {         
+        data,
+        processing,
+        preview,
+        formHandling,
+        changeHandling,
+        handleFileChange,
+        handleRemove 
+    } = useEditForm({
         "category_id": produit.category_id,
         "nom_produit": produit.nom_produit,
         "prix_vente": produit.prix_vente,
@@ -21,58 +29,8 @@ function Edit({ produit, categories, errors }) {
         "code_barre": produit.code_barre,
         "localisation": produit.localisation
 
-    })
-
-    const formHandling = (e) => {
-        e.preventDefault();
-
-
-
-        post(route('produits.update', produit.id), {
-            onSuccess: () => {
-                // Clear the form
-                setData({
-                    category_id: "",
-                    nom_produit: "",
-                    prix_vente: "",
-                    min_stock: "",
-                    max_stock: "",
-                    photo: null,
-                    code_barre: "",
-                    localisation: ""
-                });
-                setPreview(null);
-
-                // You can add a success message or redirect here if needed
-            },
-            // Preserve the scroll position after submission
-            preserveScroll: true,
-        });
-
-
-    };
-
-    const changeHandling = (e) => {
-        const { id, value } = e.target;
-        setData(id, value);
-    }
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreview(reader.result);
-            };
-            reader.readAsDataURL(file);
-            setData('photo', file);
-        }
-    };
-
-
-    const handleRemove = () => {
-        setPreview(null);
-        setData('photo', null);
-    };
+    },"produits.update",produit.id,"post",produit.photo)
+    
     return (
         <AuthenticatedLayout
             header={

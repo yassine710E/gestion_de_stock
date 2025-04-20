@@ -2,20 +2,10 @@
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faEye, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { useForm } from '@inertiajs/react';
 
-function Card({ produit }) {
+function Card({ produit ,handleDelete }) {
 
-    const { delete: destroy } = useForm();
 
-    //delete handling
-    const deleteHandler = (e, id) => {
-        e.preventDefault();
-        if (confirm('are you sure !!!')) {
-            destroy(route('produits.destroy', id));
-        }
-
-    };
     return (
         <div key={produit.id} className="group relative bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-4">
             <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8 h-[200px]"> {/* Added fixed height */}
@@ -50,7 +40,7 @@ function Card({ produit }) {
                     <button className="p-2 text-green-600 hover:text-green-800" onClick={() => window.location.href = route('produits.edit', produit.id)}>
                         <FontAwesomeIcon icon={faEdit} />
                     </button>
-                    <form onSubmit={(e) => deleteHandler(e, produit.id)}>
+                    <form onSubmit={(e) => handleDelete(e, produit.id)}>
                         <button type='submit' className="p-2 text-red-600 hover:text-red-800">
                             <FontAwesomeIcon icon={faTrash} />
                         </button>

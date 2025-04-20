@@ -1,25 +1,23 @@
-import { useForm, Head, usePage, Link } from '@inertiajs/react'
+import { Head } from '@inertiajs/react'
 import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
-import DangerButton from '@/Components/DangerButton';
+import useCreateForm from '@/hooks/Create';
 
 function Create({ errors }) {
 
 
+    const {
+        data,
+        processing,
+        formHandling,
+        changeHandling
+    } = useCreateForm({"nom_cat": null},'categories.store');
 
-    const { data, setData, post, processing } = useForm({
-        "nom_cat": null
-    });
-    const formHandling = (e) => {
-        e.preventDefault();
-        post(route('categories.store'), {
-            onSuccess: () => setData('nom_cat', "")
-        });
-    }
+
 
     return (
         <AuthenticatedLayout
@@ -33,11 +31,6 @@ function Create({ errors }) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <Link href={route("categories.index")}>
-                        <DangerButton className='mb-8 gap-4'>
-                            <i class="fa-solid fa-arrow-left"></i>
-                            <span>annuler</span></DangerButton>
-                    </Link>
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
                             <form onSubmit={formHandling} className="space-y-6">
@@ -52,7 +45,7 @@ function Create({ errors }) {
                                         value={data.nom_cat || ""}
                                         className="mt-1 block w-full"
                                         autoComplete="current-password"
-                                        onChange={(e) => setData('nom_cat', e.target.value)}
+                                        onChange={changeHandling}
                                         placeholder="Enter category name"
 
                                     />

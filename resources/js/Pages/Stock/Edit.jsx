@@ -6,32 +6,19 @@ import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
 import DangerButton from '@/Components/DangerButton';
+import useEditForm from '@/hooks/Edit';
 
 function Edit({ stock,produits, errors }) {
 
 
 
-    const { data, setData, patch, processing } = useForm({
+    const { data, processing ,changeHandling , formHandling } = useEditForm({
         'produit_id': stock.produit_id,
         "stock_quantite": stock.stock_quantite,
         "prix_stock": stock.prix_stock,
         "operation": stock.operation
-    });
-    const formHandling = (e) => {
-        e.preventDefault();
-        patch(route('stocks.update',stock.id), {
-            onSuccess: () => setData({
-                'produit_id': "",
-                "stock_quantite": "",
-                "prix_stock": "",
-                "operation": ""
-            })
-        });
-    }
-    const changeHandling = (e) => {
-        const { id, value } = e.target;
-        setData(id, value);
-    }
+    },"stocks.update",stock.id);
+
 
     return (
         <AuthenticatedLayout

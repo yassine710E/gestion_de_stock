@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('nom');
             $table->string('prenom');
             $table->text('adresse');
-            $table->string('telephone');
-            $table->string('email');
+            $table->string('telephone')->unique();
+            $table->string('email')->unique();
             $table->string('age');
             $table->string('societe');
-            $table->string('fax');
+            $table->string('fax')->nullable();
             $table->timestamps();
         });
     }

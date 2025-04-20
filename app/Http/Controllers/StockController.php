@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StockRequest;
 use App\Models\Produit;
 use App\Models\Stock;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class StockController extends Controller
@@ -84,7 +83,7 @@ class StockController extends Controller
        }
 
        $stock->save();
-       return redirect()->route("stocks.index")->with("danger","Stock modifiée avec succès");
+       return redirect()->route("stocks.index")->with("success","Stock modifiée avec succès");
 
              
     }

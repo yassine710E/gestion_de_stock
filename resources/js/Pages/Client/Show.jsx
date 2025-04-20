@@ -1,14 +1,9 @@
 import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, router } from '@inertiajs/react';
-import CardCategory from '@/Components/CardCategory';
-import Card from '@/Components/Card';
+import { Head } from '@inertiajs/react';
 
 function Show({ client }) {
-    const handleNavigate = (e) => {
-        e.preventDefault()
-        router.get('/clients')
-    }
+
     return (
         <AuthenticatedLayout
             header={
@@ -31,7 +26,7 @@ function Show({ client }) {
                                 <div>
                                     <p className="text-gray-900"><span className="font-bold">Prénom:</span> {client.prenom}</p>
                                 </div>
-                                
+
                                 <div>
                                     <p className="text-gray-900"><span className="font-bold">Âge:</span> {client.age}</p>
                                 </div>
@@ -41,21 +36,16 @@ function Show({ client }) {
                                 <div>
                                     <p className="text-gray-900"><span className="font-bold">Téléphone:</span> {client.telephone}</p>
                                 </div>
-                                <div>
-                                    <p className="text-gray-900"><span className="font-bold">Fax:</span> {client.fax}</p>
-                                </div>
+                                {client.fax && (
+                                    <div>
+                                        <p className="text-gray-900"><span className="font-bold">Fax:</span> {client.fax}</p>
+                                    </div>
+                                )}
                                 <div>
                                     <p className="text-gray-900"><span className="font-bold">Adresse:</span> {client.adresse}</p>
                                 </div>
                             </div>
-                            <div className="mt-6">
-                                <button
-                                    onClick={handleNavigate}
-                                    className="inline-block px-4 py-2 bg-violet-500 text-white font-bold rounded-lg shadow-md hover:bg-violet-700"
-                                >
-                                    Retour
-                                </button>
-                            </div>
+
                         </div>
                     </div>
                 </div>

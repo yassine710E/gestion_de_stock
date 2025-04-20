@@ -1,8 +1,7 @@
 import React from 'react'
 import CardCategory from '../../Components/CardCategory';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link } from '@inertiajs/react';
-import DangerButton from '@/Components/DangerButton';
+import { Head } from '@inertiajs/react';
 
 function Show({ category }) {
     console.log(category);
@@ -20,11 +19,7 @@ function Show({ category }) {
 
             <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
          
-                    <Link href={route("categories.index")}>
-                        <DangerButton className='mb-8 gap-4'>
-                            <i class="fa-solid fa-arrow-left"></i>
-                            <span>annuler</span></DangerButton>
-                    </Link>
+
                     <div className="bg-white shadow-md rounded-lg p-6">
 
                         <div className="mt-8 cursor-pointer">

@@ -1,14 +1,14 @@
-import { useForm, Head, router } from "@inertiajs/react";
-import React, { useState } from "react";
+import {  Head } from "@inertiajs/react";
+import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Textarea } from "@headlessui/react";
-import DangerButton from "@/Components/DangerButton";
+import useCreateForm from "@/hooks/Create";
 
 function Create({ errors }) {
-    const { data, setData, post, processing } = useForm({
+    const { data,  processing , formHandling , changeHandling } = useCreateForm({
         nom: "",
         prenom: "",
         email: "",
@@ -17,248 +17,176 @@ function Create({ errors }) {
         societe: "",
         adresse: "",
         age: "",
-    });
+    },'clients.store');
 
-    const cancelHandling = (e) => {
-        e.preventDefault();
-        router.visit('/clients');
-    }
-    const formHandling = (e) => {
-        e.preventDefault();
+ 
 
-        post(route("clients.store"), {
-            onSuccess: () => {
-                // Clear the form
-                setData({
-                    nom: "",
-                    prenom: "",
-                    email: "",
-                    telephone: "",
-                    fax: "",
-                    societe: "",
-                    adresse: "",
-                    age: "",
-                });
-
-                // You can add a success message or redirect here if needed
-            },
-            // Preserve the scroll position after submission
-            preserveScroll: true,
-        });
-    };
-
-    const changeHandling = (e) => {
-        const { id, value } = e.target;
-        setData(id, value);
-    };
 
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    <i className="fas fa-folder-open mr-2"></i>Create Client
+                <h2 className="text-2xl font-bold leading-tight text-gray-800 flex items-center">
+                    <i className="fas fa-folder-open mr-3 text-indigo-600"></i>
+                    Create New Client
                 </h2>
             }
         >
-            <Head title="Client" />
+            <Head title="Create Client" />
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">
-                            <form
-                                onSubmit={formHandling}
-                                className="grid grid-cols-2 gap-5 p-4"
-                            >
-                                <div className="col-start-1 flex flex-col space-y-2">
-                                    <InputLabel htmlFor="nom_produit">
-                                        nom Client
-                                    </InputLabel>
-                                    <TextInput
-                                        type="text"
-                                        id="nom"
-                                        name="nom"
-                                        value={data.nom || ""}
-                                        onChange={changeHandling}
-                                        placeholder="Enter la nom de client"
-                                    />
-                                    {errors.nom && (
-                                        <div className="text-sm text-red-600">
-                                            {errors.nom}
+            <div className="py-12 bg-gray-50">
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+                        <div className="p-8">
+                            <form onSubmit={formHandling} className="space-y-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {/* Personal Information Section */}
+                                    <div className="space-y-4">
+                                        <h3 className="text-lg font-semibold text-gray-700 mb-4">Personal Information</h3>
+                                        
+                                        <div>
+                                            <InputLabel htmlFor="nom" className="text-gray-700">
+                                                Full Name
+                                            </InputLabel>
+                                            <TextInput
+                                                type="text"
+                                                id="nom"
+                                                className="mt-1 block w-full"
+                                                value={data.nom || ""}
+                                                onChange={changeHandling}
+                                                placeholder="Enter client's name"
+                                            />
+                                            {errors.nom && <div className="text-red-500 text-sm mt-1">{errors.nom}</div>}
                                         </div>
-                                    )}
-                                </div>
 
-                                <div className="col-start-2 flex flex-col space-y-2">
-                                    <InputLabel htmlFor="prenom">
-                                        prenom Client
-                                    </InputLabel>
-                                    <TextInput
-                                        type="text"
-                                        id="prenom"
-                                        name="prenom"
-                                        value={data.prenom || ""}
-                                        onChange={changeHandling}
-                                        placeholder="Enter le prenom de client"
-                                    />
+                                        <div>
+                                            <InputLabel htmlFor="prenom" className="text-gray-700">
+                                                First Name
+                                            </InputLabel>
+                                            <TextInput
+                                                type="text"
+                                                id="prenom"
+                                                className="mt-1 block w-full"
+                                                value={data.prenom || ""}
+                                                onChange={changeHandling}
+                                                placeholder="Enter client's first name"
+                                            />
+                                            {errors.prenom && <div className="text-red-500 text-sm mt-1">{errors.prenom}</div>}
+                                        </div>
 
-                                    {errors.prenom && (
-                                        <div className="text-sm text-red-600">
-                                            {errors.prenom}
+                                        <div>
+                                            <InputLabel htmlFor="age" className="text-gray-700">
+                                                Age
+                                            </InputLabel>
+                                            <TextInput
+                                                type="number"
+                                                id="age"
+                                                className="mt-1 block w-full"
+                                                value={data.age || ""}
+                                                onChange={changeHandling}
+                                                placeholder="Enter age"
+                                            />
+                                            {errors.age && <div className="text-red-500 text-sm mt-1">{errors.age}</div>}
                                         </div>
-                                    )}
-                                </div>
+                                    </div>
 
-                                <div className="flex flex-col space-y-2">
-                                    <InputLabel
-                                        htmlFor="email"
-                                        className="text-sm font-medium text-gray-700"
-                                    >
-                                        email
-                                    </InputLabel>
-                                    <TextInput
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        value={data.email || ""}
-                                        onChange={changeHandling}
-                                        placeholder="Enter email"
-                                    />
-                                    {errors.email && (
-                                        <div className="text-sm text-red-600">
-                                            {errors.email}
+                                    {/* Contact Information Section */}
+                                    <div className="space-y-4">
+                                        <h3 className="text-lg font-semibold text-gray-700 mb-4">Contact Information</h3>
+                                        
+                                        <div>
+                                            <InputLabel htmlFor="email" className="text-gray-700">
+                                                Email Address
+                                            </InputLabel>
+                                            <TextInput
+                                                type="email"
+                                                id="email"
+                                                className="mt-1 block w-full"
+                                                value={data.email || ""}
+                                                onChange={changeHandling}
+                                                placeholder="email@example.com"
+                                            />
+                                            {errors.email && <div className="text-red-500 text-sm mt-1">{errors.email}</div>}
                                         </div>
-                                    )}
-                                </div>
 
-                                <div className="flex flex-col space-y-2">
-                                    <InputLabel
-                                        htmlFor="telephone"
-                                        className="text-sm font-medium text-gray-700"
-                                    >
-                                        telephone
-                                    </InputLabel>
-                                    <TextInput
-                                        type="text"
-                                        id="telephone"
-                                        name="telephone"
-                                        value={data.telephone || ""}
-                                        onChange={changeHandling}
-                                        placeholder="Enter la numero de telephone, start with 06 or +212"
-                                    />
-                                    {errors.telephone && (
-                                        <div className="text-sm text-red-600">
-                                            {errors.telephone}
+                                        <div>
+                                            <InputLabel htmlFor="telephone" className="text-gray-700">
+                                                Phone Number
+                                            </InputLabel>
+                                            <TextInput
+                                                type="tel"
+                                                id="telephone"
+                                                className="mt-1 block w-full"
+                                                value={data.telephone || ""}
+                                                onChange={changeHandling}
+                                                placeholder="06XXXXXXXX or +212XXXXXXXX"
+                                            />
+                                            {errors.telephone && <div className="text-red-500 text-sm mt-1">{errors.telephone}</div>}
                                         </div>
-                                    )}
-                                </div>
-                                <div className="flex flex-col space-y-2">
-                                    <InputLabel
-                                        htmlFor="age"
-                                        className="text-sm font-medium text-gray-700"
-                                    >
-                                        Age
-                                    </InputLabel>
-                                    <TextInput
-                                        type="text"
-                                        id="age"
-                                        name="age"
-                                        value={data.age || ""}
-                                        onChange={changeHandling}
-                                        placeholder="Enter age"
-                                    />
-                                    {errors.age && (
-                                        <div className="text-sm text-red-600">
-                                            {errors.age}
+
+                                        <div>
+                                            <InputLabel htmlFor="fax" className="text-gray-700">
+                                                Fax Number
+                                            </InputLabel>
+                                            <TextInput
+                                                type="text"
+                                                id="fax"
+                                                className="mt-1 block w-full"
+                                                value={data.fax || ""}
+                                                onChange={changeHandling}
+                                                placeholder="05XXXXXXXX or +2125XXXXXXX"
+                                            />
+                                            {errors.fax && <div className="text-red-500 text-sm mt-1">{errors.fax}</div>}
                                         </div>
-                                    )}
-                                </div>
-                                <div className="flex flex-col space-y-2">
-                                    <InputLabel
-                                        htmlFor="societe"
-                                        className="text-sm font-medium text-gray-700"
-                                    >
-                                        Societe
-                                    </InputLabel>
-                                    <TextInput
-                                        type="text"
-                                        id="societe"
-                                        name="societe"
-                                        value={data.societe || ""}
-                                        onChange={changeHandling}
-                                        placeholder="Enter la societé"
-                                    />
-                                    {errors.societe && (
-                                        <div className="text-sm text-red-600">
-                                            {errors.societe}
-                                        </div>
-                                    )}
-                                </div>
-                                <div className="flex flex-col space-y-2">
-                                    <InputLabel
-                                        htmlFor="fax"
-                                        className="text-sm font-medium text-gray-700"
-                                    >
-                                        Fax
-                                    </InputLabel>
-                                    <TextInput
-                                        type="text"
-                                        id="fax"
-                                        name="fax"
-                                        value={data.fax || ""}
-                                        onChange={changeHandling}
-                                        placeholder="Enter Fax, start with 05 or +2125"
-                                    />
-                                    {errors.fax && (
-                                        <div className="text-sm text-red-600">
-                                            {errors.fax}
-                                        </div>
-                                    )}
-                                </div>
-                                <div className="flex flex-col space-y-2">
-                                    <InputLabel
-                                        htmlFor="adresse"
-                                        className="text-sm font-medium text-gray-700"
-                                    >
-                                        Adresse
-                                    </InputLabel>
-                                    <Textarea
-                                        type="text"
-                                        id="adresse"
-                                        className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                        name="adresse"
-                                        value={data.adresse || ""}
-                                        onChange={changeHandling}
-                                        placeholder="Enter adresse"
-                                    />
-                                    {errors.adresse && (
-                                        <div className="text-sm text-red-600">
-                                            {errors.adresse}
-                                        </div>
-                                    )}
+                                    </div>
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-3">
+                                {/* Company Information Section */}
+                                <div className="space-y-4 pt-6">
+                                    <h3 className="text-lg font-semibold text-gray-700 mb-4">Company Information</h3>
+                                    
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <InputLabel htmlFor="societe" className="text-gray-700">
+                                                Company Name
+                                            </InputLabel>
+                                            <TextInput
+                                                type="text"
+                                                id="societe"
+                                                className="mt-1 block w-full"
+                                                value={data.societe || ""}
+                                                onChange={changeHandling}
+                                                placeholder="Enter company name"
+                                            />
+                                            {errors.societe && <div className="text-red-500 text-sm mt-1">{errors.societe}</div>}
+                                        </div>
+
+                                        <div>
+                                            <InputLabel htmlFor="adresse" className="text-gray-700">
+                                                Address
+                                            </InputLabel>
+                                            <Textarea
+                                                id="adresse"
+                                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                                value={data.adresse || ""}
+                                                onChange={changeHandling}
+                                                placeholder="Enter complete address"
+                                                rows={3}
+                                            />
+                                            {errors.adresse && <div className="text-red-500 text-sm mt-1">{errors.adresse}</div>}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Form Actions */}
+                                <div className="flex items-center justify-end space-x-4 pt-6">
+
                                     <PrimaryButton
                                         type="submit"
                                         disabled={processing}
-                                        className={`w-full md:w-auto px-4 py-2 col-start-1 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
-                                            processing
-                                                ? "opacity-75 cursor-not-allowed"
-                                                : ""
-                                        }`}
+                                        className={`px-6 py-2 ${processing ? 'opacity-75' : ''}`}
                                     >
-                                        {processing
-                                            ? "Creating..."
-                                            : "Create Produit"}
+                                        {processing ? 'Creating...' : 'Create Client'}
                                     </PrimaryButton>
-
-                                    <DangerButton
-                                        onClick={cancelHandling}
-                                        className={`w-full md:w-auto px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 col-start-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
-                                    >
-                                    Cancel
-                                    </DangerButton>
                                 </div>
                             </form>
                         </div>

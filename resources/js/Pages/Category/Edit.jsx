@@ -1,21 +1,15 @@
 import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import { Head, useForm } from '@inertiajs/react'
+import { Head } from '@inertiajs/react'
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
+import useEditForm from '@/hooks/Edit';
 
 function Edit({ category, errors }) {
 
-  const { data, setData, put, processing } = useForm({
-    "nom_cat": category.nom_cat
-  })
-
-  const formHandling = (e) => {
-    e.preventDefault();
-    put(route("categories.update", category.id))
-  }
+  const { data, processing,formHandling,changeHandling } = useEditForm({nom_cat : category.nom_cat},"categories.update",category.id)  ;
  
   return (
     <AuthenticatedLayout
@@ -43,7 +37,7 @@ function Edit({ category, errors }) {
                     value={data.nom_cat || ""}
                     className="mt-1 block w-full"
                     autoComplete="current-password"
-                    onChange={(e) => setData('nom_cat', e.target.value)}
+                    onChange={changeHandling}
                     placeholder="Enter category name"
 
                   />

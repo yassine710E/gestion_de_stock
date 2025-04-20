@@ -1,17 +1,27 @@
-import { useForm, Head } from '@inertiajs/react'
-import React, { useState } from 'react'
+import {  Head } from '@inertiajs/react'
+import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import TextInput from '@/Components/TextInput';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
+import useCreateForm from '@/hooks/Create';
 
 
 
 
 function Create({ categories, errors }) {
-    const [preview, setPreview] = useState(null);
 
-    const { data, setData, post, processing } = useForm({
+
+    
+    const {
+        data,
+        processing,
+        preview,
+        formHandling,
+        changeHandling,
+        handleFileChange,
+        handleRemove
+    } = useCreateForm({
         "category_id": "",
         "nom_produit": "",
         "prix_vente": "",
@@ -21,54 +31,8 @@ function Create({ categories, errors }) {
         "code_barre": "",
         "localisation": ""
 
-    })
-
-    const formHandling = (e) => {
-        e.preventDefault();
-
-        post(route('produits.store'), {
-            onSuccess: () => {
-                // Clear the form
-                setData({
-                    category_id: "",
-                    nom_produit: "",
-                    prix_vente: "",
-                    min_stock: "",
-                    max_stock: "",
-                    photo: null,
-                    code_barre: "",
-                    localisation: ""
-                });
-                setPreview(null);
-
-                // You can add a success message or redirect here if needed
-            },
-            // Preserve the scroll position after submission
-            preserveScroll: true,
-        });
-    };
-
-    const changeHandling = (e) => {
-        const { id, value } = e.target;
-        setData(id, value);
-    }
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreview(reader.result);
-            };
-            reader.readAsDataURL(file);
-            setData('photo', file);
-        }
-    };
-
-
-    const handleRemove = () => {
-        setPreview(null);
-        reset('photo');
-    };
+    },"produits.store");
+    
     return (
         <AuthenticatedLayout
             header={
