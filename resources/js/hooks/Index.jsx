@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { debounce } from "lodash";
 import { useForm } from "@inertiajs/react";
+import Swal from 'sweetalert2'
 
 const useFilterForm = (initialData, routeName, delay = 1000) => {
     const { data, setData, get ,delete: destroy } = useForm(initialData);
@@ -12,14 +13,22 @@ const useFilterForm = (initialData, routeName, delay = 1000) => {
 
 
 
-    const handleDelete = (e,id) => {
+    const handleDelete = async (e,id) => {
 
         e.preventDefault();
-        const isConfirmed = window.confirm('are you sure  !!');
+        const result = await Swal.fire({
+            title: 'are you sure ?',
+            text: "Once deleted, you will not be able to recover this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Confirm !',
+            cancelButtonText: 'cancel'
+        })
         
-       if (isConfirmed) {
+       if (result.isConfirmed) {
         destroy(route(`${routeName.split('.')[0]}.destroy`, id));
-
        }
     }
 
