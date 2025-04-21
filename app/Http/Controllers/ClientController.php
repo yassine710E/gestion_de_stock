@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ClientRequest;
 use Inertia\Inertia;
 use App\Models\Client;
-use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
@@ -47,6 +46,7 @@ class ClientController extends Controller
         $data = $request->validated();
 
         Client::create($data);
+        
         return redirect()->route("clients.index")->with("success", "client ajouter avec success !");
     }
 

@@ -102,9 +102,9 @@ function Show({ produit }) {
                                                         )}
                                                     </p>
                                                 </>
-                                            ):(
+                                            ) : (
                                                 <>
-                                                <p className='text-center text-red-700'>Outside Of Stock</p>
+                                                    <p className='text-center text-red-700'>Outside Of Stock</p>
                                                 </>
                                             )}
 

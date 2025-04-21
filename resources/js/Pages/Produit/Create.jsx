@@ -1,4 +1,4 @@
-import {  Head } from '@inertiajs/react'
+import { Head } from '@inertiajs/react'
 import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import TextInput from '@/Components/TextInput';
@@ -9,10 +9,10 @@ import useCreateForm from '@/hooks/Create';
 
 
 
-function Create({ categories, errors }) {
+function Create({ categories, founisseurs, errors }) {
 
 
-    
+
     const {
         data,
         processing,
@@ -29,10 +29,11 @@ function Create({ categories, errors }) {
         "max_stock": "",
         "photo": null,
         "code_barre": "",
-        "localisation": ""
+        "localisation": "",
+        "fournisseur_id": ""
 
-    },"produits.store");
-    
+    }, "produits.store");
+
     return (
         <AuthenticatedLayout
             header={
@@ -157,6 +158,25 @@ function Create({ categories, errors }) {
                                     />
                                     {errors.localisation && <div className="text-sm text-red-600">{errors.localisation}</div>}
                                 </div>
+                                <div className="flex flex-col space-y-2">
+                                    <InputLabel htmlFor="category_id">
+                                        nom Fournisseur
+                                    </InputLabel>
+                                    <select
+                                        onChange={changeHandling}
+                                        className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.fournisseur_id ? 'border-red-500' : 'border-gray-300'}`}
+                                        name="fournisseur_id"
+                                        id="fournisseur_id"
+                                    >
+
+                                        <option value=''>---choisir Fournisseur---</option>
+                                        {founisseurs.map((founisseur) => (
+                                            <option value={founisseur.id}>{founisseur.nom_complet}</option>
+                                        ))}
+                                    </select>
+
+                                    {errors.fournisseur_id && <div className="text-sm text-red-600">{errors.fournisseur_id}</div>}
+                                </div>
 
                                 <div className="flex flex-col space-y-2">
                                     <InputLabel className={`w-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-100 hover:text-blue-800 ${errors.photo ? 'border-red-500' : 'border-gray-300'} `}>
@@ -174,6 +194,7 @@ function Create({ categories, errors }) {
                                     {errors.photo && <div className="text-sm text-red-600">{errors.photo}</div>}
 
                                 </div>
+
                                 {/* Image Preview */}
                                 {preview && (
                                     <div className="relative group">
@@ -193,6 +214,7 @@ function Create({ categories, errors }) {
                                         </button>
                                     </div>
                                 )}
+
 
 
                                 <PrimaryButton

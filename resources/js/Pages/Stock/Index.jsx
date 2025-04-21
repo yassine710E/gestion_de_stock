@@ -4,20 +4,16 @@ import Success from '@/Components/Success';
 import Error from '@/Components/Error';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
-
 import React from 'react'
 import useFilterForm from '@/hooks/Index';
+import Badge from '@/Components/Badge';
 
 
 
 function Index({ stocks, flash }) {
 
 
-
-
-
-
-    const {handleDelete} = useFilterForm({},"stocks.index");
+    const { handleDelete } = useFilterForm({}, "stocks.index");
 
 
 
@@ -72,12 +68,16 @@ function Index({ stocks, flash }) {
                                             <td className="px-6 py-4 whitespace-nowrap">{stock.stock_quantite}</td>
 
 
-                                            <td className={`px-6 py-4 whitespace-nowrap ${stock.operation === "E" ? "text-green-700" : "text-red-600"}`}>{stock.operation}</td>
+                                            <td className="px-6 py-4 hitespace-nowrap">
+                                                <Badge color={stock.operation === "E" ? "green" : "red"}>
+                                                    {stock.operation === "E" ? "Entrée" : "Sortie"}
+                                                </Badge>
+                                            </td>
                                             <td className="px-6 py-4 whitespace-nowrap">{stock.produit.localisation}</td>
 
                                             <td className="px-6 py-4 whitespace-nowrap space-x-2 gap-3 flex">
                                                 <form onSubmit={(e) => handleDelete(e, stock.id)} >
-                                                    <button type='submit'  className="text-red-600 hover:text-red-900 p-2 hover:bg-red-100 rounded-full transition duration-150">
+                                                    <button type='submit' className="text-red-600 hover:text-red-900 p-2 hover:bg-red-100 rounded-full transition duration-150">
                                                         <i className="fas fa-trash"></i>
                                                     </button>
                                                 </form>

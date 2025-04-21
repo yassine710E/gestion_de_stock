@@ -31,4 +31,8 @@ class Produit extends Model
     public function stock(){
         return $this->hasOne(Stock::class);
     }
+
+    public function fournisseur(){
+        return $this->belongsTo(Fournisseur::class);
+    }
 }

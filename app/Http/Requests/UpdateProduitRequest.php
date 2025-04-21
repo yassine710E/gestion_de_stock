@@ -30,6 +30,7 @@ class UpdateProduitRequest extends FormRequest
             "max_stock"=>"required|integer|max:1000|min:900",
             "code_barre" => ['required', Rule::unique('produits')->ignore($this->produit->id)],
             "localisation"=>"required|string",
+            "fournisseur_id"=>"required|exists:fournisseurs,id"
         ];
     }
 }

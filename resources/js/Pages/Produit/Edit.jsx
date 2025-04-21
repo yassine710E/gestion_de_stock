@@ -1,5 +1,5 @@
-import { useForm, Head, Link } from '@inertiajs/react'
-import React, { useState } from 'react'
+import { Head, Link } from '@inertiajs/react'
+import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
@@ -10,15 +10,16 @@ import useEditForm from '@/hooks/Edit';
 
 
 
-function Edit({ produit, categories, errors }) {
-    const {         
+function Edit({ produit, categories,fournisseurs, errors }) {
+    console.log(produit);
+    const {
         data,
         processing,
         preview,
         formHandling,
         changeHandling,
         handleFileChange,
-        handleRemove 
+        handleRemove
     } = useEditForm({
         "category_id": produit.category_id,
         "nom_produit": produit.nom_produit,
@@ -27,9 +28,12 @@ function Edit({ produit, categories, errors }) {
         "max_stock": produit.max_stock,
         "photo": null,
         "code_barre": produit.code_barre,
-        "localisation": produit.localisation
+        "localisation": produit.localisation,
+        "fournisseur_id": produit.fournisseur.id
 
-    },"produits.update",produit.id,"post",produit.photo)
+
+    }, "produits.update", produit.id, "post", produit.photo)
+
     
     return (
         <AuthenticatedLayout
@@ -158,6 +162,26 @@ function Edit({ produit, categories, errors }) {
                                         placeholder="Enter Location of product Stock"
                                     />
                                     {errors.localisation && <div className="text-sm text-red-600">{errors.localisation}</div>}
+                                </div>
+                                <div className="flex flex-col space-y-2">
+                                    <InputLabel htmlFor="category_id">
+                                        nom Fournisseur
+                                    </InputLabel>
+                                    <select
+                                        onChange={changeHandling}
+                                        className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.fournisseur_id ? 'border-red-500' : 'border-gray-300'}`}
+                                        name="fournisseur_id"
+                                        id="fournisseur_id"
+                                        value={data.fournisseur_id}
+                                    >
+
+                                        <option value=''>---choisir Fournisseur---</option>
+                                        {fournisseurs.map((fournisseur) => (
+                                            <option value={fournisseur.id}>{fournisseur.nom_complet}</option>
+                                        ))}
+                                    </select>
+
+                                    {errors.fournisseur_id && <div className="text-sm text-red-600">{errors.fournisseur_id}</div>}
                                 </div>
                                 <div className="flex flex-col space-y-2">
 

@@ -22,10 +22,6 @@ class StoreProduitRequest extends FormRequest
     public function rules(): array
     {
         return [
-
-
-
-            
                 "nom_produit" => "required|min:4|max:255",
                 "category_id" => "required|exists:categories,id",
                 "prix_vente" => "required|numeric|min:0.5",
@@ -33,7 +29,8 @@ class StoreProduitRequest extends FormRequest
                 "max_stock"=>"required|integer|max:1000|min:900",
                 "photo" => "required|image|mimes:jpeg,png,jpg|max:2048",
                 "code_barre" => "required|unique:produits,code_barre|string",
-                "localisation"=>"required|string"
+                "localisation"=>"required|string",
+                "fournisseur_id"=>"required|exists:fournisseurs,id"
             
         ];
     }

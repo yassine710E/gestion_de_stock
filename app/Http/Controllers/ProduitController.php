@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProduitRequest;
 use App\Http\Requests\UpdateProduitRequest;
 use App\Models\Category;
+use App\Models\Fournisseur;
 use App\Models\Produit;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -20,6 +21,7 @@ class ProduitController extends Controller
         $query = Produit::with('category');
         
         $categories = Category::all();
+
 
             if(request("nom_produit")){
                 $query->where("nom_produit","like", "%". request("nom_produit"). "%");
@@ -56,8 +58,9 @@ class ProduitController extends Controller
     {
 
         $categories = Category::all();
+        $founisseurs = Fournisseur::all();
         
-        return Inertia::render("Produit/Create",compact("categories"));
+        return Inertia::render("Produit/Create",compact("categories","founisseurs"));
     }
 
     /**
@@ -68,7 +71,6 @@ class ProduitController extends Controller
 
         $data = $request->validated() ;
 
-        
         $image = $request->file("photo");
         
         $path = $image->store("products", options: "public");
@@ -96,10 +98,15 @@ class ProduitController extends Controller
      */
     public function edit(Produit $produit)
     {
+       
         $categories = Category::all();
+       
+        $fournisseurs = Fournisseur::all();
+
+        $produit->load('fournisseur');
 
 
-        return Inertia::render('Produit/Edit',compact("produit","categories"));
+        return Inertia::render('Produit/Edit',compact("produit","categories","fournisseurs"));
     }
 
     /**
