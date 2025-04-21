@@ -125,7 +125,7 @@ function Index({ produits, flash, categories }) {
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center">
+                        <div className="text-center py-24">
                             <h1 className="text-red-500 text-xl "> <i className="fa fa-circle-exclamation mx-2"></i>pas du resultas</h1>
                         </div>
                     )}

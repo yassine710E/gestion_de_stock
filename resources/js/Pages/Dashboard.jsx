@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 
 export default function Dashboard({categories, products, fournisseurs, clients, stocks,lowProduct,highProduct}) {
     console.log(lowProduct,highProduct);
@@ -19,7 +19,7 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
                         <div className="p-6">
                             <div className="grid md:grid-cols-4 gap-6">
                                 {/* ... Previous cards remain unchanged ... */}
-                                <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-md transition-transform hover:scale-105">
+                                <Link href={route('categories.index')} className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-md transition-transform hover:scale-105">
                                     <div className="p-4">
                                         <div className="flex items-center justify-between">
                                             <div className="text-white">
@@ -31,9 +31,9 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
 
-                                <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-lg shadow-md transition-transform hover:scale-105">
+                                <Link href={route('produits.index')} className="bg-gradient-to-r from-green-500 to-green-600 rounded-lg shadow-md transition-transform hover:scale-105">
                                     <div className="p-4">
                                         <div className="flex items-center justify-between">
                                             <div className="text-white">
@@ -45,9 +45,9 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
 
-                                <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg shadow-md transition-transform hover:scale-105">
+                                <Link href={route('fournisseurs.index')} className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg shadow-md transition-transform hover:scale-105">
                                     <div className="p-4">
                                         <div className="flex items-center justify-between">
                                             <div className="text-white">
@@ -59,9 +59,9 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
 
-                                <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg shadow-md transition-transform hover:scale-105">
+                                <Link href={route('clients.index')} className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg shadow-md transition-transform hover:scale-105">
                                     <div className="p-4">
                                         <div className="flex items-center justify-between">
                                             <div className="text-white">
@@ -73,9 +73,9 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
 
-                                <div className="bg-gradient-to-r from-red-500 to-red-600 rounded-lg shadow-md transition-transform hover:scale-105">
+                                <Link href={route('stocks.index')} className="bg-gradient-to-r from-red-500 to-red-600 rounded-lg shadow-md transition-transform hover:scale-105">
                                     <div className="p-4">
                                         <div className="flex items-center justify-between">
                                             <div className="text-white">
@@ -87,7 +87,7 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                             </div>
                         </div>
                     </div>
