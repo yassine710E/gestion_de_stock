@@ -31,13 +31,13 @@ class ProduitController extends Controller
 
             }
             if(request("min_prix")){
-                $query->where("prix_p", ">=", request("min_prix"))
-                      ->orderBy("prix_p");
+                $query->where("prix_vente", ">=", request("min_prix"))
+                      ->orderBy("prix_vente");
                 
             }
             if(request("max_prix")){
-                $query->where("prix_p","<=",  request("max_prix"))
-                      ->orderByDesc("prix_p");
+                $query->where("prix_vente","<=",  request("max_prix"))
+                      ->orderByDesc("prix_vente");
 
             }
 
