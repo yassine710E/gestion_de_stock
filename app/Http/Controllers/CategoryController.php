@@ -95,9 +95,9 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
 
-        $produits = Produit::where("category_id", $category->id);
+        $produit = Produit::where("category_id", $category->id);
 
-        if ($produits->count()) {
+        if ($produit->count()) {
             return redirect()->route("categories.index")->with("error", "operation interdit : ce categorie liee avec un produit ");
         }
 

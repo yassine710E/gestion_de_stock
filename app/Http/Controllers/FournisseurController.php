@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Fournisseur;
+use App\Models\Produit;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -84,6 +85,12 @@ class FournisseurController extends Controller
      */
     public function destroy(Fournisseur $fournisseur)
     {
+        $produit = Produit::where("fournisseur_id",$fournisseur->id);
+        if ($produit->count()) {
+           
+            return redirect()->route("fournisseurs.index")->with("error", "operation interdit : ce Fournisseur liee avec un produit ");
+
+        } 
         $fournisseur->delete();
         return redirect()->route("fournisseurs.index")->with("success", "fournisseur supprimer avec success !");
     }
