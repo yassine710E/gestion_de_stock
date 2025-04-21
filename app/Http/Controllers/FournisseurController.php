@@ -49,7 +49,8 @@ class FournisseurController extends Controller
     
     public function show(Fournisseur $fournisseur)
     {
-        //
+        $fournisseur->load("produits");
+        return Inertia::render("Fournisseur/Show", compact("fournisseur")) ;
     }
 
     /**

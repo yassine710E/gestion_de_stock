@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Category;
+use App\Models\Fournisseur;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,7 +26,8 @@ class ProduitFactory extends Factory
             "max_stock"=>fake()->numberBetween(900,1000),
             "photo" => fake()->imageUrl(),
             "code_barre" => fake()->unique()->ean13(),
-            "localisation"=>"Block ".fake()->numberBetween(1,10)
+            "localisation"=>"Block ".fake()->numberBetween(1,10),
+            "fournisseur_id" => Fournisseur::factory()
         ];
     }
 }

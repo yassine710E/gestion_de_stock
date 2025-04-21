@@ -20,7 +20,8 @@ class Produit extends Model
         "max_stock",
         "photo",
         "code_barre",
-        "localisation"
+        "localisation",
+        "fournisseur_id"
     ];
 
     public function category(){

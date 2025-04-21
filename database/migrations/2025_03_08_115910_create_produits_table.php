@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('photo');
             $table->string('code_barre')->unique();
             $table->string("localisation");
+            $table->foreignId("fournisseur_id")->constrained()->onDelete("restrict");
             $table->timestamps();
         });
     }

@@ -90,11 +90,6 @@ function Index({ fournisseurs, flash }) {
                                             <td className="px-6 py-4 whitespace-nowrap">{fourni.email}</td>
 
                                             <td className="px-6 py-4 whitespace-nowrap space-x-2 gap-3 flex">
-                                            <form onSubmit={(e) => handleDelete(e,fourni.id)} >
-                                                    <button type='submit'  className="text-red-600 hover:text-red-900 p-2 hover:bg-red-100 rounded-full transition duration-150">
-                                                        <i className="fas fa-trash"></i>
-                                                    </button>
-                                                </form>
 
                                                 <Link
                                                     className="text-blue-600 hover:text-blue-900 p-2 hover:bg-blue-100 rounded-full transition duration-150"
@@ -108,6 +103,12 @@ function Index({ fournisseurs, flash }) {
                                                 >
                                                     <i className="fas fa-eye"></i>
                                                 </Link>
+                                                
+                                                <form onSubmit={(e) => handleDelete(e,fourni.id)} >
+                                                    <button type='submit'  className="text-red-600 hover:text-red-900 p-2 hover:bg-red-100 rounded-full transition duration-150">
+                                                        <i className="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                     )) : (
