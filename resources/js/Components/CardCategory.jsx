@@ -26,7 +26,7 @@ function CardCategory({produit}) {
 
       {/* Price & Remove */}
       <div className="flex flex-col items-end">
-        <p className="text-lg font-medium text-gray-900">{produit.prix_p} $</p>
+        <p className="text-lg font-medium text-green-600">{produit.prix_vente} $</p>
         <div className="flex gap-4">
 
            
