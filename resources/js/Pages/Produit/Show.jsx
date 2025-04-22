@@ -42,6 +42,10 @@ function Show({ produit }) {
                                                 <span className="font-semibold">Location:</span>
                                                 <span>{produit.localisation}</span>
                                             </p>
+                                            <p className="flex justify-between items-center text-gray-700">
+                                                <span className="font-semibold">created at:</span>
+                                                <span>{new Date(produit.created_at).toLocaleDateString()}</span>
+                                            </p>
                                         </div>
                                     </div>
 

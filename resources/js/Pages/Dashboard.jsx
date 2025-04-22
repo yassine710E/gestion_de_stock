@@ -27,11 +27,10 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden  bg-white shadow-lg sm:rounded-lg">
+                    <div className="overflow-hidden bg-white shadow-md rounded-lg">
                         <div className="p-6">
                             <div className="grid md:grid-cols-4 gap-6">
-                                {/* ... Previous cards remain unchanged ... */}
-                                <Link href={route('categories.index')} className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-md transition-transform hover:scale-105">
+                                <Link href={route('categories.index')} className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
                                     <div className="p-4">
                                         <div className="flex items-center justify-between">
                                             <div className="text-white">
@@ -45,7 +44,7 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
                                     </div>
                                 </Link>
 
-                                <Link href={route('produits.index')} className="bg-gradient-to-r from-green-500 to-green-600 rounded-lg shadow-md transition-transform hover:scale-105">
+                                <Link href={route('produits.index')} className="bg-gradient-to-r from-green-500 to-green-600 rounded-lg shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
                                     <div className="p-4">
                                         <div className="flex items-center justify-between">
                                             <div className="text-white">
@@ -59,11 +58,11 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
                                     </div>
                                 </Link>
 
-                                <Link href={route('fournisseurs.index')} className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg shadow-md transition-transform hover:scale-105">
+                                <Link href={route('fournisseurs.index')} className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
                                     <div className="p-4">
                                         <div className="flex items-center justify-between">
                                             <div className="text-white">
-                                                <p className="text-sm opacity-80">Total fournisseurs</p>
+                                                <p className="text-sm opacity-80">Total Fournisseurs</p>
                                                 <h3 className="text-2xl font-bold">{fournisseurs}</h3>
                                             </div>
                                             <div className="bg-purple-400 rounded-full p-3">
@@ -73,7 +72,7 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
                                     </div>
                                 </Link>
 
-                                <Link href={route('clients.index')} className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg shadow-md transition-transform hover:scale-105">
+                                <Link href={route('clients.index')} className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
                                     <div className="p-4">
                                         <div className="flex items-center justify-between">
                                             <div className="text-white">
@@ -87,15 +86,15 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
                                     </div>
                                 </Link>
 
-                                <Link href={route('stocks.index')} className="bg-gradient-to-r from-red-500 to-red-600 rounded-lg shadow-md transition-transform hover:scale-105">
+                                <Link href={route('stocks.index')} className="bg-gradient-to-r from-red-500 to-red-600 rounded-lg shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
                                     <div className="p-4">
                                         <div className="flex items-center justify-between">
                                             <div className="text-white">
-                                                <p className="text-sm opacity-80">Total stocks</p>
+                                                <p className="text-sm opacity-80">Total Stocks</p>
                                                 <h3 className="text-2xl font-bold">{stocks}</h3>
                                             </div>
                                             <div className="bg-red-400 rounded-full p-3">
-                                                <i className="fa-solid fa-arrow-down text-xl text-white"></i>
+                                                <i className="fa-solid fa-arrow-down text-white text-xl"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -104,8 +103,7 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
                         </div>
                     </div>
                     <div className="mt-6 grid md:grid-cols-2 gap-6">
-                        {/* Low Stock Products */}
-                        <div className="bg-white p-6 rounded-lg shadow-lg">
+                        <div className="bg-white p-6 rounded-lg shadow-lg border-t-4 border-red-500">
                             <h3 className="text-xl font-semibold mb-4 text-red-600 flex items-center gap-2">
                                 <i className="fas fa-exclamation-triangle"></i>
                                 Low Stock Products
@@ -120,8 +118,7 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
                             </div>
                         </div>
 
-                        {/* High Stock Products */}
-                        <div className="bg-white p-6 rounded-lg shadow-lg">
+                        <div className="bg-white p-6 rounded-lg shadow-lg border-t-4 border-green-500">
                             <h3 className="text-xl font-semibold mb-4 text-green-600 flex items-center gap-2">
                                 <i className="fas fa-chart-line"></i>
                                 High Stock Products
