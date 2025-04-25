@@ -29,7 +29,6 @@ class AppServiceProvider extends ServiceProvider
                     'success' => Session::get('success'),
                     'error' => Session::get('error'),
                     "info"=>Session::get('info'),
-                    "client_id"=>Session::get('client_id')
 
                 ];}]);
     }

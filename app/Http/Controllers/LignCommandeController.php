@@ -7,6 +7,7 @@ use App\Models\Command;
 use App\Models\Produit;
 use App\Models\Stock;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LignCommandeController extends Controller
 {
@@ -32,37 +33,53 @@ class LignCommandeController extends Controller
     public function store()
     {
         $data = request()->validate([
-            "client_id"=>['required',"exists:clients,id"],
-            "produit_id"=> ['required',"exists:produits,id"],
-            "quantite"=>['required',"integer"],
+            "client_id"   => ['required', "exists:clients,id"],
+            "produit_id"  => ['required', "exists:produits,id"],
+            "quantite"    => ['required', "integer"],
         ]);
-
-
-
-
-        $client = Client::findOrFail(id: $data['client_id']);
-
+    
+        $client = Client::findOrFail($data['client_id']);
         $produit = Produit::findOrFail($data['produit_id']);
-
-        $stock = Stock::where("produit_id",$produit->id)->first();
-        
-        if (isset($stock) && $stock->stock_quantite < $data['quantite'] ) 
-        {
-          return redirect()->back()->with('error',"cette quantité n'est pas disponible en stock") ;
+        $stock = Stock::where("produit_id", $produit->id)->first();
+    
+        $ligneCommande = DB::table("ligne_commandes")
+            ->where("produit_id", $produit->id)
+            ->where('client_id', $client->id)
+            ->whereNull("command_id")
+            ->first();
+    
+        $quantiteDemandee = $data['quantite'];
+        $quantiteTotale = $ligneCommande ? $ligneCommande->quantite + $quantiteDemandee : $quantiteDemandee;
+    
+        if (!$stock || $stock->stock_quantite < $quantiteTotale) {
+            return redirect()->route('commands.create')->with('error', "Cette quantité n'est pas disponible en stock");
         }
-
-        $sousTotal = $data['quantite']*$produit->prix_vente;
-
-        $client->produits()->attach($data['produit_id'],[ 'command_id' => null,"sous_total"=>$sousTotal,"quantite"=>$data['quantite']]);
-
-        
-
-        session()->put("client_id",$client->id);
-
-
-        return redirect()->back()->with("success","Ligne de commande ajoutée avec succès.");
-        
+    
+        $sousTotal = $quantiteTotale * $produit->prix_vente;
+    
+        if ($ligneCommande) {
+            DB::table('ligne_commandes')
+                ->where('id', $ligneCommande->id)
+                ->update([
+                    'quantite'    => $quantiteTotale,
+                    'sous_total'  => $sousTotal,
+                ]);
+        } else {
+            $client->produits()->attach($data['produit_id'], [
+                'command_id' => null,
+                'sous_total' => $sousTotal,
+                'quantite'   => $quantiteDemandee,
+            ]);
         }
+    
+        // $stock->decrement('stock_quantite', $quantiteDemandee);
+    
+        session()->put("client_id", $client->id);
+    
+        return redirect()->route('commands.create')->with("success", "Ligne de commande ajoutée ou mise à jour avec succès.");
+    }
+    
+    
 
     /**
      * Display the specified resource.
@@ -93,6 +110,9 @@ class LignCommandeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        
+        DB::table('ligne_commandes')->where('id', $id)->delete();  
+        
+        return redirect()->route('commands.create')->with("success", "Ligne de commande supprimer avec succès.");
     }
 }

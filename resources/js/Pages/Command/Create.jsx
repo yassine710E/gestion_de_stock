@@ -1,5 +1,5 @@
 import { Head } from '@inertiajs/react'
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import InputLabel from '@/Components/InputLabel';
 import useCreateForm from '@/hooks/Create';
@@ -10,11 +10,12 @@ import SecondaryButton from '@/Components/SecondaryButton';
 import Success from '@/Components/Success';
 import Info from '@/Components/Info';
 import Error from '@/Components/Error';
+import useFilterForm from '@/hooks/Index';
 
-function Create({ errors, clients, produits, flash, client_id, commandProduits }) {
+function Create({ errors, clients, produits, flash, client_id, commandProduits, sum }) {
     console.log(commandProduits);
     const [isOpen, setIsOpen] = useState(false);
-
+    const { handleDelete } = useFilterForm({}, "lignes.index");
 
 
     const toggleModal = () => setIsOpen(!isOpen);
@@ -27,7 +28,7 @@ function Create({ errors, clients, produits, flash, client_id, commandProduits }
         setData
     } = useCreateForm(
         {
-            "client_id":  client_id ||null,
+            "client_id": null,
             "produit_id": null,
             "quantite": null,
         },
@@ -76,7 +77,7 @@ function Create({ errors, clients, produits, flash, client_id, commandProduits }
                         </div>
 
 
-                        <PrimaryButton onClick={toggleModal}  type="button">
+                        <PrimaryButton onClick={toggleModal} type="button">
                             choisir le produit
                         </PrimaryButton>
 
@@ -179,31 +180,60 @@ function Create({ errors, clients, produits, flash, client_id, commandProduits }
 
                     </form>
 
-                    
-                        <div className="mt-8">
-                            <h3 className="text-lg font-bold mb-4">Lignes de commande en attente</h3>
-                            <div className="overflow-x-auto">
-                                <table className="min-w-full bg-white border">
-                                    <thead>
-                                        <tr>
-                                            <th className="border px-4 py-2 text-left">Nom Produit</th>
-                                            <th className="border px-4 py-2 text-left">Quantité</th>
-                                            <th className="border px-4 py-2 text-left">Sous Total</th>
+
+                    <div className="mt-8">
+                        <h3 className="text-lg font-bold mb-4">Lignes de commande en attente</h3>
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-lg overflow-hidden">
+                                <thead className="bg-gray-50">
+                                    <tr>
+                                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Photo Produit</th>
+
+                                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Nom Produit</th>
+                                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Quantité</th>
+                                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Sous Total</th>
+                                        <th className="px-6 py-3 text-center text-sm font-semibold text-gray-600 uppercase tracking-wider">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-200">
+                                    {commandProduits.map((ligne, index) => (
+                                        <tr key={index} className="hover:bg-gray-100 transition-colors duration-200">
+                                            <td className="px-6 text-center flex justify-center py-4 text-sm text-gray-800">
+                                                <img className='w-[70px] rounded' src={`/storage/${ligne.photo}`} alt="" />
+
+                                            </td>
+
+
+                                            <td className="px-6 py-4 text-sm text-gray-800">{ligne.nom_produit}</td>
+                                            <td className="px-6 py-4 text-sm text-gray-800">{ligne.quantite}</td>
+                                            <td className="px-6 py-4 text-sm text-gray-800">{ligne.sous_total} $</td>
+                                            <td className="px-6 py-4 text-center">
+                                                <form onSubmit={(e) => handleDelete(e, ligne.id)}>
+                                                    <DangerButton type='submit'>
+                                                        Supprimer
+                                                    </DangerButton>
+                                                </form>
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        {commandProduits.map((ligne, index) => (
-                                            <tr key={index}>
-                                                <td className="border px-4 py-2">{ligne.nom_produit}</td>
-                                                <td className="border px-4 py-2">{ligne.quantite}</td>
-                                                <td className="border px-4 py-2">{ligne.sous_total} $</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                                    ))}
+                                    <tr className="hover:bg-gray-100 transition-colors duration-200 ">
+                                        <th colSpan={3} className="px-6 py-3 text-sm text-red-800 text-left">Total Commande</th>
+                                        <td className="px-6 py-3 text-sm text-red-800">{sum} $</td>
+                                        <td className='text-center'>
+                                            <form onSubmit={(e) => handleDelete(e, ligne.id)}>
+                                                <SecondaryButton type='submit' disabled={commandProduits.length == 0}>
+                                                    valider commande
+                                                </SecondaryButton>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
                         </div>
-                    
+                    </div>
+
 
 
 

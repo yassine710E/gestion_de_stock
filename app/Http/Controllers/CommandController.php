@@ -30,27 +30,33 @@ class CommandController extends Controller
         
         $client_id = session()->get("client_id");
 
-        // $produits = Produit::join('ligne_commandes', 'produits.id', '=', 'ligne_commandes.produit_id')
-        // ->whereNotNull('ligne_commandes.command_id')
-        // ->where('ligne_commandes.client_id', '<>', $client_id)
-        // ->select('produits.*')
-        // ->get();
-        
+  
         $produits = Produit::all();
         
         $commandProduits = [];
+        
+        $sum = 0;
 
         if ($client_id) {
+
+            
             
             $commandProduits = DB::table('ligne_commandes')
             ->where('client_id', $client_id)
             ->whereNull('command_id') // 👈 this is the condition you're looking for
             ->join('produits', 'ligne_commandes.produit_id', '=', 'produits.id')
-            ->select('produits.nom_produit', 'ligne_commandes.quantite', 'ligne_commandes.sous_total')
+            ->select('ligne_commandes.*', 'produits.nom_produit', 'produits.prix_vente',"produits.photo")
             ->get();
+
+            $sum = DB::table('ligne_commandes')
+                ->where('client_id', $client_id)
+                ->whereNull('command_id')
+                ->sum('sous_total');
+
+            
         }
         
-        return Inertia::render("Command/Create", compact("clients", "produits", "commandProduits",'client_id'));    }
+        return Inertia::render("Command/Create", compact("clients", "produits", "commandProduits",'client_id',"sum"));    }
 
     /**
      * Store a newly created resource in storage.
