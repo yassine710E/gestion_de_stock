@@ -13,7 +13,6 @@ const useCreateForm = (initialData, routeName, closeModal = null) => {
         e.preventDefault();
         post(route(routeName), {
             onSuccess: () => {
-
                 if (closeModal) closeModal();
             }
         });

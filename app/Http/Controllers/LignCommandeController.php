@@ -37,19 +37,23 @@ class LignCommandeController extends Controller
             "produit_id"  => ['required', "exists:produits,id"],
             "quantite"    => ['required', "integer"],
         ]);
+
+        
     
         $client = Client::findOrFail($data['client_id']);
         $produit = Produit::findOrFail($data['produit_id']);
-        $stock = Stock::where("produit_id", $produit->id)->first();
+        $stock = Stock::where("produit_id", $data['produit_id'])->first();
     
         $ligneCommande = DB::table("ligne_commandes")
-            ->where("produit_id", $produit->id)
-            ->where('client_id', $client->id)
+            ->where("produit_id", $data["produit_id"])
+            ->where('client_id', $data["client_id"])
             ->whereNull("command_id")
             ->first();
+        
+        // dd($ligneCommande);
     
         $quantiteDemandee = $data['quantite'];
-        $quantiteTotale = $ligneCommande ? $ligneCommande->quantite + $quantiteDemandee : $quantiteDemandee;
+        $quantiteTotale = $ligneCommande !== null ? $ligneCommande->quantite + $quantiteDemandee : $quantiteDemandee;
     
         if (!$stock || $stock->stock_quantite < $quantiteTotale) {
             return redirect()->route('commands.create')->with('error', "Cette quantité n'est pas disponible en stock");

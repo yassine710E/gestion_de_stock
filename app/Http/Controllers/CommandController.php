@@ -33,7 +33,7 @@ class CommandController extends Controller
   
         $produits = Produit::all();
         
-        $commandProduits = [];
+        $allLingsCommand = [];
         
         $sum = 0;
 
@@ -41,9 +41,8 @@ class CommandController extends Controller
 
             
             
-            $commandProduits = DB::table('ligne_commandes')
-            ->where('client_id', $client_id)
-            ->whereNull('command_id') // 👈 this is the condition you're looking for
+            $allLingsCommand = DB::table('ligne_commandes')
+            ->whereNull('command_id')
             ->join('produits', 'ligne_commandes.produit_id', '=', 'produits.id')
             ->select('ligne_commandes.*', 'produits.nom_produit', 'produits.prix_vente',"produits.photo")
             ->get();
@@ -52,11 +51,10 @@ class CommandController extends Controller
                 ->where('client_id', $client_id)
                 ->whereNull('command_id')
                 ->sum('sous_total');
-
             
         }
         
-        return Inertia::render("Command/Create", compact("clients", "produits", "commandProduits",'client_id',"sum"));    }
+        return Inertia::render("Command/Create", compact("clients", "produits", "allLingsCommand",'client_id',"sum"));    }
 
     /**
      * Store a newly created resource in storage.

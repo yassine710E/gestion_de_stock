@@ -1,5 +1,5 @@
 import { Head } from '@inertiajs/react'
-import React, {  useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import InputLabel from '@/Components/InputLabel';
 import useCreateForm from '@/hooks/Create';
@@ -12,10 +12,13 @@ import Info from '@/Components/Info';
 import Error from '@/Components/Error';
 import useFilterForm from '@/hooks/Index';
 
-function Create({ errors, clients, produits, flash, client_id, commandProduits, sum }) {
-    console.log(commandProduits);
+function Create({ errors, clients, produits, flash, client_id, allLingsCommand }) {
+
     const [isOpen, setIsOpen] = useState(false);
     const { handleDelete } = useFilterForm({}, "lignes.index");
+
+    const [commandProduits, setCommandProduits] = useState(allLingsCommand)
+    const [sum, setSum] = useState(0)
 
 
     const toggleModal = () => setIsOpen(!isOpen);
@@ -24,18 +27,25 @@ function Create({ errors, clients, produits, flash, client_id, commandProduits, 
         data,
         processing,
         formHandling,
-        changeHandling,
         setData
     } = useCreateForm(
         {
-            "client_id": null,
+            "client_id": client_id || null,
             "produit_id": null,
             "quantite": null,
         },
         'lignes.store', closeModal);
 
+        const changeSelect = (e) => {
+            const { id, value } = e.target;
+            setData(data => ({...data, [id]: value}));
+        }
 
-
+        useEffect(() => {
+            const filteredProducts = allLingsCommand.filter(ele => ele.client_id == data.client_id);
+            setCommandProduits(filteredProducts);
+            setSum(filteredProducts.reduce((total, ele) => ele.sous_total + total, 0));
+        }, [data.client_id, allLingsCommand]);
 
 
     return (
@@ -49,7 +59,7 @@ function Create({ errors, clients, produits, flash, client_id, commandProduits, 
             <Head title="Commands" />
 
             <div className="py-12">
-                <div className="mx-auto max-w-7xl border sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-7xl overflow-hidden py-20 my-10 bg-white shadow-sm sm:rounded-lg sm:px-6 lg:px-8">
                     {flash.success && (<Success flash={flash} />)}
                     {flash.error && (<Error flash={flash} />)}
                     {flash.info && (<Info flash={flash} />)}
@@ -61,7 +71,7 @@ function Create({ errors, clients, produits, flash, client_id, commandProduits, 
                                 className={`w-64 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.client_id ? 'border-red-500' : 'border-gray-300'}`}
                                 name="client_id"
                                 id="client_id"
-                                onChange={changeHandling}
+                                onChange={changeSelect}
                                 value={data.client_id || ""}
                             >
                                 <option value=''>---choisir client---</option>
@@ -118,7 +128,7 @@ function Create({ errors, clients, produits, flash, client_id, commandProduits, 
                                             <div className="mb-4">
                                                 <InputLabel htmlFor="produit_id">Nom produit</InputLabel>
                                                 <select
-                                                    onChange={changeHandling}
+                                                    onChange={changeSelect}
                                                     name="produit_id"
                                                     id="produit_id"
                                                     className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 ${errors.produit_id ? "border-red-500" : "border-gray-300"
@@ -144,7 +154,7 @@ function Create({ errors, clients, produits, flash, client_id, commandProduits, 
                                                     name="quantite"
                                                     value={data.quantite || ""}
                                                     className="mt-1 block w-full"
-                                                    onChange={changeHandling}
+                                                    onChange={changeSelect}
                                                     placeholder="quantite produit"
 
                                                 />
@@ -184,7 +194,9 @@ function Create({ errors, clients, produits, flash, client_id, commandProduits, 
                     <div className="mt-8">
                         <h3 className="text-lg font-bold mb-4">Lignes de commande en attente</h3>
                         <div className="overflow-x-auto">
-                            <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-lg overflow-hidden">
+                            {
+                                commandProduits.length > 0 ? (
+                                    <table className="min-w-full bg-white border-gray-200 shadow-md border-2 rounded-lg overflow-hidden">
                                 <thead className="bg-gray-50">
                                     <tr>
                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Photo Produit</th>
@@ -229,6 +241,15 @@ function Create({ errors, clients, produits, flash, client_id, commandProduits, 
                                     </tr>
                                 </tbody>
                             </table>
+                                ) : (
+                                    <div className="text-center py-8">
+                                    <h1 className="text-red-500 text-lg sm:text-xl">
+                                        <i className="fa fa-circle-exclamation mx-2"></i>
+                                        pas du Commands
+                                    </h1>
+                                </div>
+                                )
+                            }
 
 
                         </div>
