@@ -38,8 +38,6 @@ class CommandController extends Controller
         $sum = 0;
 
         if ($client_id) {
-
-            
             
             $allLingsCommand = DB::table('ligne_commandes')
             ->whereNull('command_id')
@@ -51,10 +49,10 @@ class CommandController extends Controller
                 ->where('client_id', $client_id)
                 ->whereNull('command_id')
                 ->sum('sous_total');
-            
         }
         
-        return Inertia::render("Command/Create", compact("clients", "produits", "allLingsCommand",'client_id',"sum"));    }
+        return Inertia::render("Command/Create", compact("clients", "produits", "allLingsCommand",'client_id',"sum"));
+    }
 
     /**
      * Store a newly created resource in storage.

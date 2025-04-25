@@ -84,7 +84,15 @@ export default function AuthenticatedLayout({ header, children }) {
                             className='flex gap-2'
                         >
                             <i class="fa-solid fa-truck"></i>
-                            <span>commands</span>
+                            <span>clients commands</span>
+                        </NavLink>
+                        <NavLink
+                            href={route('fourniCommands.index')}
+                            active={route().current('fourniCommands.*')}
+                            className='flex gap-2'
+                        >
+                            <i class="fa-solid fa-truck"></i>
+                            <span>Fournisseurs commands</span>
                         </NavLink>
                     </div>
 

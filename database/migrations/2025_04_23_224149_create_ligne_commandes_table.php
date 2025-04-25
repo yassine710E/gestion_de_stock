@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ligne_commandes', function (Blueprint $table) {
             $table->id();
             $table->foreignId("command_id")->nullable()->constrained("commands")->cascadeOnDelete();
-            $table->foreignId("client_id")->constrained("clients")->cascadeOnDelete();
+            $table->foreignId("client_id")->nullable()->constrained("clients")->cascadeOnDelete();
             $table->foreignId("produit_id")->constrained("produits")->cascadeOnDelete();
             $table->foreignId('fournisseur_id')->nullable()->constrained()->cascadeOnDelete();
             $table->decimal("sous_total",10,2);

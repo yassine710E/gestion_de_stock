@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Inertia\Inertia;
+use App\Models\Command;
+use App\Models\Fournisseur;
+use App\Models\Produit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class fourniCommandsController extends Controller
+{
+    public function index()
+    {
+        $commands = Command::paginate(8) ;
+        return Inertia::render("FourniCommand/Index", compact("commands")) ;
+    }
+
+
+    public function create()
+    {
+        $fournisseurs = Fournisseur::all();
+        
+        $fourni_id = session()->get("fourni_id");
+
+  
+        $produits = Produit::all();
+        
+        $allLingsCommand = [];
+
+
+        $allLingsCommand = DB::table('ligne_commandes')
+        ->whereNull('command_id')
+        ->whereNull("client_id")
+        ->join('produits', 'ligne_commandes.produit_id', '=', 'produits.id')
+        ->select('ligne_commandes.*', 'produits.nom_produit', 'produits.prix_vente',"produits.photo")
+        ->get();
+
+        session()->put("client_id", $fourni_id);
+            
+        return Inertia::render("FourniCommand/Create", compact("fournisseurs", "produits", "allLingsCommand"));
+    }
+
+    public function destroy(string $id)
+    {
+        
+        DB::table('ligne_commandes')->where('id', $id)->delete();
+        
+        return redirect()->route('fourniCommands.create')->with("success", "Ligne de commande supprimer avec succès.");
+    }
+}
