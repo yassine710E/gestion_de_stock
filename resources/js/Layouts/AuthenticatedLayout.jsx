@@ -21,7 +21,7 @@ export default function AuthenticatedLayout({ header, children }) {
                         </Link>
                     </div>
 
-
+                    {/* Sidebar Links */}
                     <div className="flex flex-col space-y-10 mt-8 px-4">
                         <NavLink
                             href={route('dashboard')}
