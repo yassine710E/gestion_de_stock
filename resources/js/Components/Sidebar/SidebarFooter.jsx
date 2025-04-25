@@ -1,10 +1,13 @@
 import React from "react";
+import { Link } from "@inertiajs/react"; // Inertia Link for redirecting
 
-export default function SideBarFooter({setExpanded, expanded}) {
+export default function SideBarFooter({ setExpanded, expanded, href }) {
     return (
         <div className="pt-4 border-t border-gray-200">
-            <button
-                onClick={() => console.log("Logout")}
+            <Link
+                href={href}
+                method="post" // POST request to logout
+                as="button" // Makes it a button-like element
                 className="w-full flex items-center justify-start space-x-2 p-2 rounded-md hover:text-white hover:bg-red-500 transition-colors"
             >
                 <svg
@@ -24,7 +27,7 @@ export default function SideBarFooter({setExpanded, expanded}) {
                 {expanded && (
                     <span className="text-sm font-medium">Logout</span>
                 )}
-            </button>
+            </Link>
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Home,
     Layers,
@@ -9,26 +9,38 @@ import {
     Settings,
     Bell,
 } from "lucide-react";
+import { usePage } from "@inertiajs/react"; // Import the usePage hook
 import NavItem from "./NavItem"; // Import the NavItem component
 import ToggleButton from "./ToggleButton";
 import SideBarFooter from "./SidebarFooter";
 
 // Define the menu items
 const menuItems = [
-    { title: "Dashboard", icon: Home, sub: [] },
-    { title: "Category", icon: Layers, sub: ["Add Category", "View Categories"] },
-    { title: "Products", icon: Box, sub: ["Add Product", "View Products"] },
-    { title: "Suppliers", icon: Truck, sub: ["Add Supplier", "View Suppliers"] },
-    { title: "Clients", icon: Users, sub: ["Add Client", "View Clients"] },
-    { title: "Stocks", icon: TrendingUp, sub: ["Stock Overview", "Reorder"] },
-    { title: "Notifications", icon: Bell, sub: [] },
-    { title: "Settings", icon: Settings, sub: [] },
+    { title: "Dashboard", href: route('dashboard'), icon: Home, sub: [] },
+    { title: "Category", href: route('categories.index'), icon: Layers, sub: [] },
+    { title: "Products", href: route('produits.index'), icon: Box, sub: [] },
+    { title: "Suppliers", href: route('fournisseurs.index'), icon: Truck, sub: [] },
+    { title: "Clients", href: route('clients.index'), icon: Users, sub: [] },
+    { title: "Stocks", href: route('stocks.index'), icon: TrendingUp, sub: [] },
+    { title: "Notifications", href: '#', icon: Bell, sub: [] },
+    { title: "Settings", href: route('profile.edit'), icon: Settings, sub: [] },
 ];
 
-export default function SidebarLayout() {
+export default function SidebarLayout({ children }) {
     const [expanded, setExpanded] = useState(false);
     const [openDropdown, setOpenDropdown] = useState(null);
-    const [activeItem, setActiveItem] = useState("Dashboard");
+    const [activeItem, setActiveItem] = useState("");
+    const { url } = usePage();
+
+    useEffect(() => {
+        const currentItem = menuItems.find((item) => 
+            url === item.href || url.startsWith(item.href + '/')
+        );
+        
+        if (currentItem) {
+            setActiveItem(currentItem.title);
+        }
+    }, [url]);
 
     // Toggle dropdown state
     const toggleDropdown = (title) => {
@@ -46,7 +58,7 @@ export default function SidebarLayout() {
                             key={item.title}
                             item={item}
                             expanded={expanded}
-                            isActive={activeItem === item.title}
+                            active={activeItem === item.title}
                             isOpen={openDropdown === item.title}
                             onToggleDropdown={toggleDropdown}
                             setActiveItem={setActiveItem}
@@ -55,17 +67,14 @@ export default function SidebarLayout() {
                 </nav>
 
                 {/* Logout Button */}
-                <SideBarFooter expanded={expanded} setExpanded={setExpanded}/>
+                <SideBarFooter expanded={expanded} setExpanded={setExpanded} href={route('logout')}/>
             </div>
 
             {/* Toggle Button */}
             <ToggleButton expanded={expanded} setExpanded={setExpanded} />
-
+            
             {/* Main Content */}
-            <main className="flex-1 p-6 mt-4 mr-4 mb-4 bg-[#fbfbfb] rounded-lg overflow-auto">
-                <h1 className="text-2xl font-semibold mb-4">Main Content</h1>
-                <p>Welcome to the main section! Place your components and content here.</p>
-            </main>
+            {children}
         </div>
     );
 }
