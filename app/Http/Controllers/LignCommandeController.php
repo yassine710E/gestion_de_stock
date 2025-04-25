@@ -71,6 +71,7 @@ class LignCommandeController extends Controller
         } else {
             $client->produits()->attach($data['produit_id'], [
                 'command_id' => null,
+                "fournisseur_id"=>null,
                 'sous_total' => $sousTotal,
                 'quantite'   => $quantiteDemandee,
             ]);
