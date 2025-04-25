@@ -13,7 +13,6 @@ import Error from '@/Components/Error';
 import useFilterForm from '@/hooks/Index';
 
 function Create({ errors, clients, produits, flash, client_id, allLingsCommand }) {
-
     const [isOpen, setIsOpen] = useState(false);
     const { handleDelete } = useFilterForm({}, "lignes.index");
 
@@ -233,6 +232,7 @@ function Create({ errors, clients, produits, flash, client_id, allLingsCommand }
                                         <td className="px-6 py-3 text-sm text-red-800">{sum} $</td>
                                         <td className='text-center'>
                                             <form onSubmit={(e) => handleDelete(e, ligne.id)}>
+                                                <input type="hidden" name="client_id" value={client_id} />
                                                 <SecondaryButton type='submit' disabled={commandProduits.length == 0}>
                                                     valider commande
                                                 </SecondaryButton>
