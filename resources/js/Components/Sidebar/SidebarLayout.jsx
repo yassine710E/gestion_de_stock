@@ -15,21 +15,20 @@ import SideBarFooter from "./SidebarFooter";
 
 // Define the menu items
 const menuItems = [
-    { title: "Dashboard", icon: Home, href: route('dashboard'), active: route().current('dashboard'), sub: [] },
-    { title: "Category", icon: Layers, href: route('categories.index'), active: route().current('categories.*') , sub: ["Add Category", "View Categories"] },
-    { title: "Products", icon: Box, href: route('produits.index'), active: route().current('produits.*'), sub: ["Add Product", "View Products"] },
-    { title: "Suppliers", icon: Truck, href: route('clients.index'), active: route().current('clients.*'), sub: ["Add Supplier", "View Suppliers"] },
-    { title: "Clients", icon: Users, href: route('fournisseurs.index'), active: route().current('fournisseurs.*'), sub: ["Add Client", "View Clients"] },
-    { title: "Stocks", icon: TrendingUp, href: route('stocks.index'), active: route().current('stocks.*'), sub: ["Stock Overview", "Reorder"] },
+    { title: "Dashboard", icon: Home, sub: [] },
+    { title: "Category", icon: Layers, sub: ["Add Category", "View Categories"] },
+    { title: "Products", icon: Box, sub: ["Add Product", "View Products"] },
+    { title: "Suppliers", icon: Truck, sub: ["Add Supplier", "View Suppliers"] },
+    { title: "Clients", icon: Users, sub: ["Add Client", "View Clients"] },
+    { title: "Stocks", icon: TrendingUp, sub: ["Stock Overview", "Reorder"] },
     { title: "Notifications", icon: Bell, sub: [] },
-    { title: "Settings", icon: Settings, href: route('profile.edit'), sub: [] },
+    { title: "Settings", icon: Settings, sub: [] },
 ];
 
-
 export default function SidebarLayout() {
-    const [expanded, setExpanded]         = useState(false);
+    const [expanded, setExpanded] = useState(false);
     const [openDropdown, setOpenDropdown] = useState(null);
-    const [activeItem, setActiveItem]     = useState("Dashboard");
+    const [activeItem, setActiveItem] = useState("Dashboard");
 
     // Toggle dropdown state
     const toggleDropdown = (title) => {
@@ -39,15 +38,13 @@ export default function SidebarLayout() {
     return (
         <div className="flex h-screen bg-[#e5e9ec]">
             {/* Sidebar */}
-            <aside className={`flex flex-col justify-between bg-[#fbfbfb] p-4 mt-4 ml-4 mb-4 rounded-lg transition-all duration-1000 ${expanded ? "w-64" : "w-16"}`}>
+            <div className={`flex flex-col justify-between bg-[#fbfbfb] p-4 mt-4 ml-4 mb-4 rounded-lg transition-all duration-1000 ${expanded ? "w-64" : "w-16"}`}>
                 {/* Menu items */}
                 <nav>
                     {menuItems.map((item) => (
                         <NavItem
                             key={item.title}
                             item={item}
-                            href={item.href}
-                            active={item.active}
                             expanded={expanded}
                             isActive={activeItem === item.title}
                             isOpen={openDropdown === item.title}
@@ -59,7 +56,7 @@ export default function SidebarLayout() {
 
                 {/* Logout Button */}
                 <SideBarFooter expanded={expanded} setExpanded={setExpanded}/>
-            </aside>
+            </div>
 
             {/* Toggle Button */}
             <ToggleButton expanded={expanded} setExpanded={setExpanded} />

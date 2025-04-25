@@ -28,7 +28,6 @@ const NavItem = ({ item, expanded, isActive, isOpen, onToggleDropdown, setActive
                         }
                     />
                 )}
-
                 {/* Title */}
                 {expanded && (
                     <span
@@ -39,7 +38,6 @@ const NavItem = ({ item, expanded, isActive, isOpen, onToggleDropdown, setActive
                         {item.title}
                     </span>
                 )}
-
                 {/* Dropdown arrow */}
                 {hasSub && expanded && (
                     <ChevronRightIcon
