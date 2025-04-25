@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('commands', function (Blueprint $table) {
             $table->id();
-            $table->date("date_achat");
-            $table->date("date_livraison");
-            $table->date("date_paiement");
-            $table->enum("paye", ["oui", "non"]);
+            $table->timestamp("date_achat")->useCurrent();
+            $table->date("date_livraison")->nullable();
+            $table->date("date_paiement")->nullable();
+            $table->enum("paye", ["oui", "non"])->default("non");
             $table->decimal("prix_paye", 10,2)->nullable();
-            $table->decimal("total", 10,2);
-            $table->timestamps();
+            $table->decimal("total", 10,2)->nullable();
         });
     }
 

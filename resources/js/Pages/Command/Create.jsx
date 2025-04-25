@@ -1,30 +1,39 @@
 import { Head } from '@inertiajs/react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import InputLabel from '@/Components/InputLabel';
-import TextInput from '@/Components/TextInput';
-import InputError from '@/Components/InputError';
-import PrimaryButton from '@/Components/PrimaryButton';
 import useCreateForm from '@/hooks/Create';
+import PrimaryButton from '@/Components/PrimaryButton';
+import TextInput from '@/Components/TextInput';
+import DangerButton from '@/Components/DangerButton';
+import SecondaryButton from '@/Components/SecondaryButton';
+import Success from '@/Components/Success';
+import Info from '@/Components/Info';
+import Error from '@/Components/Error';
 
-function Create({ errors }) {
+function Create({ errors, clients, produits, flash, client_id, commandProduits }) {
+    console.log(commandProduits);
+    const [isOpen, setIsOpen] = useState(false);
 
 
+
+    const toggleModal = () => setIsOpen(!isOpen);
+    const closeModal = () => setIsOpen(false);
     const {
         data,
         processing,
         formHandling,
-        changeHandling
+        changeHandling,
+        setData
     } = useCreateForm(
         {
-            "date_achat" : null,
-            "date_livraison" : null,
-            "date_paiement" : null,
-            "total" : null,
-            "paye" : "oui",
-            "prix_paye" : null
+            "client_id":  client_id ||null,
+            "produit_id": null,
+            "quantite": null,
         },
-        'commands.store');
+        'lignes.store', closeModal);
+
+
 
 
 
@@ -39,128 +48,167 @@ function Create({ errors }) {
             <Head title="Commands" />
 
             <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">
-                            <form onSubmit={formHandling} className="space-y-6">
+                <div className="mx-auto max-w-7xl border sm:px-6 lg:px-8">
+                    {flash.success && (<Success flash={flash} />)}
+                    {flash.error && (<Error flash={flash} />)}
+                    {flash.info && (<Info flash={flash} />)}
 
-                                <div className="flex flex-col space-y-2">
+                    <form className="flex items-center space-x-4 my-2" onSubmit={formHandling}>
+                        <div className="flex items-center space-x-2">
 
-                                    <InputLabel htmlFor="date_achat" value="date_achat :" />
-                                    <TextInput
-                                        id="date_achat"
-                                        type="date"
-                                        name="date_achat"
-                                        value={data.date_achat || ""}
-                                        className="mt-1 block w-full"
-                                        onChange={changeHandling}
+                            <select
+                                className={`w-64 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.client_id ? 'border-red-500' : 'border-gray-300'}`}
+                                name="client_id"
+                                id="client_id"
+                                onChange={changeHandling}
+                                value={data.client_id || ""}
+                            >
+                                <option value=''>---choisir client---</option>
+                                {clients.map((client) => (
+                                    <option key={client.id} value={client.id}>
+                                        {`${client.nom} ${client.prenom}`}
+                                    </option>
+                                ))}
 
-                                    />
+                            </select>
 
-                                    <InputError message={errors.date_achat} className="mt-2" />
-                                </div>
-
-                                <div className="flex flex-col space-y-2">
-
-                                    <InputLabel htmlFor="date_livraison" value="date_livraison :" />
-                                    <TextInput
-                                        id="date_livraison"
-                                        type="date"
-                                        name="date_livraison"
-                                        value={data.date_livraison || ""}
-                                        className="mt-1 block w-full"
-                                        onChange={changeHandling}
-                                    />
-
-                                    <InputError message={errors.date_livraison} className="mt-2" />
-                                </div>
-
-                                <div className="flex flex-col space-y-2">
-
-                                    <InputLabel htmlFor="date_paiement" value="date_paiement :" />
-                                    <TextInput
-                                        id="date_paiement"
-                                        type="date"
-                                        name="date_paiement"
-                                        value={data.date_paiement || ""}
-                                        className="mt-1 block w-full"
-                                        onChange={changeHandling}
-
-                                    />
-
-                                    <InputError message={errors.date_paiement} className="mt-2" />
-                                </div>
-
-                                <div className="flex flex-col space-y-2">
-
-                                    <InputLabel htmlFor="total" value="total :" />
-                                    <TextInput
-                                        id="total"
-                                        type="number"
-                                        name="total"
-                                        value={data.total || ""}
-                                        className="mt-1 block w-full"
-                                        onChange={changeHandling}
-                                        placeholder="Enter total de command"
-
-                                    />
-
-                                    <InputError message={errors.total} className="mt-2" />
-                                </div>
-
-                                <div className="flex flex-col space-y-2">
-                                    <InputLabel htmlFor="paye" value="paye :" />
-                                    <div className='flex flex-row gap-4'>
-                                        <TextInput
-                                        id="paye"
-                                        type="radio"
-                                        name="paye"
-                                        value="oui"
-                                        className="mt-1 block"
-                                        onChange={changeHandling}
-                                        /> <InputLabel htmlFor="oui" value="OUI" />
-                                    </div>
-                                    <div className='flex flex-row gap-4'>
-                                        <TextInput
-                                        id="paye"
-                                        type="radio"
-                                        name="paye"
-                                        value="non"
-                                        className="mt-1 block"
-                                        onChange={changeHandling}
-
-                                        /> <InputLabel htmlFor="non" value="NON" />
-                                    </div>
-                                    <InputError message={errors.paye} className="mt-2" />
-                                </div>
-                                {
-                                    data.paye === "oui" ? (
-                                        <div className="flex flex-col space-y-2">
-
-                                            <InputLabel htmlFor="prix_paye" value="prix_paye :" />
-                                            <TextInput
-                                                id="prix_paye"
-                                                type="number"
-                                                name="prix_paye"
-                                                value={data.prix_paye || ""}
-                                                className="mt-1 block w-full"
-                                                onChange={changeHandling}
-                                                placeholder="Enter prix paye"
-
-                                            />
-
-                                            <InputError message={errors.prix_paye} className="mt-2" />
-                                        </div>
-                                        ) : null
-                                }
-                                <PrimaryButton
-                                    className={`w-full md:w-auto px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${processing ? 'opacity-75 cursor-not-allowed' : ''}`}
-                                    disabled={processing}>
-                                    {processing ? 'Creating...' : 'Create Command'}
-                                </PrimaryButton>
-                            </form>
+                            {errors.client_id && <div className="text-sm text-red-600">{errors.client_id}</div>}
                         </div>
-                    </div>
+
+
+                        <PrimaryButton onClick={toggleModal}  type="button">
+                            choisir le produit
+                        </PrimaryButton>
+
+                        {isOpen && (
+                            <div className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50">
+                                <div className="relative p-4 w-full max-w-md">
+                                    <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                        {/* Header */}
+                                        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-600 rounded-t">
+                                            <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                                                Choisir un produit
+                                            </h3>
+                                            <button
+                                                onClick={closeModal}
+                                                type="button"
+                                                className="text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                            >
+                                                <svg
+                                                    className="w-3 h-3"
+                                                    fill="none"
+                                                    viewBox="0 0 14 14"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        stroke="currentColor"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth="2"
+                                                        d="M1 1l6 6m0 0l6 6M7 7l6-6M7 7L1 13"
+                                                    />
+                                                </svg>
+                                                <span className="sr-only">Close modal</span>
+                                            </button>
+                                        </div>
+
+                                        {/* Body */}
+                                        <div className="p-4">
+                                            <div className="mb-4">
+                                                <InputLabel htmlFor="produit_id">Nom produit</InputLabel>
+                                                <select
+                                                    onChange={changeHandling}
+                                                    name="produit_id"
+                                                    id="produit_id"
+                                                    className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 ${errors.produit_id ? "border-red-500" : "border-gray-300"
+                                                        }`}
+                                                    value={data.produit_id || ""}
+                                                >
+                                                    <option value="">--- Choisir Produit ---</option>
+                                                    {produits.map((produit) => (
+                                                        <option key={produit.id} value={produit.id}>
+                                                            {`${produit.nom_produit}      ${produit.prix_vente}$`}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                                {errors.produit_id && <div className="text-sm text-red-600">{errors.produit_id}</div>}
+
+                                            </div>
+                                            <div className="mb-4">
+
+                                                <InputLabel htmlFor="quantite" value="stock quantite" />
+                                                <TextInput
+                                                    id="quantite"
+                                                    type="number"
+                                                    name="quantite"
+                                                    value={data.quantite || ""}
+                                                    className="mt-1 block w-full"
+                                                    onChange={changeHandling}
+                                                    placeholder="quantite produit"
+
+                                                />
+
+                                                {errors.quantite && <div className="text-sm text-red-600">{errors.quantite}</div>}
+                                            </div>
+
+                                            {/* Buttons */}
+                                            <div className="flex justify-end space-x-2">
+
+
+                                                <DangerButton
+                                                    onClick={closeModal}
+                                                >
+                                                    annuler
+                                                </DangerButton>
+                                                <SecondaryButton
+                                                    type="submit"
+                                                    disabled={processing}
+                                                    className={`${processing ? 'opacity-75 cursor-not-allowed' : ''}`}
+
+                                                >
+                                                    {processing ? 'Confirmation...' : 'ajouter Ligne de command'}
+
+                                                </SecondaryButton>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+
+                    </form>
+
+                    
+                        <div className="mt-8">
+                            <h3 className="text-lg font-bold mb-4">Lignes de commande en attente</h3>
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full bg-white border">
+                                    <thead>
+                                        <tr>
+                                            <th className="border px-4 py-2 text-left">Nom Produit</th>
+                                            <th className="border px-4 py-2 text-left">Quantité</th>
+                                            <th className="border px-4 py-2 text-left">Sous Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {commandProduits.map((ligne, index) => (
+                                            <tr key={index}>
+                                                <td className="border px-4 py-2">{ligne.nom_produit}</td>
+                                                <td className="border px-4 py-2">{ligne.quantite}</td>
+                                                <td className="border px-4 py-2">{ligne.sous_total} $</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    
+
+
+
+
+
                 </div>
             </div>
         </AuthenticatedLayout>

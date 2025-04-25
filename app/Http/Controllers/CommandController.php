@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Command;
+use App\Models\Produit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class CommandController extends Controller
@@ -22,8 +25,32 @@ class CommandController extends Controller
      */
     public function create()
     {
-        return Inertia::render("Command/Create");
-    }
+        $clients = Client::all();
+        
+        
+        $client_id = session()->get("client_id");
+
+        // $produits = Produit::join('ligne_commandes', 'produits.id', '=', 'ligne_commandes.produit_id')
+        // ->whereNotNull('ligne_commandes.command_id')
+        // ->where('ligne_commandes.client_id', '<>', $client_id)
+        // ->select('produits.*')
+        // ->get();
+        
+        $produits = Produit::all();
+        
+        $commandProduits = [];
+
+        if ($client_id) {
+            
+            $commandProduits = DB::table('ligne_commandes')
+            ->where('client_id', $client_id)
+            ->whereNull('command_id') // 👈 this is the condition you're looking for
+            ->join('produits', 'ligne_commandes.produit_id', '=', 'produits.id')
+            ->select('produits.nom_produit', 'ligne_commandes.quantite', 'ligne_commandes.sous_total')
+            ->get();
+        }
+        
+        return Inertia::render("Command/Create", compact("clients", "produits", "commandProduits",'client_id'));    }
 
     /**
      * Store a newly created resource in storage.
