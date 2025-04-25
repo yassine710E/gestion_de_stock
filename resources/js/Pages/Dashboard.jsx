@@ -5,19 +5,24 @@ import { useEffect } from 'react'
 
 export default function Dashboard({categories, products, fournisseurs, clients, stocks,lowProduct,highProduct}) {
     useEffect(() => {
-        // if (lowProduct.length > 0) {
-        //     Swal.fire({
-        //         icon: 'error',
-        //         title: 'ATTENTION!',
-        //         text: `${lowProduct.length} produits ont une quantité inférieure à stock minimale!!`,
-        //         confirmButtonText: 'Passer',
-        //         confirmButtonColor: '#a4d4ff'
-        //     })
-        // }
+        if (lowProduct.length > 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'ATTENTION!',
+                text: `${lowProduct.length} produits ont une quantité inférieure à stock minimale!!`,
+                confirmButtonText: 'Passer',
+                confirmButtonColor: '#a4d4ff'
+            })
+        }
     }, [lowProduct]);
     return (
-        <AuthenticatedLayout>
-          
+        <AuthenticatedLayout
+            header={
+                <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
+                    <i className="fas fa-chart-line"></i> <span>Dashboard Overview</span>
+                </h2>
+            }
+        >
             <Head title="Dashboard" />
 
             <div className="py-12">
