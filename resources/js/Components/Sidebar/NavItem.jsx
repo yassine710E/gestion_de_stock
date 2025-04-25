@@ -21,11 +21,11 @@ export default function NavItem({
                     url.startsWith(item.href + '/');
 
     return (
-        <div className="mb-4 transition-all duration-300">
+        <div className="mb-4 transition-all duration-300 ">
             <div
                 className={clsx(
                     "flex items-center p-2 rounded-md cursor-pointer transition-colors duration-200",
-                    isActive ? "bg-[#efefef]" : "hover:bg-[#efefef]"
+                    isActive ? "bg-[#efefef] " : "hover:bg-[#efefef] "
                 )}
             >
                 {/* Icon: always clickable */}
@@ -33,7 +33,7 @@ export default function NavItem({
                     <Link
                         href={item.href}  // Set the href to the route here
                         onClick={() => setActiveItem(item.title)}
-                        className="flex-shrink-0"
+                        className="flex-shrink-0 "
                     >
                         <IconComponent
                             size={16}

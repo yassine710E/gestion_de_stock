@@ -4,17 +4,17 @@ import Swal from 'sweetalert2'
 import { useEffect } from 'react'
 
 export default function Dashboard({categories, products, fournisseurs, clients, stocks,lowProduct,highProduct}) {
-    // useEffect(() => {
-    //     if (lowProduct.length > 0) {
-    //         Swal.fire({
-    //             icon: 'error',
-    //             title: 'ATTENTION!',
-    //             text: `${lowProduct.length} produits ont une quantité inférieure à stock minimale!!`,
-    //             confirmButtonText: 'Passer',
-    //             confirmButtonColor: '#a4d4ff'
-    //         })
-    //     }
-    // }, [lowProduct]);
+    useEffect(() => {
+        if (lowProduct.length > 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'ATTENTION!',
+                text: `${lowProduct.length} produits ont une quantité inférieure à stock minimale!!`,
+                confirmButtonText: 'Passer',
+                confirmButtonColor: '#a4d4ff'
+            })
+        }
+    }, [lowProduct]);
     return (
         <AuthenticatedLayout
             // header={

@@ -22,8 +22,8 @@ const menuItems = [
     { title: "Suppliers", href: route('fournisseurs.index'), icon: Truck, sub: [] },
     { title: "Clients", href: route('clients.index'), icon: Users, sub: [] },
     { title: "Stocks", href: route('stocks.index'), icon: TrendingUp, sub: [] },
-    { title: "Notifications", href: '#', icon: Bell, sub: [] },
     { title: "Settings", href: route('profile.edit'), icon: Settings, sub: [] },
+    { title: "Notifications", href: "#", icon: Bell, sub: [] },
 ];
 
 export default function SidebarLayout({ children }) {
@@ -31,17 +31,23 @@ export default function SidebarLayout({ children }) {
     const [openDropdown, setOpenDropdown] = useState(null);
     const [activeItem, setActiveItem] = useState("");
     const { url } = usePage();
+    
 
     useEffect(() => {
-        const currentItem = menuItems.find((item) => 
-            url === item.href || url.startsWith(item.href + '/')
-        );
-        
+        const currentItem = menuItems.find((item) => {
+            // Create a temporary anchor to parse the route URL and get the pathname
+            const tempLink = document.createElement('a');
+            tempLink.href = item.href;
+            const itemPath = tempLink.pathname;
+    
+            return url === itemPath || url.startsWith(itemPath + '/');
+        });
+    
         if (currentItem) {
             setActiveItem(currentItem.title);
         }
     }, [url]);
-
+    
     // Toggle dropdown state
     const toggleDropdown = (title) => {
         setOpenDropdown(openDropdown === title ? null : title);
@@ -50,20 +56,22 @@ export default function SidebarLayout({ children }) {
     return (
         <div className="flex h-screen bg-[#e5e9ec]">
             {/* Sidebar */}
-            <div className={`flex flex-col justify-between bg-[#fbfbfb] p-4 mt-4 ml-4 mb-4 rounded-lg transition-all duration-1000 ${expanded ? "w-64" : "w-16"}`}>
+            <div className={`flex flex-col justify-between bg-[#fbfbfb]  p-4 mt-4 ml-4 mb-4 rounded-lg transition-all duration-1000 ${expanded ? "w-64" : "w-16"}`}>
                 {/* Menu items */}
                 <nav>
-                    {menuItems.map((item) => (
-                        <NavItem
-                            key={item.title}
-                            item={item}
-                            expanded={expanded}
-                            active={activeItem === item.title}
-                            isOpen={openDropdown === item.title}
-                            onToggleDropdown={toggleDropdown}
-                            setActiveItem={setActiveItem}
-                        />
-                    ))}
+                    {menuItems.map((item) => {
+                        return (
+                            <NavItem
+                                key={item.title}
+                                item={item}
+                                expanded={expanded}
+                                active={activeItem === item.title}
+                                isOpen={openDropdown === item.title}
+                                onToggleDropdown={toggleDropdown}
+                                setActiveItem={setActiveItem}
+                            />
+                        );
+                    })}
                 </nav>
 
                 {/* Logout Button */}
