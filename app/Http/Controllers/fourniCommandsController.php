@@ -42,6 +42,40 @@ class fourniCommandsController extends Controller
         return Inertia::render("FourniCommand/Create", compact("fournisseurs", "produits", "allLingsCommand"));
     }
 
+
+    public function store()
+    {
+        $data = request()->validate([
+            'fournisseur_id'=>['required',"numeric"],
+            'total'=>['required',"numeric"]
+        ]);
+
+        $commande = Command::create([
+            'total' => $data['total'],
+            "date_livraison"=>null 
+        ]);
+
+        DB::table('ligne_commandes')
+        ->where('fournisseur_id', $data['fournisseur_id'])
+        ->whereNull('command_id')
+        ->update([
+            'command_id' => $commande->id,
+            'updated_at' => now(),
+        ]);
+
+        $lignes = DB::table('ligne_commandes')
+        ->where('fournisseur_id', $data['fournisseur_id'])
+        ->where('command_id', $commande->id)
+        ->get();
+
+        foreach ($lignes as $ligne) {
+            DB::table('stocks')
+                ->where('produit_id', $ligne->produit_id)
+                ->increment('stock_quantite', $ligne->quantite);
+        }
+
+    }
+
     public function destroy(string $id)
     {
         

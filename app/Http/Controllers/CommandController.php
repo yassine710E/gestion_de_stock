@@ -89,9 +89,6 @@ class CommandController extends Controller
             ->decrement('stock_quantite', $ligne->quantite);
     }
         
-
-
-        
     }
 
     /**

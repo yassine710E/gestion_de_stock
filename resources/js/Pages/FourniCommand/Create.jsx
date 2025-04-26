@@ -1,4 +1,4 @@
-import { Head } from '@inertiajs/react'
+import { Head,router } from '@inertiajs/react'
 import React, {  useEffect, useState } from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import InputLabel from '@/Components/InputLabel';
@@ -15,11 +15,10 @@ import useFilterForm from '@/hooks/Index';
 function Create({ errors, fournisseurs, produits, flash, fourni_id, allLingsCommand }) {
     const [isOpen, setIsOpen] = useState(false);
     const { handleDelete } = useFilterForm({}, "fourniCommands.index");
+    const [sum, setSum] = useState(0)
 
-    console.log(allLingsCommand)
 
     const [commandProduits, setCommandProduits] = useState(allLingsCommand)
-    const [sum, setSum] = useState(0)
 
 
     const toggleModal = () => setIsOpen(!isOpen);
@@ -37,6 +36,16 @@ function Create({ errors, fournisseurs, produits, flash, fourni_id, allLingsComm
         },
         'fou_lignes.store', closeModal);
 
+
+        const validatedCommend = (e) => {
+            e.preventDefault();
+            console.log(sum, data.fournisseur_id)
+            router.post(route('fourniCommands.store'), {
+                total: sum,
+                fournisseur_id: data.fournisseur_id,
+            });
+        };
+
         const changeSelect = (e) => {
             const { id, value } = e.target;
             setData(data => ({...data, [id]: value}));
@@ -48,6 +57,9 @@ function Create({ errors, fournisseurs, produits, flash, fourni_id, allLingsComm
             setSum(filteredProducts.reduce((total, ele) => ele.sous_total + total, 0));
             console.log(data)
         }, [data.fournisseur_id, data, allLingsCommand]);
+
+
+           
 
 
     return (
@@ -230,18 +242,14 @@ function Create({ errors, fournisseurs, produits, flash, fourni_id, allLingsComm
                                             </td>
                                         </tr>
                                     ))}
-                                    <tr className="hover:bg-gray-100 transition-colors duration-200 ">
-                                        <th colSpan={3} className="px-6 py-3 text-sm text-red-800 text-left">Total Commande</th>
-                                        <td className="px-6 py-3 text-sm text-red-800">{sum} $</td>
-                                        <td className='text-center'>
-                                            <form onSubmit={(e) => handleDelete(e, ligne.id)}>
-                                                <input type="hidden" name="fourni_id" value={fourni_id} />
-                                                <SecondaryButton type='submit' disabled={commandProduits.length == 0}>
-                                                    valider commande
-                                                </SecondaryButton>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                    <tr className="bg-gray-100">
+                                            <td colSpan="2" className="px-6 py-3 font-bold text-red-600 text-left">
+                                                Total Commande
+                                            </td>
+                                            <td colSpan="3" className="px-6 py-3 text-left font-bold">
+                                                {sum} $
+                                            </td>
+                                        </tr>
                                 </tbody>
                             </table>
                                 ) : (
@@ -253,15 +261,14 @@ function Create({ errors, fournisseurs, produits, flash, fourni_id, allLingsComm
                                 </div>
                                 )
                             }
+                        </div>
 
-
+                        <div className="flex justify-end mt-4">
+                            <PrimaryButton onClick={validatedCommend} disabled={commandProduits.length === 0}>
+                                Valider Commande
+                            </PrimaryButton>
                         </div>
                     </div>
-
-
-
-
-
 
                 </div>
             </div>
