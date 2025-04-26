@@ -67,6 +67,7 @@ function Create({ categories, founisseurs, errors }) {
                                         className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.category_id ? 'border-red-500' : 'border-gray-300'}`}
                                         name="category_id"
                                         id="category_id"
+                                        
                                     >
 
                                         <option value=''>---choisir categorie---</option>

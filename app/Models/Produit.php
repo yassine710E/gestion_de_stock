@@ -35,4 +35,8 @@ class Produit extends Model
     public function fournisseur(){
         return $this->belongsTo(Fournisseur::class);
     }
+
+    public function clients(){
+        return $this->belongsToMany(Client::class,"ligne_commandes")->withTimestamps();
+    }
 }
