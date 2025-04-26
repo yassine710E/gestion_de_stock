@@ -38,7 +38,6 @@ function Create({ errors, clients, produits, flash, client_id, allLingsCommand }
     );
 
     const [commandData, setCommandData] = useState({
-        prix_paye: 0,
         total: 0,
         client_id: client_id || '',
     });
@@ -51,7 +50,6 @@ function Create({ errors, clients, produits, flash, client_id, allLingsCommand }
     const validatedCommend = (e) => {
         e.preventDefault();
         router.post(route('commands.store'), {
-            prix_paye: commandData.prix_paye,
             total: sum,
             client_id: commandData.client_id,
         });
@@ -234,7 +232,7 @@ function Create({ errors, clients, produits, flash, client_id, allLingsCommand }
 
                         {/* Bouton final pour confirmer toute la commande */}
                         <div className="flex justify-end mt-4">
-                            <PrimaryButton onClick={validatedCommend}>
+                            <PrimaryButton onClick={validatedCommend} disabled={commandProduits.length === 0}>
                                 Valider Commande
                             </PrimaryButton>
                         </div>

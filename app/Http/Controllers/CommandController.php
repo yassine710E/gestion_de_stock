@@ -35,7 +35,7 @@ class CommandController extends Controller
         
         $allLingsCommand = [];
         
-        $sum = 0;
+        
 
         if ($client_id) {
             
@@ -45,38 +45,53 @@ class CommandController extends Controller
             ->select('ligne_commandes.*', 'produits.nom_produit', 'produits.prix_vente',"produits.photo")
             ->get();
 
-            $sum = DB::table('ligne_commandes')
-                ->where('client_id', $client_id)
-                ->whereNull('command_id')
-                ->sum('sous_total');
+
         }
         
-        return Inertia::render("Command/Create", compact("clients", "produits", "allLingsCommand",'client_id',"sum"));
+        return Inertia::render("Command/Create", compact("clients", "produits", "allLingsCommand",'client_id'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store()
     {
+
+        $data = request()->validate([
+            'client_id'=>['required',"numeric"],
+            'total'=>['required',"numeric"]
+        ]);
+
+        $commande = Command::create([
+                  'total' => $data['total'],
+                  "date_livraison"=>null 
+                   ]);
         
-        dd($request->all());
+        // 2. Mise à jour des lignes de commande
+        DB::table('ligne_commandes')
+        ->where('client_id', $data['client_id'])
+        ->whereNull('command_id')
+        ->update([
+            'command_id' => $commande->id,
+            'updated_at' => now(),
+        ]);
 
-        // $validData = $request->validate([
-        //     "date_achat" => ["required"],
-        //     "date_livraison" => ["required"],
-        //     "date_paiement" => ["required"],
-        //     "total" => ["required"],
-        //     "paye" => ["required"],
-        //     "prix_paye" => []
-        // ]);
+        //decrement product of this command ??
 
-        // if($request->paye === "non"){
-        //     $validData["prix_paye"] = 0 ;
-        // };
+        $lignes = DB::table('ligne_commandes')
+        ->where('client_id', $data['client_id'])
+        ->where('command_id', $commande->id)
+        ->get();
 
-        // Command::create($validData) ;
-        // return redirect()->route("commands.index")->with("success", "nouvelle command ajouter avec success !");
+    foreach ($lignes as $ligne) {
+        DB::table('stocks')
+            ->where('produit_id', $ligne->produit_id)
+            ->decrement('stock_quantite', $ligne->quantite);
+    }
+        
+
+
+        
     }
 
     /**
