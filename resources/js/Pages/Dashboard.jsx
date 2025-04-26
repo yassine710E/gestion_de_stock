@@ -35,10 +35,10 @@ export default function Dashboard({
 
             {/* Main Content */}
             <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-md rounded-lg">
                         <div className="p-6">
-                            <div className="grid md:grid-cols-4 gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                                 <Link
                                     href={route("categories.index")}
                                     className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-lg hover:shadow-xl transition-transform transform hover:scale-105"
@@ -53,7 +53,7 @@ export default function Dashboard({
                                                     {categories}
                                                 </h3>
                                             </div>
-                                            <div className="bg-blue-400 rounded-full p-3">
+                                            <div className="bg-blue-400 rounded-full w-12 h-12 flex items-center justify-center">
                                                 <i className="fas fa-tags text-white text-xl"></i>
                                             </div>
                                         </div>
@@ -74,7 +74,7 @@ export default function Dashboard({
                                                     {products}
                                                 </h3>
                                             </div>
-                                            <div className="bg-green-400 rounded-full p-3">
+                                            <div className="bg-green-400 rounded-full w-12 h-12 flex items-center justify-center">
                                                 <i className="fas fa-box text-white text-xl"></i>
                                             </div>
                                         </div>
@@ -95,7 +95,7 @@ export default function Dashboard({
                                                     {fournisseurs}
                                                 </h3>
                                             </div>
-                                            <div className="bg-purple-400 rounded-full p-3">
+                                            <div className="bg-purple-400 rounded-full w-12 h-12 flex items-center justify-center">
                                                 <i className="fas fa-truck text-white text-xl"></i>
                                             </div>
                                         </div>
@@ -116,8 +116,8 @@ export default function Dashboard({
                                                     {clients}
                                                 </h3>
                                             </div>
-                                            <div className="bg-orange-400 rounded-full p-3">
-                                                <i className="fas fa-users text-white text-xl"></i>
+                                            <div className="bg-orange-400 rounded-full w-12 h-12 flex items-center justify-center">
+                                                <i className="fas fa-user-friends text-white text-xl"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -137,8 +137,8 @@ export default function Dashboard({
                                                     {stocks}
                                                 </h3>
                                             </div>
-                                            <div className="bg-red-400 rounded-full p-3">
-                                                <i className="fa-solid fa-arrow-down text-white text-xl"></i>
+                                            <div className="bg-red-400 rounded-full w-12 h-12 flex items-center justify-center">
+                                                <i className="fas fa-boxes text-white text-xl"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -147,7 +147,7 @@ export default function Dashboard({
                         </div>
                     </div>
 
-                    <div className="mt-6 grid md:grid-cols-2 gap-6">
+                    <div className="mt-6 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
                         <div className="bg-white p-6 rounded-lg shadow-lg border-t-4 border-red-500">
                             <h3 className="text-xl font-semibold mb-4 text-red-600 flex items-center gap-2">
                                 <i className="fas fa-exclamation-triangle"></i>
