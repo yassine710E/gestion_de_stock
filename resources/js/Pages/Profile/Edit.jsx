@@ -7,11 +7,11 @@ import UpdateProfileInformationForm from './Partials/UpdateProfileInformationFor
 export default function Edit({ mustVerifyEmail, status }) {
     return (
         <AuthenticatedLayout
-            // header={
-            //     <h2 className="text-xl font-semibold leading-tight text-gray-800">
-            //         Profile
-            //     </h2>
-            // }
+            header={
+                <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
+                    <i className="fas fa-chart-line"></i> <span>Profile Settings</span>
+                </h2>
+            }
         >
             <Head title="Profile" />
 

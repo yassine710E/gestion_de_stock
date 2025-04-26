@@ -10,8 +10,8 @@ function Show({ fournisseur }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-bold leading-tight text-gray-900">
-                    <i className="fas fa-folder-open mr-2"></i>{fournisseur.nom_complet}
+                <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
+                    <i className="fas fa-folder-open"></i><span>{fournisseur.nom_complet}</span>
                 </h2>
             }
         >

@@ -22,8 +22,8 @@ function Create({ errors }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    <i className="fas fa-folder-open mr-2"></i>Create Category
+                <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
+                    <i className="fas fa-folder-open"></i> <span>Category Creation</span>
                 </h2>
             }
         >
@@ -41,7 +41,7 @@ function Create({ errors }) {
                                     <TextInput
                                         id="nom_cat"
                                         type="text"
-                                        name="nom_cat"
+                                        name="Category Name"
                                         value={data.nom_cat || ""}
                                         className="mt-1 block w-full"
                                         autoComplete="current-password"

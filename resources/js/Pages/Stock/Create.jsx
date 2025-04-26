@@ -10,8 +10,6 @@ import useCreateForm from '@/hooks/Create';
 
 function Create({ produits, errors }) {
 
-
-
     const { data, processing,formHandling,changeHandling } = useCreateForm({
         'produit_id': "",
         "stock_quantite": "",
@@ -19,13 +17,11 @@ function Create({ produits, errors }) {
         "operation": ""
     },"stocks.store");
 
-
-
     return (
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    <i className="fas fa-folder-open mr-2"></i>Create Stock
+                    <i className="fas fa-folder-open"></i><span>Stocks Creation</span>
                 </h2>
             }
         >

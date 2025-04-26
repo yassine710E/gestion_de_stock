@@ -28,11 +28,11 @@ const Index = ({ clients, flash }) => {
     );
     return (
         <AuthenticatedLayout
-            // header={
-            //     <h2 className="text-2xl font-bold leading-tight text-gray-800 flex items-center">
-            //         <i className="fas fa-folder-open mr-3"></i>Clients
-            //     </h2>
-            // }
+            header={
+                <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
+                    <i className="fas fa-folder-open"></i> <span>Clients Overview</span>
+                </h2>
+            }
         >
             <Head title="Clients" />
 

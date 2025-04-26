@@ -28,15 +28,15 @@ function Index({ categories, flash }) {
 
     return (
         <AuthenticatedLayout
-            // header={
-            //     <h2 className="text-xl font-semibold leading-tight text-gray-800">
-            //         <i class="fa-solid fa-list"></i> <span>Category</span>
-            //     </h2>
-            // }
+            header={
+                <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
+                    <i class="fa-solid fa-list"></i> <span>Category Overview</span>
+                </h2>
+            }
         >
             <Head title="Category" />
 
-            <main className="flex-1 p-6 mt-4 mr-4 mb-4 bg-[#fbfbfb] rounded-lg overflow-auto">            
+            <main >            
                 <div className="">
                     <div className="mx-auto max-w-10xl sm:px-12 lg:px-8">
                         <Link href={route('categories.create')}>

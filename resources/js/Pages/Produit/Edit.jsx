@@ -7,9 +7,6 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import DangerButton from '@/Components/DangerButton';
 import useEditForm from '@/hooks/Edit';
 
-
-
-
 function Edit({ produit, categories,fournisseurs, errors }) {
     console.log(produit);
     const {
@@ -38,8 +35,8 @@ function Edit({ produit, categories,fournisseurs, errors }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    <i className="fas fa-folder-open mr-2"></i>Edit Produit
+                <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
+                    <i className="fas fa-folder-open"></i><Span>Product Customisation</Span>
                 </h2>
             }
         >
