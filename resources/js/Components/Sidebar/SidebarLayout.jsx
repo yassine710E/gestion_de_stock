@@ -16,8 +16,8 @@ import SideBarFooter from "./SidebarFooter";
 
 // Define the menu items
 const menuItems = [
-    { title: "Dashboard", href: route('dashboard'), icon: Home, sub: [] },
-    { title: "Category", href: route('categories.index'), icon: Layers, sub: [] },
+    { title: "Dashboard", href: route('dashboard'), icon: Home, sub: ['add', 'delete'] },
+    { title: "Category", href: route('categories.index'), icon: Layers, sub: [{title: 'add', href:'delete'}] },
     { title: "Products", href: route('produits.index'), icon: Box, sub: [] },
     { title: "Suppliers", href: route('fournisseurs.index'), icon: Truck, sub: [] },
     { title: "Clients", href: route('clients.index'), icon: Users, sub: [] },

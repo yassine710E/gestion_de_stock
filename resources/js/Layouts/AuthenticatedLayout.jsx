@@ -22,8 +22,6 @@ export default function AuthenticatedLayout({ header, children }) {
 
     return (
         <div >
-            
-            
             <SidebarLayout >
                 <div className="flex-1  h-screen overflow-auto">
                     {header && (

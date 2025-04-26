@@ -36,11 +36,8 @@ function Index({ categories, flash }) {
         >
             <Head title="Category" />
 
-            <main className="flex-1 p-6 mt-4 mr-4 mb-4 bg-[#fbfbfb] rounded-lg overflow-auto">
-                <h1 className="text-2xl font-semibold mb-4">Main Content</h1>
-                <p>Welcome to the main section! Place your components and content here.</p>
-            
-                <div className="py-12">
+            <main className="flex-1 p-6 mt-4 mr-4 mb-4 bg-[#fbfbfb] rounded-lg overflow-auto">            
+                <div className="">
                     <div className="mx-auto max-w-10xl sm:px-12 lg:px-8">
                         <Link href={route('categories.create')}>
 

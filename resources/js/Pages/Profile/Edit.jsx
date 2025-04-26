@@ -16,9 +16,7 @@ export default function Edit({ mustVerifyEmail, status }) {
             <Head title="Profile" />
 
             <main className="flex-1 p-6 mt-4 mr-4 mb-4 bg-[#fbfbfb] rounded-lg overflow-auto">
-                <h1 className="text-2xl font-semibold mb-4">Main Content</h1>
-                <p>Welcome to the main section! Place your components and content here.</p>
-                <div className="py-12">
+                <div className="">
                     <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
                         <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
                             <UpdateProfileInformationForm

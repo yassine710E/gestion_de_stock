@@ -37,10 +37,7 @@ const Index = ({ clients, flash }) => {
             <Head title="Clients" />
 
             <main className="flex-1 p-6 mt-4 mr-4 mb-4 bg-[#fbfbfb] rounded-lg overflow-auto">
-                <h1 className="text-2xl font-semibold mb-4">Main Content</h1>
-                <p>Welcome to the main section! Place your components and content here.</p>
-
-                <div className="py-12 bg-gray-50">
+                <div className="">
                     <div className="max-w-10xl  mx-auto px-4 sm:px-12 lg:px-8">
                         <div className="flex justify-between items-center mb-6">
                             <Link href={route("clients.create")}>

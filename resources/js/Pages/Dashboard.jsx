@@ -28,8 +28,6 @@ export default function Dashboard({categories, products, fournisseurs, clients, 
 
             {/* Main Content */}
             <main className="flex-1 p-6 mt-4 mr-4 mb-4 bg-[#fbfbfb] rounded-lg overflow-auto">
-                <h1 className="text-2xl font-semibold mb-4">Main Content</h1>
-                <p>Welcome to the main section! Place your components and content here.</p>
 
                 <div className="py-12">
                     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
