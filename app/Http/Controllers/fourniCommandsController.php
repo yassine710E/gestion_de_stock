@@ -13,7 +13,10 @@ class fourniCommandsController extends Controller
 {
     public function index()
     {
-        $commands = Command::paginate(8) ;
+        $commands = DB::table("commands")
+        ->join("ligne_commandes", "commands.id", "=", "ligne_commandes.command_id")
+        ->join("fournisseurs", "fournisseurs.id", "=", "ligne_commandes.fournisseur_id")
+        ->paginate(5) ;
         return Inertia::render("FourniCommand/Index", compact("commands")) ;
     }
 
@@ -52,7 +55,7 @@ class fourniCommandsController extends Controller
 
         $commande = Command::create([
             'total' => $data['total'],
-            "date_livraison"=>null 
+            "date_achat"=>null 
         ]);
 
         DB::table('ligne_commandes')
