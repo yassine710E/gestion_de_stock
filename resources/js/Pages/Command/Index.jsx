@@ -4,26 +4,27 @@ import Success from '@/Components/Success';
 import TextInput from '@/Components/TextInput';
 import Error from '@/Components/Error';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link} from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 
 import React from 'react'
 import useFilterForm from '@/hooks/Index';
 import DangerButton from '@/Components/DangerButton';
 
-function Index({ commands, flash }) {
 
-        const {
-            data,
-            changeHandler,
-            resetFilters,
-            handleDelete,
-            status
-        } = useFilterForm(
-            {
-                "search": null,
-            },
-            "commands.index"
-        );
+function Index({ commands, flash }) {
+    console.log(commands);
+    const {
+        data,
+        changeHandler,
+        resetFilters,
+        handleDelete,
+        status
+    } = useFilterForm(
+        {
+            "search": null,
+        },
+        "commands.index"
+    );
 
 
 
@@ -77,34 +78,22 @@ function Index({ commands, flash }) {
                                 <thead className="bg-gray-50">
                                     <tr>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom Complet</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">date achat</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">date livraison</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">date paiement</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">total</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">paye</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">prix paye</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
-                                    {commands?.data ? commands.data.map((command) => (
-                                        <tr key={commands.id} className="hover:bg-gray-50">
+                                    {commands.data.length > 0 && commands.data.map((command) => (
+                                        <tr key={command.id} className="hover:bg-gray-50">
                                             <td className="px-6 py-4 whitespace-nowrap">{command.id}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap">{`${command.client_nom} ${command.client_prenom}`}</td>
                                             <td className="px-6 py-4 whitespace-nowrap">{command.date_achat}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{command.date_livraison}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{command.date_paiement}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{command.total}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{command.paye}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{command.prix_paye}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap">{command.total} $</td>
 
                                             <td className="px-6 py-4 whitespace-nowrap space-x-2 gap-3 flex">
 
-                                                <Link
-                                                    className="text-blue-600 hover:text-blue-900 p-2 hover:bg-blue-100 rounded-full transition duration-150"
-                                                    href={route('commands.edit', command.id)}
-                                                >
-                                                    <i className="fas fa-edit"></i>
-                                                </Link>
                                                 <Link
                                                     className="text-green-600 hover:text-green-900 p-2 hover:bg-green-100 rounded-full transition duration-150"
                                                     href={route('commands.show', command.id)}
@@ -112,20 +101,25 @@ function Index({ commands, flash }) {
                                                     <i className="fas fa-eye"></i>
                                                 </Link>
 
-                                                <form onSubmit={(e) => handleDelete(e,command.id)} >
-                                                    <button type='submit'  className="text-red-600 hover:text-red-900 p-2 hover:bg-red-100 rounded-full transition duration-150">
+
+
+                                                <form onSubmit={(e) => handleDelete(e, command.id)} >
+                                                    <button type='submit' className="text-red-600 hover:text-red-900 p-2 hover:bg-red-100 rounded-full transition duration-150">
                                                         <i className="fas fa-trash"></i>
                                                     </button>
                                                 </form>
+
+                                                <a
+                                                    href={route('pdfClientCommande', command.id)}
+                                                    className="text-purple-600 hover:text-purple-900 p-2 hover:bg-purple-100 rounded-full transition duration-150"
+                                                    download
+                                                >
+                                                    <i className="fas fa-file-pdf"></i>
+                                                </a>
+
                                             </td>
                                         </tr>
-                                    )) : (
-                                        <tr>
-                                            <td colSpan="3" className="px-6 py-4 text-center text-gray-500">
-                                                <i className="fas fa-inbox mr-2"></i>Not Found
-                                            </td>
-                                        </tr>
-                                    )}
+                                    ))}
                                 </tbody>
                             </table>
                             <div className="mt-4 flex items-center justify-center">

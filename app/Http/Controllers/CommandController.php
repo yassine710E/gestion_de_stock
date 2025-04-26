@@ -16,8 +16,26 @@ class CommandController extends Controller
      */
     public function index()
     {
-        $commands = Command::paginate(8) ;
-        return Inertia::render("Command/Index", compact("commands")) ;
+        $commands = DB::table('commands')
+        ->leftJoin('ligne_commandes', 'commands.id', '=', 'ligne_commandes.command_id')
+        ->leftJoin('clients', 'ligne_commandes.client_id', '=', 'clients.id')
+        ->whereNull('ligne_commandes.fournisseur_id') // هنا زدت الشرط
+        ->select(
+            'commands.*',
+            'clients.nom as client_nom',
+            'clients.prenom as client_prenom'
+        )
+        ->groupBy(
+            'commands.id',
+            'clients.nom',
+            'clients.prenom', 
+            'commands.date_achat',
+            'commands.date_livraison',
+            'commands.total'
+        )
+        ->paginate(10);
+
+         return Inertia::render("Command/Index", compact("commands")) ;
     }
 
     /**
@@ -88,6 +106,8 @@ class CommandController extends Controller
             ->where('produit_id', $ligne->produit_id)
             ->decrement('stock_quantite', $ligne->quantite);
     }
+
+    return redirect()->route("commands.index")->with("success", "nouvelle command est ajouter avec success !");
         
     }
 
