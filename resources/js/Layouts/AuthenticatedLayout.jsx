@@ -39,7 +39,7 @@ export default function AuthenticatedLayout({ header, children }) {
                         >
                             <i className="fa-solid fa-list"></i>
                             <span>Category</span>
-                            
+
                         </NavLink>
 
                         <NavLink
@@ -59,7 +59,7 @@ export default function AuthenticatedLayout({ header, children }) {
                             <i className="fa-solid fa-user-group"></i>
                             <span>Clients</span>
                         </NavLink>
-                        
+
                         <NavLink
                             href={route('fournisseurs.index')}
                             active={route().current('fournisseurs.*')}
@@ -77,9 +77,26 @@ export default function AuthenticatedLayout({ header, children }) {
                             <i className="fa-solid fa-file-arrow-down"></i>
                             <span>Stocks</span>
                         </NavLink>
+
+                        <NavLink
+                            href={route('commands.index')}
+                            active={route().current('commands.*')}
+                            className='flex gap-2'
+                        >
+                            <i class="fa-solid fa-truck"></i>
+                            <span>clients commands</span>
+                        </NavLink>
+                        <NavLink
+                            href={route('fourniCommands.index')}
+                            active={route().current('fourniCommands.*')}
+                            className='flex gap-2'
+                        >
+                            <i class="fa-solid fa-truck"></i>
+                            <span>Fournisseurs commands</span>
+                        </NavLink>
                     </div>
 
-                    
+
                     <div className="mt-auto p-4">
                         <Dropdown>
                             <Dropdown.Trigger>

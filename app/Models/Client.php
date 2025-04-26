@@ -22,4 +22,8 @@ class Client extends Model
         'email',
     ];
 
+    public function produits(){
+        return $this->belongsToMany(Produit::class,"ligne_commandes")->withTimestamps();
+    }
+
 }

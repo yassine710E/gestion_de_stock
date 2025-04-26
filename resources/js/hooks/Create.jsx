@@ -1,18 +1,20 @@
 import { useForm } from "@inertiajs/react";
 import { useState } from "react";
 
-const useCreateForm = (initialData,routeName) => {
+const useCreateForm = (initialData, routeName, closeModal = null) => {
 
     const [preview, setPreview] = useState(null);
-    
+
     const { data, setData, post, processing } = useForm(initialData);
-    
+
 
 
     const formHandling = (e) => {
         e.preventDefault();
         post(route(routeName), {
-            onSuccess: () => setData(initialData)
+            onSuccess: () => {
+                if (closeModal) closeModal();
+            }
         });
     }
 
@@ -48,6 +50,6 @@ const useCreateForm = (initialData,routeName) => {
         handleFileChange,
         handleRemove
     }
-} 
+}
 
 export default useCreateForm;
