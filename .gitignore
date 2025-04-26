@@ -5,7 +5,6 @@
 /public/storage
 /storage/*.key
 /storage/pail
-/resources/Pages/Welcome.jsx
 /vendor
 .env
 .env.backup
