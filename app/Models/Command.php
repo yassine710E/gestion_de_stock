@@ -10,7 +10,7 @@ class Command extends Model
     /** @use HasFactory<\Database\Factories\CommandFactory> */
     use HasFactory;
 
-    const CREATED_AT = "date_achat";
+    const CREATED_AT = null;
     const UPDATED_AT = null;
     protected $guarded = [] ;
 
