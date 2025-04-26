@@ -55,7 +55,7 @@ class FournisseurLignes extends Controller
         $quantiteDemandee = $data['quantite'];
         $quantiteTotale = $ligneCommande !== null ? $ligneCommande->quantite + $quantiteDemandee : $quantiteDemandee;
     
-        if (!$stock || $stock->stock_quantite < $quantiteTotale) {
+        if (!$stock) {
             return redirect()->route('fourniCommands.create')->with('error', "Cette quantité n'est pas disponible en stock");
         }
     
