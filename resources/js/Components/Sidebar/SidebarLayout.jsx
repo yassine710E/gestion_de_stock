@@ -37,6 +37,8 @@ const menuItems = [
     },
     { title: "Clients", href: route("clients.index"), icon: Users, sub: [] },
     { title: "Stocks", href: route("stocks.index"), icon: TrendingUp, sub: [] },
+    { title: "Client Commands", href: route("commands.index"), icon: Bell, sub: [] },
+    { title: "Supplier Commands", href: route("fourniCommands.index"), icon: Bell, sub: [] },
     { title: "Settings", href: route("profile.edit"), icon: Settings, sub: [] },
     { title: "Notifications", href: "#", icon: Bell, sub: [] },
 ];
