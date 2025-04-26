@@ -42,10 +42,19 @@ const menuItems = [
 ];
 
 export default function SidebarLayout({ children }) {
-    const [expanded, setExpanded] = useState(false);
+    // Initialize expanded state from localStorage, default to false if not found
+    const [expanded, setExpanded] = useState(() => {
+        const savedState = localStorage.getItem("sidebarExpanded");
+        return savedState ? JSON.parse(savedState) : false;
+    });
     const [openDropdown, setOpenDropdown] = useState(null);
     const [activeItem, setActiveItem] = useState("");
     const { url } = usePage();
+
+    // Update localStorage whenever expanded state changes
+    useEffect(() => {
+        localStorage.setItem("sidebarExpanded", JSON.stringify(expanded));
+    }, [expanded]);
 
     useEffect(() => {
         const currentItem = menuItems.find((item) => {
@@ -68,11 +77,13 @@ export default function SidebarLayout({ children }) {
     };
 
     return (
-        <div className="flex h-screen bg-[#e5e9ec]">
-            {/* Sidebar Container - adding h-[calc(100vh-2rem)] to take full height minus margins */}
-            <div className="mt-4 ml-4 mb-4 flex flex-col h-[calc(100vh-2rem)]">
-                {/* Toggle Button */}
-                <div className="bg-[#fbfbfb] rounded-lg shrink-0">
+        <background className="flex h-screen bg-[#e5e9ec]">
+            <aside className="m-3 flex flex-col h-[calc(100vh-1.5rem)]">
+                <div
+                    className={`transition-all duration-1000 ${
+                        expanded ? "w-64" : "w-16"
+                    }`}
+                >
                     <ToggleButton
                         expanded={expanded}
                         setExpanded={setExpanded}
@@ -80,11 +91,7 @@ export default function SidebarLayout({ children }) {
                 </div>
 
                 {/* Sidebar - adding flex-1 to take remaining space */}
-                <div
-                    className={`mt-4 flex-1 flex flex-col justify-between bg-[#fbfbfb] p-4 rounded-lg transition-all duration-1000 ${
-                        expanded ? "w-64" : "w-16"
-                    }`}
-                >
+                <div className={`mt-3 flex-1 flex flex-col justify-between bg-[#fbfbfb] p-4 rounded-lg transition-all duration-1000 ${expanded ? "w-64" : "w-16"}`}>
                     {/* Menu items */}
                     <nav className="flex-1">
                         {menuItems.map((item) => (
@@ -107,10 +114,13 @@ export default function SidebarLayout({ children }) {
                         href={route("logout")}
                     />
                 </div>
-            </div>
+            </aside>
 
             {/* Main Content */}
-            {children}
-        </div>
+
+            <main className="flex-1 mt-3 mr-3 mb-3 bg-[#fbfbfb] rounded-lg overflow-auto">
+                {children}
+            </main>
+        </background>
     );
 }
