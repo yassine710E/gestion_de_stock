@@ -59,21 +59,24 @@ class CommandController extends Controller
      */
     public function store(Request $request)
     {
-        $validData = $request->validate([
-            "date_achat" => ["required"],
-            "date_livraison" => ["required"],
-            "date_paiement" => ["required"],
-            "total" => ["required"],
-            "paye" => ["required"],
-            "prix_paye" => []
-        ]);
+        
+        dd($request->all());
 
-        if($request->paye === "non"){
-            $validData["prix_paye"] = 0 ;
-        };
+        // $validData = $request->validate([
+        //     "date_achat" => ["required"],
+        //     "date_livraison" => ["required"],
+        //     "date_paiement" => ["required"],
+        //     "total" => ["required"],
+        //     "paye" => ["required"],
+        //     "prix_paye" => []
+        // ]);
 
-        Command::create($validData) ;
-        return redirect()->route("commands.index")->with("success", "nouvelle command ajouter avec success !");
+        // if($request->paye === "non"){
+        //     $validData["prix_paye"] = 0 ;
+        // };
+
+        // Command::create($validData) ;
+        // return redirect()->route("commands.index")->with("success", "nouvelle command ajouter avec success !");
     }
 
     /**
