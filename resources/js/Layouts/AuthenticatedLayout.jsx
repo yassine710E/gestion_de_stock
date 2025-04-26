@@ -21,9 +21,9 @@ export default function AuthenticatedLayout({ header, children }) {
         useState(false);
 
     return (
-        <div >
+        <div>
             <SidebarLayout >
-                <div className="flex-1  h-screen overflow-auto">
+                <main className="flex-1 ml-4 h-screen overflow-auto">
                     {header && (
                         <header className="bg-white shadow">
                             <div className="mx-auto px-4 py-6 sm:px-6 lg:px-8">
@@ -33,7 +33,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     )}
 
                     {children}
-                </div>
+                </main>
             </SidebarLayout>
     </div>
     );

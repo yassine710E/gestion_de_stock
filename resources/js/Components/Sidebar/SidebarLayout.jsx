@@ -16,13 +16,28 @@ import SideBarFooter from "./SidebarFooter";
 
 // Define the menu items
 const menuItems = [
-    { title: "Dashboard", href: route('dashboard'), icon: Home, sub: ['add', 'delete'] },
-    { title: "Category", href: route('categories.index'), icon: Layers, sub: [{title: 'add', href:'delete'}] },
-    { title: "Products", href: route('produits.index'), icon: Box, sub: [] },
-    { title: "Suppliers", href: route('fournisseurs.index'), icon: Truck, sub: [] },
-    { title: "Clients", href: route('clients.index'), icon: Users, sub: [] },
-    { title: "Stocks", href: route('stocks.index'), icon: TrendingUp, sub: [] },
-    { title: "Settings", href: route('profile.edit'), icon: Settings, sub: [] },
+    {
+        title: "Dashboard",
+        href: route("dashboard"),
+        icon: Home,
+        sub: [],
+    },
+    {
+        title: "Category",
+        href: route("categories.index"),
+        icon: Layers,
+        sub: [],
+    },
+    { title: "Products", href: route("produits.index"), icon: Box, sub: [] },
+    {
+        title: "Suppliers",
+        href: route("fournisseurs.index"),
+        icon: Truck,
+        sub: [],
+    },
+    { title: "Clients", href: route("clients.index"), icon: Users, sub: [] },
+    { title: "Stocks", href: route("stocks.index"), icon: TrendingUp, sub: [] },
+    { title: "Settings", href: route("profile.edit"), icon: Settings, sub: [] },
     { title: "Notifications", href: "#", icon: Bell, sub: [] },
 ];
 
@@ -31,23 +46,22 @@ export default function SidebarLayout({ children }) {
     const [openDropdown, setOpenDropdown] = useState(null);
     const [activeItem, setActiveItem] = useState("");
     const { url } = usePage();
-    
 
     useEffect(() => {
         const currentItem = menuItems.find((item) => {
             // Create a temporary anchor to parse the route URL and get the pathname
-            const tempLink = document.createElement('a');
+            const tempLink = document.createElement("a");
             tempLink.href = item.href;
             const itemPath = tempLink.pathname;
-    
-            return url === itemPath || url.startsWith(itemPath + '/');
+
+            return url === itemPath || url.startsWith(itemPath + "/");
         });
-    
+
         if (currentItem) {
             setActiveItem(currentItem.title);
         }
     }, [url]);
-    
+
     // Toggle dropdown state
     const toggleDropdown = (title) => {
         setOpenDropdown(openDropdown === title ? null : title);
@@ -55,12 +69,25 @@ export default function SidebarLayout({ children }) {
 
     return (
         <div className="flex h-screen bg-[#e5e9ec]">
-            {/* Sidebar */}
-            <div className={`flex flex-col justify-between bg-[#fbfbfb]  p-4 mt-4 ml-4 mb-4 rounded-lg transition-all duration-1000 ${expanded ? "w-64" : "w-16"}`}>
-                {/* Menu items */}
-                <nav>
-                    {menuItems.map((item) => {
-                        return (
+            {/* Sidebar Container - adding h-[calc(100vh-2rem)] to take full height minus margins */}
+            <div className="mt-4 ml-4 mb-4 flex flex-col h-[calc(100vh-2rem)]">
+                {/* Toggle Button */}
+                <div className="bg-[#fbfbfb] rounded-lg shrink-0">
+                    <ToggleButton
+                        expanded={expanded}
+                        setExpanded={setExpanded}
+                    />
+                </div>
+
+                {/* Sidebar - adding flex-1 to take remaining space */}
+                <div
+                    className={`mt-4 flex-1 flex flex-col justify-between bg-[#fbfbfb] p-4 rounded-lg transition-all duration-1000 ${
+                        expanded ? "w-64" : "w-16"
+                    }`}
+                >
+                    {/* Menu items */}
+                    <nav className="flex-1">
+                        {menuItems.map((item) => (
                             <NavItem
                                 key={item.title}
                                 item={item}
@@ -70,17 +97,18 @@ export default function SidebarLayout({ children }) {
                                 onToggleDropdown={toggleDropdown}
                                 setActiveItem={setActiveItem}
                             />
-                        );
-                    })}
-                </nav>
+                        ))}
+                    </nav>
 
-                {/* Logout Button */}
-                <SideBarFooter expanded={expanded} setExpanded={setExpanded} href={route('logout')}/>
+                    {/* Logout Button */}
+                    <SideBarFooter
+                        expanded={expanded}
+                        setExpanded={setExpanded}
+                        href={route("logout")}
+                    />
+                </div>
             </div>
 
-            {/* Toggle Button */}
-            <ToggleButton expanded={expanded} setExpanded={setExpanded} />
-            
             {/* Main Content */}
             {children}
         </div>
