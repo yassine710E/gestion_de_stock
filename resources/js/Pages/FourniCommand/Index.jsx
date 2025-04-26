@@ -25,6 +25,7 @@ function Index({ commands, flash }) {
             "commands.index"
         );
 
+console.log(commands);
 
 
     return (
@@ -76,35 +77,29 @@ function Index({ commands, flash }) {
                             <table className="min-w-full divide-y divide-gray-200">
                                 <thead className="bg-gray-50">
                                     <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">date achat</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">nom complet</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">date livraison</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">date paiement</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">total</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">paye</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">prix paye</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
                                     {commands?.data ? commands.data.map((command) => (
                                         <tr key={commands.id} className="hover:bg-gray-50">
-                                            <td className="px-6 py-4 whitespace-nowrap">{command.id}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{command.date_achat}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap">{command.nom_complet}</td>
                                             <td className="px-6 py-4 whitespace-nowrap">{command.date_livraison}</td>
                                             <td className="px-6 py-4 whitespace-nowrap">{command.date_paiement}</td>
                                             <td className="px-6 py-4 whitespace-nowrap">{command.total}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{command.paye}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{command.prix_paye}</td>
 
                                             <td className="px-6 py-4 whitespace-nowrap space-x-2 gap-3 flex">
 
-                                                <Link
-                                                    className="text-blue-600 hover:text-blue-900 p-2 hover:bg-blue-100 rounded-full transition duration-150"
-                                                    href={route('commands.edit', command.id)}
-                                                >
-                                                    <i className="fas fa-edit"></i>
-                                                </Link>
+                                            <button
+                                                className="text-blue-600 hover:text-blue-900 p-2 hover:bg-blue-100 rounded-full transition duration-150"
+                                                // onClick={}
+                                            >
+                                                <i className="fas fa-save"></i>
+                                            </button>
                                                 <Link
                                                     className="text-green-600 hover:text-green-900 p-2 hover:bg-green-100 rounded-full transition duration-150"
                                                     href={route('commands.show', command.id)}
