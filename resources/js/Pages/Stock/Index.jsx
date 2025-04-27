@@ -22,7 +22,7 @@ function Index({ stocks, flash }) {
             <Head title="Stock" />
 
             <main className="flex-1 p-6 mt-4 mr-4 mb-4 bg-[#fbfbfb] rounded-lg overflow-auto">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div className="mx-auto sm:px-6 lg:px-8">
                     <Link href={route('stocks.create')}>
                         <SecondaryButton className=' my-4 '>
                             <i className="fas fa-plus-circle mr-2"></i> ajouter stock
