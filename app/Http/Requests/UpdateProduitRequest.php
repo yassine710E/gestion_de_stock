@@ -26,8 +26,8 @@ class UpdateProduitRequest extends FormRequest
             "nom_produit" => "required|min:4|max:255",
             "category_id" => "required|exists:categories,id",
             "prix_vente" => "required|numeric|min:0.5",
-            "min_stock"=>"required|integer|max:20|min:10",
-            "max_stock"=>"required|integer|max:1000|min:900",
+            "min_stock" => "required|integer|min:10|max:20",
+            "max_stock" => "required|integer|min:100|max:1000",
             "code_barre" => ['required', Rule::unique('produits')->ignore($this->produit->id)],
             "localisation"=>"required|string"
         ];

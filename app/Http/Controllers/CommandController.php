@@ -19,7 +19,8 @@ class CommandController extends Controller
         $query = DB::table('commands')
         ->leftJoin('ligne_commandes', 'commands.id', '=', 'ligne_commandes.command_id')
         ->leftJoin('clients', 'ligne_commandes.client_id', '=', 'clients.id')
-        ->whereNull('ligne_commandes.fournisseur_id')
+        ->whereNull('ligne_commandes.fournisseur_id') 
+        ->whereNull("commands.date_livraison")
         ->select(
             'commands.*',
             'clients.nom as client_nom',
@@ -107,11 +108,15 @@ class CommandController extends Controller
         ->where('command_id', $commande->id)
         ->get();
 
+
     foreach ($lignes as $ligne) {
         DB::table('stocks')
-            ->where('produit_id', $ligne->produit_id)
-            ->decrement('stock_quantite', $ligne->quantite);
-    }
+        ->where('produit_id', $ligne->produit_id)
+        ->decrement('stock_quantite', $ligne->quantite);
+    
+        DB::table('stocks')
+        ->where('produit_id', $ligne->produit_id)
+        ->update(['operation' => 'S']);    }
 
     return redirect()->route(route: "commands.index")->with("success", "nouvelle command est ajouter avec success !");
 

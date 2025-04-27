@@ -17,6 +17,7 @@ class fourniCommandsController extends Controller
         ->join("ligne_commandes", "commands.id", "=", "ligne_commandes.command_id")
         ->join("fournisseurs", "fournisseurs.id", "=", "ligne_commandes.fournisseur_id")
         ->whereNull("ligne_commandes.client_id")
+        ->whereNull("commands.date_achat")
         ->select(
         'commands.id as id',
         'commands.date_livraison',
@@ -99,6 +100,10 @@ class fourniCommandsController extends Controller
             DB::table('stocks')
                 ->where('produit_id', $ligne->produit_id)
                 ->increment('stock_quantite', $ligne->quantite);
+            
+                DB::table('stocks')
+                ->where('produit_id', $ligne->produit_id)
+                ->update(['operation' => 'E']); 
         }
 
         return redirect()->route("fourniCommands.index")->with("success", "nouvelle command est ajouter avec success !");
