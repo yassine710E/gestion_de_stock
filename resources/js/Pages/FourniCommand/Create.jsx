@@ -152,7 +152,7 @@ function Create({ errors, fournisseurs, produits, flash, fourni_id, allLingsComm
                                                     <option value="">--- Choisir Produit ---</option>
                                                     {produits.map((produit) => (
                                                         <option key={produit.id} value={produit.id}>
-                                                            {`${produit.nom_produit}      ${produit.stock.prix_stock}$`}
+                                                            {`${produit.nom_produit}`}
                                                         </option>
                                                     ))}
                                                 </select>
