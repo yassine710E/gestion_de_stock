@@ -68,61 +68,64 @@ function Index({ categories, flash }) {
 
                             </div>
 
-                            <div className="p-6 text-gray-900 ">
-                                {categories?.data?.length > 0 && (<table className="min-w-full divide-y divide-gray-200">
-                                    <thead className="bg-gray-50">
-                                        <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom Du Category</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="bg-white divide-y divide-gray-200">
+                            <div className="p-6 text-gray-900">
+                                {categories?.data?.length > 0 ? (
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                         {categories.data.map((category) => (
-                                            <tr key={category.id} className="hover:bg-gray-50">
-                                                <td className="px-6 py-4 whitespace-nowrap">{category.id}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap">{category.nom_cat}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap space-x-2 gap-3 flex">
-                                                    <form onSubmit={(e) => handleDelete(e,category.id)} >
-                                                        <button type='submit'  className="text-red-600 hover:text-red-900 p-2 hover:bg-red-100 rounded-full transition duration-150">
-                                                            <i className="fas fa-trash"></i>
+                                            <div 
+                                                key={category.id} 
+                                                className="relative group"
+                                            >
+                                                <div
+                                                    onClick={() => window.location.href = route('categories.edit', category.id)}
+                                                    className="bg-white rounded-md p-4 cursor-pointer transform transition-all duration-200 hover:scale-105 hover:shadow-sm border-2 border-gray-100 relative"
+                                                >
+                                                    <form 
+                                                        onSubmit={(e) => handleDelete(e, category.id)} 
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        className="absolute -right-2 -top-2"
+                                                    >
+                                                        <button
+                                                            type="submit"
+                                                            className="bg-red-100 text-red-600 hover:bg-red-200 w-6 h-6 rounded-full flex items-center justify-center shadow-sm transition duration-150"
+                                                        >
+                                                            <i className="fas fa-times text-xs"></i>
                                                         </button>
                                                     </form>
-
-                                                    <Link
-                                                        className="text-blue-600 hover:text-blue-900 p-2 hover:bg-blue-100 rounded-full transition duration-150"
-                                                        href={route('categories.edit', category.id)}
-                                                    >
-                                                        <i className="fas fa-edit"></i>
-                                                    </Link>
-                                                    <Link
-                                                        className="text-green-600 hover:text-green-900 p-2 hover:bg-green-100 rounded-full transition duration-150"
-                                                        href={route('categories.show', category.id)}
-                                                    >
-                                                        <i className="fas fa-eye"></i>
-                                                    </Link>
-                                                </td>
-                                            </tr>
+                                                    
+                                                    <div className="flex flex-col">
+                                                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium text-black">
+                                                            {category.nom_cat}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         ))}
-                                    </tbody>
-                                </table>)}
-                                {categories.data.length > 0 ? (<div className="mt-4 flex items-center justify-center">
-                                    {categories.links.map((link, index) => (
-                                        <Link
-                                            key={index}
-                                            href={link.url}
-                                            className={`px-3 py-2 mx-1 text-sm font-medium rounded-md ${link.active
-                                                ? 'bg-blue-600 text-white'
-                                                : 'bg-white text-gray-700 hover:bg-gray-50'
+                                    </div>
+                                ) : (
+                                    <div className="text-center">
+                                        <h1 className="text-red-500 text-xl">
+                                            <i className="fa fa-circle-exclamation mx-2"></i>pas du resultas
+                                        </h1>
+                                    </div>
+                                )}
+                                
+                                {categories.data.length > 0 && (
+                                    <div className="mt-4 flex items-center justify-center">
+                                        {categories.links.map((link, index) => (
+                                            <Link
+                                                key={index}
+                                                href={link.url}
+                                                className={`px-3 py-2 mx-1 text-sm font-medium rounded-md ${
+                                                    link.active
+                                                        ? 'bg-blue-600 text-white'
+                                                        : 'bg-white text-gray-700 hover:bg-gray-50'
                                                 } ${!link.url && 'opacity-50 cursor-not-allowed'}`}
-                                            dangerouslySetInnerHTML={{ __html: link.label }}
-                                        />
-                                    ))}
-                                </div>) : (<div className="text-center">
-                                    <h1 className="text-red-500 text-xl "> <i className="fa fa-circle-exclamation mx-2"></i>pas du resultas</h1>
-                                </div>)}
-
-
+                                                dangerouslySetInnerHTML={{ __html: link.label }}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
