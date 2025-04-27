@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ClientRequest;
 use Inertia\Inertia;
 use App\Models\Client;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
@@ -55,6 +56,14 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
+        $commandes = DB::table('commands')
+        ->join('ligne_commandes', 'commands.id', '=', 'ligne_commandes.command_id')
+        ->where('ligne_commandes.client_id', $client->id)
+        ->select('commands.*', 'ligne_commandes.quantite', 'ligne_commandes.sous_total')
+        ->get();
+
+        dd($commandes);
+
         return Inertia::render("Client/Show" , compact("client"));
 
     }
