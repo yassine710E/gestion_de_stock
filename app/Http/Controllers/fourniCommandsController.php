@@ -17,6 +17,7 @@ class fourniCommandsController extends Controller
         ->join("ligne_commandes", "commands.id", "=", "ligne_commandes.command_id")
         ->join("fournisseurs", "fournisseurs.id", "=", "ligne_commandes.fournisseur_id")
         ->whereNull("ligne_commandes.client_id")
+        ->whereNull("commands.date_achat")
         ->select(
         'commands.id as id',
         'commands.date_livraison',
@@ -31,15 +32,15 @@ class fourniCommandsController extends Controller
                 $q->where('fournisseurs.nom_complet', 'like', '%' . $request->name . '%');
             });
         }
-    
+
         if ($request->filled('date_debut')) {
             $query->whereDate('commands.date_livraison', '>=', $request->date_debut);
         }
-    
+
         if ($request->filled('date_fin')) {
             $query->whereDate('commands.date_livraison', '<=', $request->date_fin);
         }
-    
+
         $commands = $query->paginate(10)->withQueryString();
         return Inertia::render("FourniCommand/Index", compact("commands")) ;
     }
@@ -48,12 +49,12 @@ class fourniCommandsController extends Controller
     public function create()
     {
         $fournisseurs = Fournisseur::all();
-        
+
         $fourni_id = session()->get("fourni_id");
 
-  
-        $produits = Produit::all();
-        
+
+        $produits = Produit::join("stocks", "produits.id", "=", "stocks.produit_id")->get();
+
         $allLingsCommand = [];
 
 
@@ -65,7 +66,7 @@ class fourniCommandsController extends Controller
         ->get();
 
         session()->put("client_id", $fourni_id);
-            
+
         return Inertia::render("FourniCommand/Create", compact("fournisseurs", "produits", "allLingsCommand"));
     }
 
@@ -79,7 +80,7 @@ class fourniCommandsController extends Controller
 
         $commande = Command::create([
             'total' => $data['total'],
-            "date_achat"=>null 
+            "date_achat"=>null
         ]);
 
         DB::table('ligne_commandes')
@@ -99,13 +100,17 @@ class fourniCommandsController extends Controller
             DB::table('stocks')
                 ->where('produit_id', $ligne->produit_id)
                 ->increment('stock_quantite', $ligne->quantite);
+            
+                DB::table('stocks')
+                ->where('produit_id', $ligne->produit_id)
+                ->update(['operation' => 'E']); 
         }
 
         return redirect()->route("fourniCommands.index")->with("success", "nouvelle command est ajouter avec success !");
 
     }
 
-    
+
     public function show(String $id)
     {
 

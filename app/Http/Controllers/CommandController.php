@@ -20,6 +20,7 @@ class CommandController extends Controller
         ->leftJoin('ligne_commandes', 'commands.id', '=', 'ligne_commandes.command_id')
         ->leftJoin('clients', 'ligne_commandes.client_id', '=', 'clients.id')
         ->whereNull('ligne_commandes.fournisseur_id') 
+        ->whereNull("commands.date_livraison")
         ->select(
             'commands.*',
             'clients.nom as client_nom',
@@ -28,7 +29,7 @@ class CommandController extends Controller
         ->groupBy(
             'commands.id',
             'clients.nom',
-            'clients.prenom', 
+            'clients.prenom',
             'commands.date_achat',
             'commands.date_livraison',
             'commands.total'
@@ -39,15 +40,15 @@ class CommandController extends Controller
                   ->orWhere('clients.prenom', 'like', '%' . $request->name . '%');
             });
         }
-    
+
         if ($request->filled('date_debut')) {
             $query->whereDate('commands.date_achat', '>=', $request->date_debut);
         }
-    
+
         if ($request->filled('date_fin')) {
             $query->whereDate('commands.date_achat', '<=', $request->date_fin);
         }
-    
+
         $commands = $query->paginate(10)->withQueryString();
 
          return Inertia::render("Command/Index", compact("commands")) ;
@@ -59,20 +60,20 @@ class CommandController extends Controller
     public function create()
     {
         $clients = Client::all();
-        
-        
+
+
         $client_id = session()->get("client_id");
 
-  
+
         $produits = Produit::all();
-        
-        
+
+
         $allLingsCommand = DB::table('ligne_commandes')
         ->whereNull('command_id')
         ->join('produits', 'ligne_commandes.produit_id', '=', 'produits.id')
         ->select('ligne_commandes.*', 'produits.nom_produit', 'produits.prix_vente',"produits.photo")
         ->get();
-        
+
         return Inertia::render("Command/Create", compact("clients", "produits", "allLingsCommand",'client_id'));
     }
 
@@ -81,7 +82,6 @@ class CommandController extends Controller
      */
     public function store()
     {
-
         $data = request()->validate([
             'client_id'=>['required',"numeric"],
             'total'=>['required',"numeric"]
@@ -89,9 +89,9 @@ class CommandController extends Controller
 
         $commande = Command::create([
                   'total' => $data['total'],
-                  "date_livraison"=>null 
+                  "date_livraison"=>null
                    ]);
-        
+
         // 2. Mise à jour des lignes de commande
         DB::table('ligne_commandes')
         ->where('client_id', $data['client_id'])
@@ -108,14 +108,18 @@ class CommandController extends Controller
         ->where('command_id', $commande->id)
         ->get();
 
+
     foreach ($lignes as $ligne) {
         DB::table('stocks')
-            ->where('produit_id', $ligne->produit_id)
-            ->decrement('stock_quantite', $ligne->quantite);
-    }
+        ->where('produit_id', $ligne->produit_id)
+        ->decrement('stock_quantite', $ligne->quantite);
+    
+        DB::table('stocks')
+        ->where('produit_id', $ligne->produit_id)
+        ->update(['operation' => 'S']);    }
 
     return redirect()->route(route: "commands.index")->with("success", "nouvelle command est ajouter avec success !");
-        
+
     }
 
     /**
