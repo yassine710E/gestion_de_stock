@@ -7,7 +7,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import DangerButton from '@/Components/DangerButton';
 import useEditForm from '@/hooks/Edit';
 
-function Edit({ produit, categories,fournisseurs, errors }) {
+function Edit({ produit, categories, errors }) {
     console.log(produit);
     const {
         data,
@@ -35,7 +35,7 @@ function Edit({ produit, categories,fournisseurs, errors }) {
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
-                    <i className="fas fa-folder-open"></i><Span>Product Customisation</Span>
+                    <i className="fas fa-folder-open"></i><span>Product Customisation</span>
                 </h2>
             }
         >

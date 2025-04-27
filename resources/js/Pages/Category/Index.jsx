@@ -41,11 +41,8 @@ function Index({ categories, flash }) {
                     <div className="mx-auto max-w-10xl sm:px-12 lg:px-8">
                         <Link href={route('categories.create')}>
 
-<<<<<<< HEAD
+
                         <SecondaryButton className=' my-4'><i className="fas fa-plus-circle mr-2"></i> Add Category</SecondaryButton>
-=======
-                            <SecondaryButton className='px-4 py-3 my-4 bg-green-500 hover:bg-green-700'><i className="fas fa-plus-circle mr-2"></i> Add Category</SecondaryButton>
->>>>>>> 2a2f8a4dcb7ccee3efd7ff178f850266a73ecd68
 
                         </Link>
                         {flash.success && (<Success flash={flash} />)}
