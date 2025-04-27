@@ -8,6 +8,10 @@ import {
     TrendingUp,
     Settings,
     Bell,
+    Package,
+    Boxes,
+    HandCoins,
+    BookUser,
 } from "lucide-react";
 import { usePage } from "@inertiajs/react"; // Import the usePage hook
 import NavItem from "./NavItem"; // Import the NavItem component
@@ -28,7 +32,7 @@ const menuItems = [
         icon: Layers,
         sub: [],
     },
-    { title: "Products", href: route("produits.index"), icon: Box, sub: [] },
+    { title: "Products", href: route("produits.index"), icon: Package, sub: [] },
     {
         title: "Suppliers",
         href: route("fournisseurs.index"),
@@ -36,9 +40,9 @@ const menuItems = [
         sub: [],
     },
     { title: "Clients", href: route("clients.index"), icon: Users, sub: [] },
-    { title: "Stocks", href: route("stocks.index"), icon: TrendingUp, sub: [] },
-    { title: "Client Commands", href: route("commands.index"), icon: Bell, sub: [] },
-    { title: "Supplier Commands", href: route("fourniCommands.index"), icon: Bell, sub: [] },
+    { title: "Stocks", href: route("stocks.index"), icon: Boxes, sub: [] },
+    { title: "Client Commands", href: route("commands.index"), icon: BookUser, sub: [] },
+    { title: "Supplier Commands", href: route("fourniCommands.index"), icon: HandCoins, sub: [] },
     { title: "Settings", href: route("profile.edit"), icon: Settings, sub: [] },
     { title: "Notifications", href: "#", icon: Bell, sub: [] },
 ];
