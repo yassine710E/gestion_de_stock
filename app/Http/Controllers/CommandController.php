@@ -66,20 +66,12 @@ class CommandController extends Controller
   
         $produits = Produit::all();
         
-        $allLingsCommand = [];
         
-        
-
-        if ($client_id) {
-            
-            $allLingsCommand = DB::table('ligne_commandes')
-            ->whereNull('command_id')
-            ->join('produits', 'ligne_commandes.produit_id', '=', 'produits.id')
-            ->select('ligne_commandes.*', 'produits.nom_produit', 'produits.prix_vente',"produits.photo")
-            ->get();
-
-
-        }
+        $allLingsCommand = DB::table('ligne_commandes')
+        ->whereNull('command_id')
+        ->join('produits', 'ligne_commandes.produit_id', '=', 'produits.id')
+        ->select('ligne_commandes.*', 'produits.nom_produit', 'produits.prix_vente',"produits.photo")
+        ->get();
         
         return Inertia::render("Command/Create", compact("clients", "produits", "allLingsCommand",'client_id'));
     }
@@ -122,7 +114,7 @@ class CommandController extends Controller
             ->decrement('stock_quantite', $ligne->quantite);
     }
 
-    return redirect()->route("commands.index")->with("success", "nouvelle command est ajouter avec success !");
+    return redirect()->route(route: "commands.index")->with("success", "nouvelle command est ajouter avec success !");
         
     }
 
@@ -152,38 +144,9 @@ class CommandController extends Controller
 
     return Inertia::render("Command/Show", compact("command",'client',"products")) ;
 
-
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Command $command)
-    {
-        return Inertia::render("Command/Edit", compact("command")) ;
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Command $command)
-    {
-        $validData = $request->validate([
-            "date_achat" => ["required"],
-            "date_livraison" => ["required"],
-            "date_paiement" => ["required"],
-            "total" => ["required"],
-            "paye" => ["required"],
-            "prix_paye" => []
-        ]);
-
-        if($request->paye === "non"){
-            $validData["prix_paye"] = 0 ;
-        };
-
-        $command->update($validData);
-        return redirect()->route("commands.index")->with("success", " command est modifier avec success !");
-    }
 
     /**
      * Remove the specified resource from storage.

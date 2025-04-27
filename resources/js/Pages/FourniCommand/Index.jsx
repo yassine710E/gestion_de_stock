@@ -4,11 +4,12 @@ import Success from '@/Components/Success';
 import TextInput from '@/Components/TextInput';
 import Error from '@/Components/Error';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link} from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 
 import React from 'react'
 import useFilterForm from '@/hooks/Index';
 import DangerButton from '@/Components/DangerButton';
+import InputLabel from '@/Components/InputLabel';
 
 function Index({ commands, flash }) {
 
@@ -20,13 +21,14 @@ function Index({ commands, flash }) {
             status
         } = useFilterForm(
             {
-                "search": null,
+                'name': null,
+                'date_debut': null,
+                'date_fin': null,
             },
-            "commands.index"
+            "fourniCommands.index"
         );
 
-console.log(commands);
-
+console.log(commands.data)
 
     return (
         <AuthenticatedLayout
@@ -54,32 +56,68 @@ console.log(commands);
 
 
 
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900 my-3 flex gap-4 items-center">
-
-                            <TextInput
-                                type="text"
-                                name='search'
-                                value={data.search}
-                                onChange={changeHandler}
-                                className=" mt-6 block w-full"
-                                placeholder="Nom Complet ..."
-                            />
-                            <div className={`mt-6`} hidden={status()}>
-                                <button onClick={resetFilters}>
-                                    <DangerButton>X</DangerButton>
-
-                                </button>
+                        <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                            <div className="bg-white rounded-xl shadow-lg p-6 my-6">
+                                <div className="flex flex-wrap gap-6 items-start justify-between">
+                                    <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-6">
+                                        <div className="space-y-2">
+                                            <InputLabel className="text-gray-700 font-semibold">
+                                                Nom Complet Client:
+                                            </InputLabel>
+                                            <TextInput
+                                                type="text"
+                                                name="name"
+                                                value={data.name}
+                                                onChange={changeHandler}
+                                                placeholder="Search by name..."
+                                                className="w-full rounded-lg"
+                                            />
+                                        </div>
+    
+                                        <div className="space-y-2">
+                                            <InputLabel className="text-gray-700 font-semibold">
+                                                Date Début :
+                                            </InputLabel>
+                                            <TextInput
+                                                type="date"    
+                                                name="date_debut"         
+                                                value={data.date_debut}
+                                                onChange={changeHandler}
+                                                className="w-full rounded-lg"
+                                            />
+                                        </div>
+    
+                                        <div className="space-y-2">
+                                            <InputLabel className="text-gray-700 font-semibold">
+                                                Date Fin:
+                                            </InputLabel>
+                                            <TextInput
+                                                type="date"    
+                                                name="date_fin"           
+                                                value={data.date_fin}
+                                                onChange={changeHandler}
+                                                className="w-full rounded-lg"
+                                            />
+                                        </div>
+                                    </div>
+    
+                                    <div className="mt-8" style={{ display: status() ? 'none' : 'block' }} hidden={status()}>
+                                        <button onClick={resetFilters}>
+                                            <DangerButton>X</DangerButton>
+                                        </button>
+                                    </div>
+    
+    
+                                </div>
                             </div>
-
                         </div>
                         <div className="p-6 text-gray-900 ">
                             <table className="min-w-full divide-y divide-gray-200">
                                 <thead className="bg-gray-50">
                                     <tr>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">nom complet</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">date livraison</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">date paiement</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">total</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                     </tr>
@@ -87,22 +125,16 @@ console.log(commands);
                                 <tbody className="bg-white divide-y divide-gray-200">
                                     {commands?.data ? commands.data.map((command) => (
                                         <tr key={commands.id} className="hover:bg-gray-50">
+                                            <td className="px-6 py-4 whitespace-nowrap">{command.id}</td>
                                             <td className="px-6 py-4 whitespace-nowrap">{command.nom_complet}</td>
                                             <td className="px-6 py-4 whitespace-nowrap">{command.date_livraison}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{command.date_paiement}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{command.total}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap">{command.total} $</td>
 
                                             <td className="px-6 py-4 whitespace-nowrap space-x-2 gap-3 flex">
-
-                                            <button
-                                                className="text-blue-600 hover:text-blue-900 p-2 hover:bg-blue-100 rounded-full transition duration-150"
-                                                // onClick={}
-                                            >
-                                                <i className="fas fa-save"></i>
-                                            </button>
+                                                { console.log(command) }
                                                 <Link
                                                     className="text-green-600 hover:text-green-900 p-2 hover:bg-green-100 rounded-full transition duration-150"
-                                                    href={route('commands.show', command.id)}
+                                                    href={route('fourniCommands.show', command.id)}
                                                 >
                                                     <i className="fas fa-eye"></i>
                                                 </Link>
@@ -112,6 +144,15 @@ console.log(commands);
                                                         <i className="fas fa-trash"></i>
                                                     </button>
                                                 </form>
+
+                                                <a
+                                                    href={route('pdfFournisseurCommande', command.id)}
+                                                    className="text-purple-600 hover:text-purple-900 p-2 hover:bg-purple-100 rounded-full transition duration-150"
+                                                    download
+                                                >
+                                                    <i className="fas fa-file-pdf"></i>
+                                                </a>
+
                                             </td>
                                         </tr>
                                     )) : (
@@ -139,7 +180,6 @@ console.log(commands);
                         </div>
                     </div>
                 </div>
-            </div>
         </AuthenticatedLayout>
     )
 }

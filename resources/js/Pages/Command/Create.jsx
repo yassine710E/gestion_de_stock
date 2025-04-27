@@ -17,6 +17,9 @@ function Create({ errors, clients, produits, flash, client_id, allLingsCommand }
     const [commandProduits, setCommandProduits] = useState(allLingsCommand);
     const [sum, setSum] = useState(0);
 
+    console.log(allLingsCommand);
+    
+
     const { handleDelete } = useFilterForm({}, "lignes.index");
 
     const toggleModal = () => setIsOpen(!isOpen);
