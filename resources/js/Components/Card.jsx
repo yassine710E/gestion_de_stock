@@ -1,75 +1,69 @@
-// In your existing code, modify the image container and img tag styles:
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 function Card({ produit, handleDelete }) {
     return (
         <div
             key={produit.id}
-            className="group relative bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-4"
+            onClick={() => (window.location.href = route("produits.show", produit.id))}
+            className="group relative flex flex-col bg-white border border-gray-200 hover:border-gray-300 transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden rounded-lg cursor-pointer"
         >
-            <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8 h-[200px]">
-                {" "}
-                {/* Added fixed height */}
+            {/* Delete (X) Button Top Right */}
+            <form
+                onClick={(e) => e.stopPropagation()} // prevent click from bubbling to card view
+                onSubmit={(e) => handleDelete(e, produit.id)}
+                className="absolute top-3 right-3 z-10"
+            >
+                <button
+                    type="submit"
+                    className="h-8 w-8 flex items-center justify-center bg-white text-gray-400 hover:text-red-500 hover:bg-red-50 border border-gray-200 rounded-full shadow-sm transition-all duration-300"
+                >
+                    <FontAwesomeIcon icon={faTimes} size="sm" />
+                </button>
+            </form>
+
+            {/* Image */}
+            <div className="relative w-full h-48 overflow-hidden">
                 <img
                     alt={produit.nom_produit}
                     src={`/storage/${produit.photo}`}
-                    className="h-[200px] w-full object-cover object-center group-hover:opacity-75"
-                    style={{ objectFit: "cover" }} // Ensures image covers the area without distortion
+                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
             </div>
-            <div className="mt-4 space-y-2">
+
+            {/* Content */}
+            <div className="flex flex-col flex-1 p-4 space-y-2">
+                {/* Product Title and Price */}
                 <div className="flex justify-between items-start">
-                    <h3 className="text-lg font-medium text-gray-900 truncate">
+                    <h3 className="text-base font-semibold text-gray-900 truncate leading-tight">
                         {produit.nom_produit}
                     </h3>
-                    <p className="text-lg font-bold text-indigo-600">
+                    <p className="text-sm font-bold text-indigo-600 whitespace-nowrap">
                         ${parseFloat(produit.prix_vente).toFixed(2)}
                     </p>
                 </div>
 
-                <div className="flex items-center space-x-2">
-                    <span className="px-2 py-1 text-xs font-semibold bg-gray-100 text-gray-600 rounded-full">
+                {/* Category and Code */}
+                <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+                    <span className="px-2 py-0.5 bg-gray-100 rounded-full">
                         {produit.category.nom_cat}
                     </span>
-                    <span className="text-sm text-gray-500">
-                        Code: {produit.code_barre}
-                    </span>
+                    <span>• Code: {produit.code_barre}</span>
                 </div>
-                
-                <div className="flex justify-end space-x-2 mt-2">
-                    <button
-                        className="p-2 text-blue-600 hover:text-blue-800"
-                        onClick={() =>
-                            (window.location.href = route(
-                                "produits.show",
-                                produit.id
-                            ))
-                        }
-                    >
-                        <FontAwesomeIcon icon={faEye} />
-                    </button>
-                    <button
-                        className="p-2 text-green-600 hover:text-green-800"
-                        onClick={() =>
-                            (window.location.href = route(
-                                "produits.edit",
-                                produit.id
-                            ))
-                        }
-                    >
-                        <FontAwesomeIcon icon={faEdit} />
-                    </button>
-                    <form onSubmit={(e) => handleDelete(e, produit.id)}>
-                        <button
-                            type="submit"
-                            className="p-2 text-red-600 hover:text-red-800"
-                        >
-                            <FontAwesomeIcon icon={faTrash} />
-                        </button>
-                    </form>
-                </div>
+
+                {/* Spacer */}
+                <div className="flex-grow"></div>
+
+                {/* Floating Edit Button */}
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation(); // prevent view action
+                        window.location.href = route("produits.edit", produit.id);
+                    }}
+                    className="absolute bottom-3 right-3 h-10 w-10 flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700 rounded-full shadow-md transition-all"
+                >
+                    <FontAwesomeIcon icon={faPen} size="sm" />
+                </button>
             </div>
         </div>
     );

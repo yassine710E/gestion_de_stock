@@ -24,17 +24,17 @@ export default function Dashboard({
     results
 }) {
     console.log(results);
-    // useEffect(() => {
-    //     if (lowProduct.length > 0) {
-    //         Swal.fire({
-    //             icon: "error",
-    //             title: "ATTENTION!",
-    //             text: `${lowProduct.length} produits ont une quantité inférieure à stock minimale!!`,
-    //             confirmButtonText: "Passer",
-    //             confirmButtonColor: "#a4d4ff",
-    //         });
-    //     }
-    // }, [lowProduct]);
+    //  useEffect(() => {
+    //      if (lowProduct.length > 0) {
+    //          Swal.fire({
+    //              icon: "error",
+    //              title: "ATTENTION!",
+    //              text: `${lowProduct.length} produits ont une quantité inférieure à stock minimale!!`,
+    //              confirmButtonText: "Passer",
+    //              confirmButtonColor: "#a4d4ff",
+    //          });
+    //      }
+    //  }, [lowProduct]);
 
     return (
         <AuthenticatedLayout
@@ -124,7 +124,7 @@ export default function Dashboard({
 
                 <div className=" my-4 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-7">
                     {/* Overview Section */}
-                    <div className="card border border-red-700 col-span-1 md:col-span-2 lg:col-span-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+                    <div className="card   col-span-1 md:col-span-2 lg:col-span-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
                         <div className="card-header">
                             <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
                                 Overview

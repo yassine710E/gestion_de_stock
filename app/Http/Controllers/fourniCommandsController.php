@@ -100,6 +100,10 @@ class fourniCommandsController extends Controller
             DB::table('stocks')
                 ->where('produit_id', $ligne->produit_id)
                 ->increment('stock_quantite', $ligne->quantite);
+            
+                DB::table('stocks')
+                ->where('produit_id', $ligne->produit_id)
+                ->update(['operation' => 'E']); 
         }
 
         return redirect()->route("fourniCommands.index")->with("success", "nouvelle command est ajouter avec success !");

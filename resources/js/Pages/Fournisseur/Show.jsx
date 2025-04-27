@@ -36,28 +36,9 @@ function Show({ fournisseur }) {
                                     <p className="text-gray-900"><span className="font-bold">Adresse:</span> {fournisseur.address}</p>
                                 </div>
                             </div>
-                        </div>+
-                    </div>
-                    <div className="bg-white shadow-md rounded-lg p-4 sm:p-6">
-                        <div className="mt-4 sm:mt-8">
-                            <h2 className="text-xl sm:text-2xl font-bold text-violet-500 mb-4">fournisseur produits</h2>
-                            {fournisseur.produits && fournisseur.produits.length > 0 ? (
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3 sm:gap-4">
-                                    {fournisseur.produits.map((produit, index) => (
-                                        <CardCategory key={index} produit={produit} />
-                                    ))
-                                    }
-                                </div>
-                            ) : (
-                                <div className="text-center py-8">
-                                    <h1 className="text-red-500 text-lg sm:text-xl">
-                                        <i className="fa fa-circle-exclamation mx-2"></i>
-                                        pas du Produits
-                                    </h1>
-                                </div>
-                            )}
                         </div>
                     </div>
+
                 </div>
             </div>
         </AuthenticatedLayout>

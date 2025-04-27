@@ -14,7 +14,7 @@ import useFilterForm from '@/hooks/Index';
 
 function Create({ errors, fournisseurs, produits, flash, fourni_id, allLingsCommand }) {
     const [isOpen, setIsOpen] = useState(false);
-    const { handleDelete } = useFilterForm({}, "fourniCommands.index");
+    const { handleDelete } = useFilterForm({}, "fou_lignes.index");
     const [sum, setSum] = useState(0)
 
 
@@ -59,7 +59,7 @@ function Create({ errors, fournisseurs, produits, flash, fourni_id, allLingsComm
         }, [data.fournisseur_id, data, allLingsCommand]);
 
 
-           
+
 
 
     return (
