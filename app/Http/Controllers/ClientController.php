@@ -62,8 +62,6 @@ class ClientController extends Controller
         ->select('commands.*', 'ligne_commandes.quantite', 'ligne_commandes.sous_total')
         ->get();
 
-        dd($commandes);
-
         return Inertia::render("Client/Show" , compact("client"));
 
     }

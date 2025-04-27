@@ -30,8 +30,8 @@ function Edit({ client, errors }) {
         >
             <Head title="Create Client" />
 
-            <div className="py-12 bg-gray-50">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-6">
                     <div className="bg-white rounded-lg shadow-lg overflow-hidden">
                         <div className="p-8">
                             <form onSubmit={formHandling} className="space-y-6">
@@ -189,7 +189,6 @@ function Edit({ client, errors }) {
                         </div>
                     </div>
                 </div>
-            </div>
         </AuthenticatedLayout>
     );
 }

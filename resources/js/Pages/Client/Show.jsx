@@ -14,7 +14,7 @@ function Show({ client }) {
         >
             <Head title="client info" />
 
-            <div className="py-12">
+            <div className="py-6">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="bg-white shadow-md rounded-lg p-6">
                         <div className="mt-8">

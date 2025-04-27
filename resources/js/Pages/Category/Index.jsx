@@ -72,7 +72,7 @@ function Index({ categories, flash }) {
                                     <div className="text-center">
                                         <h1 className="text-red-500 text-xl">
                                             <i className="fa fa-circle-exclamation mx-2"></i>
-                                            Hmm... No categories found
+                                            Hmm... No categories were found
                                         </h1>
                                     </div>
                                 )}

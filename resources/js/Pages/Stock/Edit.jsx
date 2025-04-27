@@ -27,7 +27,7 @@ function Edit({ stock,produits, errors }) {
         >
             <Head title="Category" />
 
-            <div className="py-12">
+            <div className="py-6">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <Link href={route("stocks.index")}>
                         <DangerButton className='mb-8 gap-4'>

@@ -120,7 +120,7 @@ export default function SidebarLayout({ children }) {
 
             {/* Main Content */}
 
-            <main className="flex-1 mt-3 mr-3 mb-3 bg-[#fbfbfb] rounded-lg overflow-auto">
+            <main className="flex-1 mt-3 mr-3 mb-3 bg-[hsl(0,0%,97%)] rounded-lg overflow-auto">
                 {children}
             </main>
         </background>

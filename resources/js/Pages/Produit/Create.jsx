@@ -1,10 +1,10 @@
-import { Head } from '@inertiajs/react'
-import React from 'react'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import TextInput from '@/Components/TextInput';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import useCreateForm from '@/hooks/Create';
+import { Head } from "@inertiajs/react";
+import React from "react";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import TextInput from "@/Components/TextInput";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import useCreateForm from "@/hooks/Create";
 
 function Create({ categories, founisseurs, errors }) {
     const {
@@ -14,24 +14,27 @@ function Create({ categories, founisseurs, errors }) {
         formHandling,
         changeHandling,
         handleFileChange,
-        handleRemove
-    } = useCreateForm({
-        "category_id": "",
-        "nom_produit": "",
-        "prix_vente": "",
-        "min_stock": "",
-        "max_stock": "",
-        "photo": null,
-        "code_barre": "",
-        "localisation": ""
-
-    }, "produits.store");
+        handleRemove,
+    } = useCreateForm(
+        {
+            category_id: "",
+            nom_produit: "",
+            prix_vente: "",
+            min_stock: "",
+            max_stock: "",
+            photo: null,
+            code_barre: "",
+            localisation: "",
+        },
+        "produits.store"
+    );
 
     return (
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
-                    <i className="fas fa-folder-open"></i><span>Product Creation</span>
+                    <i className="fas fa-folder-open"></i>
+                    <span>Product Creation</span>
                 </h2>
             }
         >
@@ -50,11 +53,15 @@ function Create({ categories, founisseurs, errors }) {
                                         type="text"
                                         id="nom_produit"
                                         name="nom_produit"
-                                        value={data.nom_produit || ''}
+                                        value={data.nom_produit || ""}
                                         onChange={changeHandling}
                                         placeholder="Enter category name"
                                     />
-                                    {errors.nom_produit && <div className="text-sm text-red-600">{errors.nom_produit}</div>}
+                                    {errors.nom_produit && (
+                                        <div className="text-sm text-red-600">
+                                            {errors.nom_produit}
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="flex flex-col space-y-2">
@@ -63,103 +70,160 @@ function Create({ categories, founisseurs, errors }) {
                                     </InputLabel>
                                     <select
                                         onChange={changeHandling}
-                                        className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${errors.category_id ? 'border-red-500' : 'border-gray-300'}`}
+                                        className={`px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${
+                                            errors.category_id
+                                                ? "border-red-500"
+                                                : "border-gray-300"
+                                        }`}
                                         name="category_id"
                                         id="category_id"
-                                        
                                     >
-
-                                        <option value=''>---choisir categorie---</option>
+                                        <option value="">
+                                            ---choisir categorie---
+                                        </option>
                                         {categories.map((category) => (
-                                            <option value={category.id}>{category.nom_cat}</option>
+                                            <option value={category.id}>
+                                                {category.nom_cat}
+                                            </option>
                                         ))}
                                     </select>
 
-                                    {errors.category_id && <div className="text-sm text-red-600">{errors.category_id}</div>}
+                                    {errors.category_id && (
+                                        <div className="text-sm text-red-600">
+                                            {errors.category_id}
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="flex flex-col space-y-2">
-                                    <InputLabel htmlFor="prix_vente" className="text-sm font-medium text-gray-700">
+                                    <InputLabel
+                                        htmlFor="prix_vente"
+                                        className="text-sm font-medium text-gray-700"
+                                    >
                                         prix Produit
                                     </InputLabel>
                                     <TextInput
                                         type="number"
                                         id="prix_vente"
                                         name="prix_vente"
-                                        value={data.prix_vente || ''}
+                                        value={data.prix_vente || ""}
                                         onChange={changeHandling}
                                         placeholder="Enter prix produit"
                                     />
-                                    {errors.prix_vente && <div className="text-sm text-red-600">{errors.prix_vente}</div>}
+                                    {errors.prix_vente && (
+                                        <div className="text-sm text-red-600">
+                                            {errors.prix_vente}
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="flex flex-col space-y-2">
-                                    <InputLabel htmlFor="min_stock" className="text-sm font-medium text-gray-700">
+                                    <InputLabel
+                                        htmlFor="min_stock"
+                                        className="text-sm font-medium text-gray-700"
+                                    >
                                         Min Stock
                                     </InputLabel>
                                     <TextInput
                                         type="number"
                                         id="min_stock"
                                         name="min_stock"
-                                        value={data.min_stock || ''}
+                                        value={data.min_stock || ""}
                                         onChange={changeHandling}
                                         placeholder="Enter Min Quantity Stock"
                                     />
-                                    {errors.min_stock && <div className="text-sm text-red-600">{errors.min_stock}</div>}
+                                    {errors.min_stock && (
+                                        <div className="text-sm text-red-600">
+                                            {errors.min_stock}
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="flex flex-col space-y-2">
-                                    <InputLabel htmlFor="max_stock" className="text-sm font-medium text-gray-700">
+                                    <InputLabel
+                                        htmlFor="max_stock"
+                                        className="text-sm font-medium text-gray-700"
+                                    >
                                         Max Stock
                                     </InputLabel>
                                     <TextInput
                                         type="number"
                                         id="max_stock"
                                         name="max_stock"
-                                        value={data.max_stock || ''}
+                                        value={data.max_stock || ""}
                                         onChange={changeHandling}
                                         placeholder="Enter Max Quantity Stock"
                                     />
-                                    {errors.max_stock && <div className="text-sm text-red-600">{errors.max_stock}</div>}
+                                    {errors.max_stock && (
+                                        <div className="text-sm text-red-600">
+                                            {errors.max_stock}
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="flex flex-col space-y-2">
-                                    <InputLabel htmlFor="code_barre" className="text-sm font-medium text-gray-700">
+                                    <InputLabel
+                                        htmlFor="code_barre"
+                                        className="text-sm font-medium text-gray-700"
+                                    >
                                         Code Barre
                                     </InputLabel>
                                     <TextInput
                                         type="text"
                                         id="code_barre"
                                         name="code_barre"
-                                        value={data.code_barre || ''}
+                                        value={data.code_barre || ""}
                                         onChange={changeHandling}
                                         placeholder="Enter category name"
                                     />
-                                    {errors.code_barre && <div className="text-sm text-red-600">{errors.code_barre}</div>}
+                                    {errors.code_barre && (
+                                        <div className="text-sm text-red-600">
+                                            {errors.code_barre}
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="flex flex-col space-y-2">
-                                    <InputLabel htmlFor="localisation" className="text-sm font-medium text-gray-700">
+                                    <InputLabel
+                                        htmlFor="localisation"
+                                        className="text-sm font-medium text-gray-700"
+                                    >
                                         Localisation
                                     </InputLabel>
                                     <TextInput
                                         type="text"
                                         id="localisation"
                                         name="localisation"
-                                        value={data.localisation || ''}
+                                        value={data.localisation || ""}
                                         onChange={changeHandling}
                                         placeholder="Enter Location of product Stock"
                                     />
-                                    {errors.localisation && <div className="text-sm text-red-600">{errors.localisation}</div>}
+                                    {errors.localisation && (
+                                        <div className="text-sm text-red-600">
+                                            {errors.localisation}
+                                        </div>
+                                    )}
                                 </div>
 
-
                                 <div className="flex flex-col space-y-2">
-                                    <InputLabel className={`w-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-100 hover:text-blue-800 ${errors.photo ? 'border-red-500' : 'border-gray-300'} `}>
-                                        <svg className="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <InputLabel
+                                        className={`w-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-100 hover:text-blue-800 ${
+                                            errors.photo
+                                                ? "border-red-500"
+                                                : "border-gray-300"
+                                        } `}
+                                    >
+                                        <svg
+                                            className="w-8 h-8"
+                                            fill="currentColor"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 20 20"
+                                        >
                                             <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                                         </svg>
-                                        <span className="mt-2 text-sm">Select an image</span>
+                                        <span className="mt-2 text-sm">
+                                            Select an image
+                                        </span>
                                         <TextInput
                                             type="file"
                                             className="hidden"
@@ -167,8 +231,11 @@ function Create({ categories, founisseurs, errors }) {
                                             onChange={handleFileChange}
                                         />
                                     </InputLabel>
-                                    {errors.photo && <div className="text-sm text-red-600">{errors.photo}</div>}
-
+                                    {errors.photo && (
+                                        <div className="text-sm text-red-600">
+                                            {errors.photo}
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Image Preview */}
@@ -184,21 +251,35 @@ function Create({ categories, founisseurs, errors }) {
                                             onClick={handleRemove}
                                             className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                                         >
-                                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                            <svg
+                                                className="w-6 h-6"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    d="M6 18L18 6M6 6l12 12"
+                                                />
                                             </svg>
                                         </button>
                                     </div>
                                 )}
 
-
-
                                 <PrimaryButton
                                     type="submit"
                                     disabled={processing}
-                                    className={`w-full md:w-auto px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${processing ? 'opacity-75 cursor-not-allowed' : ''}`}
+                                    className={`w-full md:w-auto px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
+                                        processing
+                                            ? "opacity-75 cursor-not-allowed"
+                                            : ""
+                                    }`}
                                 >
-                                    {processing ? 'Creating...' : 'Create Produit'}
+                                    {processing
+                                        ? "Creating..."
+                                        : "Create Produit"}
                                 </PrimaryButton>
                             </form>
                         </div>
@@ -206,7 +287,7 @@ function Create({ categories, founisseurs, errors }) {
                 </div>
             </div>
         </AuthenticatedLayout>
-    )
+    );
 }
 
-export default Create
+export default Create;
