@@ -20,6 +20,7 @@ class CommandController extends Controller
         ->leftJoin('ligne_commandes', 'commands.id', '=', 'ligne_commandes.command_id')
         ->leftJoin('clients', 'ligne_commandes.client_id', '=', 'clients.id')
         ->whereNull('ligne_commandes.fournisseur_id') 
+        ->whereNull("commands.date_livraison")
         ->select(
             'commands.*',
             'clients.nom as client_nom',
