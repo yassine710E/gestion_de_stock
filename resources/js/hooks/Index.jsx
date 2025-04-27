@@ -26,9 +26,9 @@ const useFilterForm = (initialData, routeName, delay = 1000) => {
             confirmButtonText: 'Confirm !',
             cancelButtonText: 'cancel'
         })
-        
+
        if (result.isConfirmed) {
-        destroy(route(`${routeName.split('.')[0]}.destroy`, id));
+            destroy(route(`${routeName.split('.')[0]}.destroy`, id));
        }
     }
 

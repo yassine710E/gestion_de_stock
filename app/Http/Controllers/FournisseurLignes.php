@@ -17,7 +17,7 @@ class FournisseurLignes extends Controller
      */
     public function index()
     {
-        
+
     }
 
     /**
@@ -39,28 +39,30 @@ class FournisseurLignes extends Controller
             "quantite"    => ['required', "integer"],
         ]);
 
-    
+
         $fournisseur = Fournisseur::findOrFail($data['fournisseur_id']);
-        $produit = Produit::findOrFail($data['produit_id']);
+        $produit = Produit::with("stock")->findOrFail($data['produit_id']);
         $stock = Stock::where("produit_id", $data['produit_id'])->first();
-    
+
         $ligneCommande = DB::table("ligne_commandes")
             ->where("produit_id", $data["produit_id"])
             ->where('fournisseur_id', $data["fournisseur_id"])
             ->whereNull("command_id")
             ->first();
-        
+
         // dd($ligneCommande);
-    
+
         $quantiteDemandee = $data['quantite'];
         $quantiteTotale = $ligneCommande !== null ? $ligneCommande->quantite + $quantiteDemandee : $quantiteDemandee;
-    
+
         if (!$stock) {
             return redirect()->route('fourniCommands.create')->with('error', "Cette quantité n'est pas disponible en stock");
         }
-    
-        $sousTotal = $quantiteTotale * $produit->prix_vente;
-    
+
+
+
+        $sousTotal = $quantiteTotale * $produit->stock->prix_stock;
+
         if ($ligneCommande) {
             DB::table('ligne_commandes')
                 ->where('id', $ligneCommande->id)
@@ -76,48 +78,17 @@ class FournisseurLignes extends Controller
                 'quantite'   => $quantiteDemandee,
             ]);
         }
-    
-        // $stock->decrement('stock_quantite', $quantiteDemandee);
-    
+
         session()->put("fournisseur_id", $fournisseur->id);
-    
+
         return redirect()->route('fourniCommands.create')->with("success", "Ligne de commande ajoutée ou mise à jour avec succès.");
     }
-    
-    
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        
-        DB::table('ligne_commandes')->where('id', $id)->delete();  
-        
-        return redirect()->route('commands.create')->with("success", "Ligne de commande supprimer avec succès.");
+        DB::table('ligne_commandes')->where('id', $id)->delete();
+
+        return redirect()->route('fourniCommands.create')->with("success", "Ligne de commande supprimer avec succès.");
     }
 }
