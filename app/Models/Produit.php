@@ -32,8 +32,8 @@ class Produit extends Model
         return $this->hasOne(Stock::class);
     }
 
-    public function fournisseur(){
-        return $this->belongsTo(Fournisseur::class);
+    public function fournisseurs(){
+        return $this->belongsToMany(Fournisseur::class,"ligne_commandes")->withTimestamps();
     }
 
     public function clients(){

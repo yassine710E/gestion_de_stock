@@ -45,7 +45,7 @@ function Index({ produits, flash, categories }) {
                         href={route('produits.create')}
                         className="text-md"
                     >
-                        <SecondaryButton className='px-4 py-3 my-4 bg-green-500 hover:bg-green-700'>
+                        <SecondaryButton className=' my-4'>
                             <i className="fas fa-plus-circle mr-2"></i> Add Produit
                         </SecondaryButton>
                     </Link>

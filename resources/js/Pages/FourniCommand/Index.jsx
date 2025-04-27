@@ -45,7 +45,7 @@ console.log(commands);
                 <div className="mx-auto max-w-10xl sm:px-12  lg:px-8">
                     <Link href={route('fourniCommands.create')}>
 
-                        <SecondaryButton className='px-4 py-3 my-4 bg-green-500 hover:bg-green-700'><i className="fas fa-plus-circle mr-2"></i> ajouter command</SecondaryButton>
+                        <SecondaryButton className=' my-4'><i className="fas fa-plus-circle mr-2"></i> ajouter command</SecondaryButton>
 
                     </Link>
                     {flash.success && (<Success flash={flash} />)}

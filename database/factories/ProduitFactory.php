@@ -27,7 +27,6 @@ class ProduitFactory extends Factory
             "photo" => fake()->imageUrl(),
             "code_barre" => fake()->unique()->ean13(),
             "localisation"=>"Block ".fake()->numberBetween(1,10),
-            "fournisseur_id" => Fournisseur::factory()
         ];
     }
 }

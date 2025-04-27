@@ -9,21 +9,23 @@ import { Head, Link } from '@inertiajs/react';
 import React from 'react'
 import useFilterForm from '@/hooks/Index';
 import DangerButton from '@/Components/DangerButton';
+import InputLabel from '@/Components/InputLabel';
 
 
 function Index({ commands, flash }) {
-    console.log(commands);
     const {
         data,
         changeHandler,
         resetFilters,
+        status,
         handleDelete,
-        status
     } = useFilterForm(
         {
-            "search": null,
+            'name': null,
+            'date_debut': null,
+            'date_fin': null,
         },
-        "commands.index"
+        'commands.index'
     );
 
 
@@ -45,7 +47,7 @@ function Index({ commands, flash }) {
                 <div className="mx-auto max-w-10xl sm:px-12  lg:px-8">
                     <Link href={route('commands.create')}>
 
-                        <SecondaryButton className='px-4 py-3 my-4 bg-green-500 hover:bg-green-700'><i className="fas fa-plus-circle mr-2"></i> ajouter command</SecondaryButton>
+                        <SecondaryButton className='my-3' ><i className="fas fa-plus-circle mr-2"></i> ajouter command</SecondaryButton>
 
                     </Link>
                     {flash.success && (<Success flash={flash} />)}
@@ -55,23 +57,58 @@ function Index({ commands, flash }) {
 
 
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900 my-3 flex gap-4 items-center">
+                        <div className="bg-white rounded-xl shadow-lg p-6 my-6">
+                            <div className="flex flex-wrap gap-6 items-start justify-between">
+                                <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div className="space-y-2">
+                                        <InputLabel className="text-gray-700 font-semibold">
+                                            Nom Complet Client:
+                                        </InputLabel>
+                                        <TextInput
+                                            type="text"
+                                            name="name"
+                                            value={data.name}
+                                            onChange={changeHandler}
+                                            placeholder="Search by name..."
+                                            className="w-full rounded-lg"
+                                        />
+                                    </div>
 
-                            <TextInput
-                                type="text"
-                                name='search'
-                                value={data.search}
-                                onChange={changeHandler}
-                                className=" mt-6 block w-full"
-                                placeholder="Nom Complet ..."
-                            />
-                            <div className={`mt-6`} hidden={status()}>
-                                <button onClick={resetFilters}>
-                                    <DangerButton>X</DangerButton>
+                                    <div className="space-y-2">
+                                        <InputLabel className="text-gray-700 font-semibold">
+                                            Date Début :
+                                        </InputLabel>
+                                        <TextInput
+                                            type="date"    
+                                            name="date_debut"         
+                                            value={data.date_debut}
+                                            onChange={changeHandler}
+                                            className="w-full rounded-lg"
+                                        />
+                                    </div>
 
-                                </button>
+                                    <div className="space-y-2">
+                                        <InputLabel className="text-gray-700 font-semibold">
+                                            Date Fin:
+                                        </InputLabel>
+                                        <TextInput
+                                            type="date"    
+                                            name="date_fin"           
+                                            value={data.date_fin}
+                                            onChange={changeHandler}
+                                            className="w-full rounded-lg"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="mt-8" style={{ display: status() ? 'none' : 'block' }} hidden={status()}>
+                                    <button onClick={resetFilters}>
+                                        <DangerButton>X</DangerButton>
+                                    </button>
+                                </div>
+
+
                             </div>
-
                         </div>
                         <div className="p-6 text-gray-900 ">
                             <table className="min-w-full divide-y divide-gray-200">

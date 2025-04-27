@@ -14,12 +14,12 @@ class CommandController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $commands = DB::table('commands')
+        $query = DB::table('commands')
         ->leftJoin('ligne_commandes', 'commands.id', '=', 'ligne_commandes.command_id')
         ->leftJoin('clients', 'ligne_commandes.client_id', '=', 'clients.id')
-        ->whereNull('ligne_commandes.fournisseur_id') // هنا زدت الشرط
+        ->whereNull('ligne_commandes.fournisseur_id') 
         ->select(
             'commands.*',
             'clients.nom as client_nom',
@@ -32,8 +32,23 @@ class CommandController extends Controller
             'commands.date_achat',
             'commands.date_livraison',
             'commands.total'
-        )
-        ->paginate(10);
+        );
+        if ($request->filled('name')) {
+            $query->where(function($q) use ($request) {
+                $q->where('clients.nom', 'like', '%' . $request->name . '%')
+                  ->orWhere('clients.prenom', 'like', '%' . $request->name . '%');
+            });
+        }
+    
+        if ($request->filled('date_debut')) {
+            $query->whereDate('commands.date_achat', '>=', $request->date_debut);
+        }
+    
+        if ($request->filled('date_fin')) {
+            $query->whereDate('commands.date_achat', '<=', $request->date_fin);
+        }
+    
+        $commands = $query->paginate(10)->withQueryString();
 
          return Inertia::render("Command/Index", compact("commands")) ;
     }
@@ -114,9 +129,30 @@ class CommandController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Command $command)
+    public function show(String $id)
     {
-        //
+             // 1. Get the command
+    $command = DB::table('commands')
+    ->where('id', $id)
+    ->first();
+
+     // 2. Get the client
+     $client = DB::table('clients')
+    ->join('ligne_commandes', 'clients.id', '=', 'ligne_commandes.client_id')
+    ->where('ligne_commandes.command_id', $id)
+    ->select('clients.nom', 'clients.prenom', 'clients.email', 'clients.telephone') // ajout plus d'infos si بغيت
+    ->first();
+
+    // 3. Get products
+    $products = DB::table('produits')
+    ->join('ligne_commandes', 'produits.id', '=', 'ligne_commandes.produit_id')
+    ->where('ligne_commandes.command_id', $id)
+    ->select('produits.nom_produit', 'produits.prix_vente',"produits.photo" ,'ligne_commandes.quantite')
+    ->get();
+
+    return Inertia::render("Command/Show", compact("command",'client',"products")) ;
+
+
     }
 
     /**

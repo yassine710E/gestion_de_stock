@@ -29,8 +29,7 @@ class StoreProduitRequest extends FormRequest
                 "max_stock"=>"required|integer|max:1000|min:900",
                 "photo" => "required|image|mimes:jpeg,png,jpg|max:2048",
                 "code_barre" => "required|unique:produits,code_barre|string",
-                "localisation"=>"required|string",
-                "fournisseur_id"=>"required|exists:fournisseurs,id"
+                "localisation"=>"required|string"
             
         ];
     }

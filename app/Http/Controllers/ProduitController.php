@@ -58,9 +58,8 @@ class ProduitController extends Controller
     {
 
         $categories = Category::all();
-        $founisseurs = Fournisseur::all();
         
-        return Inertia::render("Produit/Create",compact("categories","founisseurs"));
+        return Inertia::render("Produit/Create",compact("categories"));
     }
 
     /**
@@ -101,12 +100,10 @@ class ProduitController extends Controller
        
         $categories = Category::all();
        
-        $fournisseurs = Fournisseur::all();
-
-        $produit->load('fournisseur');
 
 
-        return Inertia::render('Produit/Edit',compact("produit","categories","fournisseurs"));
+
+        return Inertia::render('Produit/Edit',compact("produit","categories"));
     }
 
     /**

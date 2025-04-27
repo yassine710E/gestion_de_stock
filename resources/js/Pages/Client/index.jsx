@@ -40,7 +40,7 @@ const Index = ({ clients, flash }) => {
                 <div className="max-w-10xl  mx-auto px-4 sm:px-12 lg:px-8">
                     <div className="flex justify-between items-center mb-6">
                         <Link href={route("clients.create")}>
-                            <SecondaryButton className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg transition duration-300 ease-in-out shadow-md">
+                            <SecondaryButton >
                                 <i className="fas fa-plus-circle mr-2"></i>
                                 Add Client
                             </SecondaryButton>
