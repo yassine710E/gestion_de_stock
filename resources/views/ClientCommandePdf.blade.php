@@ -1,13 +1,74 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        margin: 30px;
+        font-size: 14px;
+        color: #2c3e50;
+        background-color: #f9f9f9;
+    }
+    h1, h3 {
+        text-align: center;
+        color: #34495e;
+    }
+    .info {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #ecf0f1;
+        border-radius: 8px;
+    }
+    p {
+        margin: 5px 0;
+    }
+    p i {
+        margin-right: 5px;
+        color: #e67e22;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    table th, table td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+    }
+    table thead {
+        background-color: #e67e22;
+        color: white;
+    }
+    table tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+    .total {
+        text-align: right;
+        margin-top: 20px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .footer {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 12px;
+        color: #7f8c8d;
+    }
+</style>
+
 <h1>Bon d'achat</h1>
 
-<p><strong>Client:</strong> {{ $client->nom }} {{ $client->prenom }}</p>
-<p><strong>Email:</strong> {{ $client->email }}</p>
-<p><strong>Téléphone:</strong> {{ $client->telephone }}</p>
+<div class="info">
+    <p><i class="fas fa-user"></i><strong>Client:</strong> {{ $client->nom }} {{ $client->prenom }}</p>
+    <p><i class="fas fa-envelope"></i><strong>Email:</strong> {{ $client->email }}</p>
+    <p><i class="fas fa-phone"></i><strong>Téléphone:</strong> {{ $client->telephone }}</p>
+    <p><i class="fas fa-calendar-alt"></i><strong>Date Achat:</strong> {{ $command->date_achat }}</p>
+</div>
 
-<p><strong>Date Achat:</strong> {{ $command->date_achat }}</p>
+<h3>Produits</h3>
 
-<h3>Produits:</h3>
-<table width="100%" border="1" cellspacing="0" cellpadding="5">
+<table>
     <thead>
         <tr>
             <th>Produit</th>
@@ -28,4 +89,8 @@
     </tbody>
 </table>
 
-<p><strong>Total Commande:</strong> {{ number_format($command->total, 2) }} $</p>
+<p class="total"><i class="fas fa-receipt"></i> Total Commande: {{ number_format($command->total, 2) }} $</p>
+
+<div class="footer">
+    &copy; {{ date('Y') }} Votre Société - Tous droits réservés.
+</div>

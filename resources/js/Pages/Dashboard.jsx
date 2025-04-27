@@ -3,9 +3,7 @@ import { Head, Link } from "@inertiajs/react";
 import Swal from "sweetalert2";
 import { useEffect } from "react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { useTheme } from "@/hooks/use-theme";
 import { overviewData, recentSalesData, topProducts } from "@/constants";
-import { Footer } from "@/layouts/footer";
 import { CreditCard, DollarSign, Package, PencilLine, Star, Trash, TrendingUp, Users } from "lucide-react";
 
 export default function Dashboard({
