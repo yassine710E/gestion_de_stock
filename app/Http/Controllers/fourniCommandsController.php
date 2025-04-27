@@ -101,7 +101,7 @@ class fourniCommandsController extends Controller
                 ->increment('stock_quantite', $ligne->quantite);
         }
 
-        return redirect()->route(route: "FourniCommands.index")->with("success", "nouvelle command est ajouter avec success !");
+        return redirect()->route("fourniCommands.index")->with("success", "nouvelle command est ajouter avec success !");
 
     }
 
