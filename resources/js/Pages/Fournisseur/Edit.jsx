@@ -6,9 +6,6 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import useEditForm from '@/hooks/Edit';
 
-
-
-
 function Edit({ fournisseur, errors }) {
 
     const { data, processing,formHandling,changeHandling } = useEditForm({
@@ -18,16 +15,11 @@ function Edit({ fournisseur, errors }) {
         "address": fournisseur.address,
     },"fournisseurs.update",fournisseur.id);
 
-
-
-
-
-
     return (
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    <i className="fas fa-user"></i> modifier fournisseur
+                    <i className="fas fa-user"></i> <span>Supplier Customisation</span>
                 </h2>
             }
         >

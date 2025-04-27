@@ -10,8 +10,6 @@ import useEditForm from '@/hooks/Edit';
 
 function Edit({ stock,produits, errors }) {
 
-
-
     const { data, processing ,changeHandling , formHandling } = useEditForm({
         'produit_id': stock.produit_id,
         "stock_quantite": stock.stock_quantite,
@@ -19,12 +17,11 @@ function Edit({ stock,produits, errors }) {
         "operation": stock.operation
     },"stocks.update",stock.id);
 
-
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    <i className="fas fa-folder-open mr-2"></i>Edit Stock
+                <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
+                    <i className="fas fa-folder-open"></i><span>Stocks Customization</span>
                 </h2>
             }
         >

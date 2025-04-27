@@ -25,9 +25,8 @@ function Create({ errors }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-2xl font-bold leading-tight text-gray-800 flex items-center">
-                    <i className="fas fa-folder-open mr-3 text-indigo-600"></i>
-                    Create New Client
+                <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
+                    <i className="fas fa-folder-open text-black"></i><span>Client Creation</span>
                 </h2>
             }
         >

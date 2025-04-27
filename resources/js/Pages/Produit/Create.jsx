@@ -6,13 +6,7 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import useCreateForm from '@/hooks/Create';
 
-
-
-
 function Create({ categories, founisseurs, errors }) {
-
-
-
     const {
         data,
         processing,
@@ -36,8 +30,8 @@ function Create({ categories, founisseurs, errors }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    <i className="fas fa-folder-open mr-2"></i>Create Produit
+                <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
+                    <i className="fas fa-folder-open"></i><Span>Product Creation</Span>
                 </h2>
             }
         >

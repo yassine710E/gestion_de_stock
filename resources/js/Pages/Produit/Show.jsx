@@ -6,9 +6,8 @@ function Show({ produit }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="flex items-center text-2xl font-bold leading-tight text-gray-800">
-                    <i className="fas fa-folder-open mr-3 text-blue-600"></i>
-                    {produit.nom_produit}
+                <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
+                    <i className="fas fa-folder-open text-black"></i><span>{produit.nom_produit}</span>
                 </h2>
             }
         >

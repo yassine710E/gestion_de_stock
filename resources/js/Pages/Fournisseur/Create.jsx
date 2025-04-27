@@ -22,8 +22,8 @@ function Create({errors }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    <i className="fas fa-user"></i> ajouter fournisseur
+                <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
+                    <i className="fas fa-user"></i><span>Supplier Creation</span>
                 </h2>
             }
         >

@@ -18,7 +18,7 @@ class CategoryController extends Controller
         if (request("search")) {
             $categories = Category::where('nom_cat', "like", "%" . request("search") . "%")->paginate(10);
         } else {
-            $categories = Category::paginate(10);
+            $categories = Category::paginate(20);
         }
 
         return Inertia::render("Category/Index", ["categories" => $categories]);
