@@ -1,19 +1,22 @@
 // In your existing code, modify the image container and img tag styles:
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faEye, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-function Card({ produit ,handleDelete }) {
-
-
+function Card({ produit, handleDelete }) {
     return (
-        <div key={produit.id} className="group relative bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-4">
-            <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8 h-[200px]"> {/* Added fixed height */}
+        <div
+            key={produit.id}
+            className="group relative bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-4"
+        >
+            <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8 h-[200px]">
+                {" "}
+                {/* Added fixed height */}
                 <img
                     alt={produit.nom_produit}
                     src={`/storage/${produit.photo}`}
                     className="h-[200px] w-full object-cover object-center group-hover:opacity-75"
-                    style={{ objectFit: 'cover' }} // Ensures image covers the area without distortion
+                    style={{ objectFit: "cover" }} // Ensures image covers the area without distortion
                 />
             </div>
             <div className="mt-4 space-y-2">
@@ -25,6 +28,7 @@ function Card({ produit ,handleDelete }) {
                         ${parseFloat(produit.prix_vente).toFixed(2)}
                     </p>
                 </div>
+
                 <div className="flex items-center space-x-2">
                     <span className="px-2 py-1 text-xs font-semibold bg-gray-100 text-gray-600 rounded-full">
                         {produit.category.nom_cat}
@@ -33,22 +37,42 @@ function Card({ produit ,handleDelete }) {
                         Code: {produit.code_barre}
                     </span>
                 </div>
+                
                 <div className="flex justify-end space-x-2 mt-2">
-                    <button className="p-2 text-blue-600 hover:text-blue-800" onClick={() => window.location.href = route('produits.show', produit.id)}>
+                    <button
+                        className="p-2 text-blue-600 hover:text-blue-800"
+                        onClick={() =>
+                            (window.location.href = route(
+                                "produits.show",
+                                produit.id
+                            ))
+                        }
+                    >
                         <FontAwesomeIcon icon={faEye} />
                     </button>
-                    <button className="p-2 text-green-600 hover:text-green-800" onClick={() => window.location.href = route('produits.edit', produit.id)}>
+                    <button
+                        className="p-2 text-green-600 hover:text-green-800"
+                        onClick={() =>
+                            (window.location.href = route(
+                                "produits.edit",
+                                produit.id
+                            ))
+                        }
+                    >
                         <FontAwesomeIcon icon={faEdit} />
                     </button>
                     <form onSubmit={(e) => handleDelete(e, produit.id)}>
-                        <button type='submit' className="p-2 text-red-600 hover:text-red-800">
+                        <button
+                            type="submit"
+                            className="p-2 text-red-600 hover:text-red-800"
+                        >
                             <FontAwesomeIcon icon={faTrash} />
                         </button>
                     </form>
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default Card
+export default Card;

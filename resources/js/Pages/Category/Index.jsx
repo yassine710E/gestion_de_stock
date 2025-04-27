@@ -24,7 +24,8 @@ function Index({ categories, flash }) {
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
-                    <i class="fa-solid fa-list"></i> <span>Category Overview</span>
+                    <i class="fa-solid fa-list"></i>{" "}
+                    <span>Category Overview</span>
                 </h2>
             }
         >
