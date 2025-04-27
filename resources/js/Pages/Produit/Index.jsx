@@ -51,7 +51,7 @@ function Index({ produits, flash, categories }) {
                     {flash.error && <Error flash={flash} />}
                     {flash.info && <Info flash={flash} />}
 
-                    <div className="bg-white rounded-lg shadow-md p-6 my-3 flex justify-between gap-3">
+                    <div className="bg-white rounded-lg p-6 my-3 flex justify-between gap-3">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-center w-full">
                             <div className="flex flex-col">
                                 <InputLabel className="text-gray-700 font-medium">Nom produit:</InputLabel>

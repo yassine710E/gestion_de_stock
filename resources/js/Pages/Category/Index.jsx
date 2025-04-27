@@ -1,130 +1,218 @@
-import Info from '@/Components/Info';
-import SecondaryButton from '@/Components/SecondaryButton';
-import Success from '@/Components/Success';
-import TextInput from '@/Components/TextInput';
-import Error from '@/Components/Error';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link} from '@inertiajs/react';
-import React from 'react'
-import DangerButton from '@/Components/DangerButton';
-import useFilterForm from '@/hooks/Index';
+import Info from "@/Components/Info";
+import SecondaryButton from "@/Components/SecondaryButton";
+import Success from "@/Components/Success";
+import TextInput from "@/Components/TextInput";
+import Error from "@/Components/Error";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Head, Link } from "@inertiajs/react";
+import React from "react";
+import DangerButton from "@/Components/DangerButton";
+import useFilterForm from "@/hooks/Index";
+import CategoryCard from "@/Components/Category/CategoryCard";
+import SearchCategory from "@/Components/Category/SearchCategory";
 
 function Index({ categories, flash }) {
-
-    const {
-        data,
-        changeHandler,
-        resetFilters,
-        handleDelete,
-        status
-    } = useFilterForm(
-        {
-            "search": null,
-        },
-        'categories.index'
-    );
-
-
+    const { data, changeHandler, resetFilters, handleDelete, status } =
+        useFilterForm(
+            {
+                search: null,
+            },
+            "categories.index"
+        );
 
     return (
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
-                    <i class="fa-solid fa-list"></i> <span>Category Overview</span>
+                    <i class="fa-solid fa-list"></i>{" "}
+                    <span>Category Overview</span>
                 </h2>
             }
         >
             <Head title="Category" />
 
-            <main >            
+            <main>
                 <div className="">
                     <div className="mx-auto max-w-10xl sm:px-12 lg:px-8">
-                        <Link href={route('categories.create')}>
-
-
-                        <SecondaryButton className=' my-4'><i className="fas fa-plus-circle mr-2"></i> Add Category</SecondaryButton>
-
+                        <Link href={route("categories.create")}>
+                            <SecondaryButton className=" my-4">
+                                <i className="fas fa-plus-circle mr-2"></i> Add
+                                Category
+                            </SecondaryButton>
                         </Link>
-                        {flash.success && (<Success flash={flash} />)}
-                        {flash.error && (<Error flash={flash} />)}
-                        {flash.info && (<Info flash={flash} />)}
-                        <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                        {flash.success && <Success flash={flash} />}
+                        {flash.error && <Error flash={flash} />}
+                        {flash.info && <Info flash={flash} />}
 
-                            <div className="p-6 text-gray-900 my-3 flex gap-4 items-center">
+                        <SearchCategory
+                            data={data}
+                            changeHandler={changeHandler}
+                            resetFilters={resetFilters}
+                            status={status}
+                        />
 
-                                <TextInput
-                                    type="text"
-                                    name='search'
-                                    value={data.search}
-                                    onChange={changeHandler}
-                                    className=" mt-6 block w-full"
-                                    placeholder="Search categories..."
-                                />
-                                <div className={`mt-6`} hidden={status()}>
-                                    <button onClick={resetFilters}>
-                                        <DangerButton>X</DangerButton>
-
-                                    </button>
-                                </div>
-
+                        <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg mb-6">
+                            <div className="p-4">
+                                <h2 className="text-xl ml-3 mb-4 font-bold">
+                                    Category List
+                                </h2>
+                                <hr className="my-2 border-gray-200" />
                             </div>
-
                             <div className="p-6 text-gray-900">
                                 {categories?.data?.length > 0 ? (
                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                         {categories.data.map((category) => (
-                                            <div 
-                                                key={category.id} 
-                                                className="relative group"
-                                            >
-                                                <div
-                                                    onClick={() => window.location.href = route('categories.edit', category.id)}
-                                                    className="bg-white rounded-md p-4 cursor-pointer transform transition-all duration-200 hover:scale-105 hover:shadow-sm border-2 border-gray-100 relative"
-                                                >
-                                                    <form 
-                                                        onSubmit={(e) => handleDelete(e, category.id)} 
-                                                        onClick={(e) => e.stopPropagation()}
-                                                        className="absolute -right-2 -top-2"
-                                                    >
-                                                        <button
-                                                            type="submit"
-                                                            className="bg-red-100 text-red-600 hover:bg-red-200 w-6 h-6 rounded-full flex items-center justify-center shadow-sm transition duration-150"
-                                                        >
-                                                            <i className="fas fa-times text-xs"></i>
-                                                        </button>
-                                                    </form>
-                                                    
-                                                    <div className="flex flex-col">
-                                                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium text-black">
-                                                            {category.nom_cat}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <CategoryCard
+                                                key={category.id}
+                                                category={category}
+                                                onDelete={handleDelete}
+                                            />
                                         ))}
                                     </div>
                                 ) : (
                                     <div className="text-center">
                                         <h1 className="text-red-500 text-xl">
-                                            <i className="fa fa-circle-exclamation mx-2"></i>pas du resultas
+                                            <i className="fa fa-circle-exclamation mx-2"></i>
+                                            Hmm... No categories found
                                         </h1>
                                     </div>
                                 )}
-                                
+
                                 {categories.data.length > 0 && (
-                                    <div className="mt-4 flex items-center justify-center">
-                                        {categories.links.map((link, index) => (
-                                            <Link
-                                                key={index}
-                                                href={link.url}
-                                                className={`px-3 py-2 mx-1 text-sm font-medium rounded-md ${
-                                                    link.active
-                                                        ? 'bg-blue-600 text-white'
-                                                        : 'bg-white text-gray-700 hover:bg-gray-50'
-                                                } ${!link.url && 'opacity-50 cursor-not-allowed'}`}
-                                                dangerouslySetInnerHTML={{ __html: link.label }}
-                                            />
-                                        ))}
+                                    <div className="mt-12 border-t border-gray-200 pt-6">
+                                        <nav className="fle</div>x items-center justify-between px-4">
+                                            <div className="flex-1 flex justify-between sm:hidden">
+                                                {/* Mobile pagination */}
+                                                <Link
+                                                    href={
+                                                        categories.prev_page_url
+                                                    }
+                                                    className={`relative inline-flex items-center px-4 py-2 text-sm font-medium rounded-md ${
+                                                        !categories.prev_page_url
+                                                            ? "text-gray-300 cursor-not-allowed"
+                                                            : "text-gray-700 hover:bg-gray-50"
+                                                    }`}
+                                                >
+                                                    Previous
+                                                </Link>
+                                                <Link
+                                                    href={
+                                                        categories.next_page_url
+                                                    }
+                                                    className={`relative inline-flex items-center px-4 py-2 text-sm font-medium rounded-md ${
+                                                        !categories.next_page_url
+                                                            ? "text-gray-300 cursor-not-allowed"
+                                                            : "text-gray-700 hover:bg-gray-50"
+                                                    }`}
+                                                >
+                                                    Next
+                                                </Link>
+                                            </div>
+
+                                            <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                                                <div>
+                                                    <p className="text-sm text-gray-700">
+                                                        Showing{" "}
+                                                        <span className="font-medium">
+                                                            {categories.from}
+                                                        </span>{" "}
+                                                        -{" "}
+                                                        <span className="font-medium">
+                                                            {categories.to}
+                                                        </span>{" "}
+                                                        of{" "}
+                                                        <span className="font-medium">
+                                                            {categories.total}
+                                                        </span>{" "}
+                                                        results
+                                                    </p>
+                                                </div>
+
+                                                <div>
+                                                    <nav
+                                                        className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+                                                        aria-label="Pagination"
+                                                    >
+                                                        {categories.links.map(
+                                                            (link, index) => {
+                                                                if (
+                                                                    link.label.includes(
+                                                                        "Previous"
+                                                                    )
+                                                                ) {
+                                                                    return (
+                                                                        <Link
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                            href={
+                                                                                link.url
+                                                                            }
+                                                                            className={`relative inline-flex items-center px-2 py-2 rounded-l-md border text-sm font-medium ${
+                                                                                !link.url
+                                                                                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                                                                    : "bg-white text-gray-500 hover:bg-gray-50"
+                                                                            }`}
+                                                                        >
+                                                                            <span className="sr-only">
+                                                                                Previous
+                                                                            </span>
+                                                                            <i className="fas fa-chevron-left w-5 h-5"></i>
+                                                                        </Link>
+                                                                    );
+                                                                } else if (
+                                                                    link.label.includes(
+                                                                        "Next"
+                                                                    )
+                                                                ) {
+                                                                    return (
+                                                                        <Link
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                            href={
+                                                                                link.url
+                                                                            }
+                                                                            className={`relative inline-flex items-center px-2 py-2 rounded-r-md border text-sm font-medium ${
+                                                                                !link.url
+                                                                                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                                                                    : "bg-white text-gray-500 hover:bg-gray-50"
+                                                                            }`}
+                                                                        >
+                                                                            <span className="sr-only">
+                                                                                Next
+                                                                            </span>
+                                                                            <i className="fas fa-chevron-right w-5 h-5"></i>
+                                                                        </Link>
+                                                                    );
+                                                                }
+                                                                return (
+                                                                    <Link
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                        href={
+                                                                            link.url
+                                                                        }
+                                                                        className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                                                                            link.active
+                                                                                ? "z-10 bg-blue-600 text-white border-blue-600"
+                                                                                : "bg-white text-gray-500 hover:bg-gray-50"
+                                                                        } ${
+                                                                            !link.url &&
+                                                                            "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                                                        }`}
+                                                                        dangerouslySetInnerHTML={{
+                                                                            __html: link.label,
+                                                                        }}
+                                                                    />
+                                                                );
+                                                            }
+                                                        )}
+                                                    </nav>
+                                                </div>
+                                            </div>
+                                        </nav>
                                     </div>
                                 )}
                             </div>
@@ -133,7 +221,7 @@ function Index({ categories, flash }) {
                 </div>
             </main>
         </AuthenticatedLayout>
-    )
+    );
 }
 
-export default Index
+export default Index;
