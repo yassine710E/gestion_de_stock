@@ -133,7 +133,7 @@ export default function HeroSection() {
                     <div className="md:w-1/2 relative">
                         <img
                             className="hero-image w-full h-auto max-w-xl xl:max-w-2xl 2xl:max-w-3xl mx-auto md:mx-0 object-contain"
-                            src="/images/traveler.png"
+                            src="/images/stock0.gif"
                             alt="Traveler"
                         />
                     </div>
