@@ -33,7 +33,7 @@ function Index({ produits, flash, categories }) {
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
-                    <i className="fas fa-folder-open"></i><span>Product Overview</span>
+                    <i className="fas fa-folder-open sha"></i><span>Product Overview</span>
                 </h2>
             }
         >
