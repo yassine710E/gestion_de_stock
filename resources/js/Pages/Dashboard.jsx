@@ -24,22 +24,11 @@ export default function Dashboard({
     results
 }) {
     console.log(results);
-    //  useEffect(() => {
-    //      if (lowProduct.length > 0) {
-    //          Swal.fire({
-    //              icon: "error",
-    //              title: "ATTENTION!",
-    //              text: `${lowProduct.length} produits ont une quantité inférieure à stock minimale!!`,
-    //              confirmButtonText: "Passer",
-    //              confirmButtonColor: "#a4d4ff",
-    //          });
-    //      }
-    //  }, [lowProduct]);
 
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
+                <h2 className="text-2xl font-semibold text-gray-800 flex items-center gap-2">
                     <i className="fas fa-chart-line"></i> <span>Dashboard Overview</span>
                 </h2>
             }
@@ -50,83 +39,76 @@ export default function Dashboard({
                 {/* Main Content */}
                 <div className="my-4 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {/* Card 1 - Total Products */}
-                    <div className="rounded-2xl bg-white dark:bg-gray-900 shadow-xl p-6 flex flex-col gap-6 transition hover:shadow-2xl">
+                    <div className="rounded-2xl bg-white shadow-xl p-6 flex flex-col gap-6 transition hover:shadow-2xl">
                         <div className="flex items-center gap-4">
-                            <div className="p-3 rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400">
+                            <div className="p-3 rounded-xl bg-blue-100 text-blue-600">
                                 <Package size={28} />
                             </div>
-                            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">
+                            <h3 className="text-xl font-bold text-gray-800">
                                 Total Products
                             </h3>
                         </div>
                         <div className="flex flex-col gap-4">
-                            <p className="text-4xl font-extrabold text-gray-900 dark:text-white">
+                            <p className="text-4xl font-extrabold text-gray-900">
                                 {products}
                             </p>
-
                         </div>
                     </div>
 
-
-                    <div className="rounded-2xl bg-white dark:bg-gray-900 shadow-xl p-6 flex flex-col gap-6 transition hover:shadow-2xl">
+                    <div className="rounded-2xl bg-white shadow-xl p-6 flex flex-col gap-6 transition hover:shadow-2xl">
                         <div className="flex items-center gap-4">
-                            <div className="p-3 rounded-xl bg-green-100 text-green-600 dark:bg-green-500/20 dark:text-green-400">
+                            <div className="p-3 rounded-xl bg-green-100 text-green-600">
                                 <DollarSign size={28} />
                             </div>
-                            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">
+                            <h3 className="text-xl font-bold text-gray-800">
                                 Total Paid Orders
                             </h3>
                         </div>
                         <div className="flex flex-col gap-4">
-                            <p className="text-4xl font-extrabold text-gray-900 dark:text-white">
+                            <p className="text-4xl font-extrabold text-gray-900">
                                 {totalPaidOrders} $
                             </p>
-
                         </div>
                     </div>
 
-
-                    <div className="rounded-2xl bg-white dark:bg-gray-900 shadow-xl p-6 flex flex-col gap-6 transition hover:shadow-2xl">
+                    <div className="rounded-2xl bg-white shadow-xl p-6 flex flex-col gap-6 transition hover:shadow-2xl">
                         <div className="flex items-center gap-4">
-                            <div className="p-3 rounded-xl bg-purple-100 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400">
+                            <div className="p-3 rounded-xl bg-purple-100 text-purple-600">
                                 <Users size={28} />
                             </div>
-                            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">
+                            <h3 className="text-xl font-bold text-gray-800">
                                 Total Customers
                             </h3>
                         </div>
                         <div className="flex flex-col gap-4">
-                            <p className="text-4xl font-extrabold text-gray-900 dark:text-white">
+                            <p className="text-4xl font-extrabold text-gray-900">
                                 {users}
                             </p>
-
                         </div>
                     </div>
 
-                    <div className="rounded-2xl bg-white dark:bg-gray-900 shadow-xl p-6 flex flex-col gap-6 transition hover:shadow-2xl">
+                    <div className="rounded-2xl bg-white shadow-xl p-6 flex flex-col gap-6 transition hover:shadow-2xl">
                         <div className="flex items-center gap-4">
-                            <div className="p-3 rounded-xl bg-green-100 text-green-600 dark:bg-green-500/20 dark:text-green-400">
+                            <div className="p-3 rounded-xl bg-green-100 text-green-600">
                                 <CreditCard size={28} />
                             </div>
-                            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">
+                            <h3 className="text-xl font-bold text-gray-800">
                                 Sales
                             </h3>
                         </div>
                         <div className="flex flex-col gap-4">
-                            <p className="text-4xl font-extrabold text-gray-900 dark:text-white">
+                            <p className="text-4xl font-extrabold text-gray-900">
                                 {sales}
                             </p>
-
                         </div>
                     </div>
-
                 </div>
 
                 <div className=" my-4 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-7">
                     {/* Overview Section */}
-                    <div className="card   col-span-1 md:col-span-2 lg:col-span-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+                    <div className="card col-span-1 md:col-span-2 lg:col-span-4 p-4 bg-white rounded-lg shadow-lg">
                         <div className="card-header">
-                            <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                            <p className="text-lg font-semibold text-gray-700">
                                 Overview
                             </p>
                         </div>
@@ -166,27 +148,25 @@ export default function Dashboard({
                     </div>
 
                     {/* Recent Sales Section */}
-                    <div className="card col-span-1 md:col-span-2 lg:col-span-3 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+                    <div className="card col-span-1 md:col-span-2 lg:col-span-3 p-4 bg-white rounded-lg shadow-lg">
                         <div className="card-header">
-                            <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">Recent Sales</p>
+                            <p className="text-lg font-semibold text-gray-700">Recent Sales</p>
                         </div>
                         <div className="card-body h-[300px] overflow-auto p-0">
                             {clientsWithRecentSales.map((sale) => (
                                 <div key={sale.id} className="flex items-center justify-between gap-x-4 py-2 pr-2">
                                     <div className="flex items-center gap-x-4">
                                         <div className="flex flex-col gap-y-2">
-                                            <p className="font-medium text-blue-900 dark:text-gray-50">{sale.nom} {sale.prenom}</p>
-                                            <p className="text-sm text-blue-600 dark:text-gray-400">{sale.email}</p>
+                                            <p className="font-medium text-blue-900">{sale.nom} {sale.prenom}</p>
+                                            <p className="text-sm text-blue-600">{sale.email}</p>
                                         </div>
                                     </div>
-                                    <p className="font-medium text-green-900 dark:text-gray-50">{sale.total} $</p>
+                                    <p className="font-medium text-green-900">{sale.total} $</p>
                                 </div>
-
                             ))}
                         </div>
                     </div>
                 </div>
-
             </div>
         </AuthenticatedLayout>
     );

@@ -246,7 +246,7 @@ function Create({ errors, fournisseurs, produits, flash, fourni_id, allLingsComm
                                                 </tr>
                                             ))}
                                             <tr className="bg-gray-100">
-                                                <td colSpan="2" className="px-6 py-3 font-bold text-red-600 text-left">
+                                                <td colSpan="3" className="px-6 py-3 font-bold text-red-600 text-left">
                                                     Total Commande
                                                 </td>
                                                 <td colSpan="3" className="px-6 py-3 text-left font-bold">

@@ -295,7 +295,7 @@ function Create({
                                     ))}
                                     <tr className="bg-gray-100">
                                         <td
-                                            colSpan="2"
+                                            colSpan="3"
                                             className="px-6 py-3 font-bold text-red-600 text-left"
                                         >
                                             Total Commande
