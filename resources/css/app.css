@@ -7,3 +7,18 @@
         font-family: "Volkhov", serif;
     }
 }
+
+/* Add these styles to enable smooth scrolling and prevent horizontal overflow */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.bg-grid-pattern {
+    background-image: linear-gradient(to right, #e5e7eb 1px, transparent 1px),
+        linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);
+    background-size: 24px 24px;
+}

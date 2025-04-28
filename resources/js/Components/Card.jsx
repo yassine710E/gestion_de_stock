@@ -4,14 +4,10 @@ import { Link } from "@inertiajs/react";
 
 function Card({ produit, handleDelete }) {
     return (
-        <div
-            key={produit.id}
-            onClick={() => (window.location.href = route("produits.show", produit.id))}
-            className="group relative flex flex-col bg-white border border-gray-200 hover:border-gray-300 transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden rounded-lg cursor-pointer"
-        >
+        <div className="group relative flex flex-col bg-white border border-gray-200 hover:border-gray-300 transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden rounded-lg">
             {/* Delete (X) Button Top Right */}
             <form
-                onClick={(e) => e.stopPropagation()} // prevent click from bubbling to card view
+                onClick={(e) => e.stopPropagation()}
                 onSubmit={(e) => handleDelete(e, produit.id)}
                 className="absolute top-3 right-3 z-10"
             >
@@ -23,49 +19,51 @@ function Card({ produit, handleDelete }) {
                 </button>
             </form>
 
-            {/* Image */}
-            <div className="relative w-full h-48 overflow-hidden">
-                <img
-                    alt={produit.nom_produit}
-                    src={`/storage/${produit.photo}`}
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-            </div>
-
-            {/* Content */}
-            <div className="flex flex-col flex-1 p-4 space-y-2">
-                {/* Product Title and Price */}
-                <div className="flex justify-between items-start">
-                    <h3 className="text-base font-semibold text-gray-900 truncate leading-tight">
-                        {produit.nom_produit}
-                    </h3>
-                    <p className="text-sm font-bold text-indigo-600 whitespace-nowrap">
-                        ${parseFloat(produit.prix_vente).toFixed(2)}
-                    </p>
+            <Link
+                href={route("produits.show", produit.id)}
+                className="flex flex-col flex-1"
+            >
+                {/* Image */}
+                <div className="relative w-full h-48 overflow-hidden">
+                    <img
+                        alt={produit.nom_produit}
+                        src={`/storage/${produit.photo}`}
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
                 </div>
 
-                {/* Category and Code */}
-                <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
-                    <span className="px-2 py-0.5 bg-gray-100 rounded-full">
-                        {produit.category.nom_cat}
-                    </span>
-                    <span>• Code: {produit.code_barre}</span>
+                {/* Content */}
+                <div className="flex flex-col flex-1 p-4 space-y-2">
+                    {/* Product Title and Price */}
+                    <div className="flex justify-between items-start">
+                        <h3 className="text-base font-semibold text-gray-900 truncate leading-tight">
+                            {produit.nom_produit}
+                        </h3>
+                        <p className="text-sm font-bold text-indigo-600 whitespace-nowrap">
+                            ${parseFloat(produit.prix_vente).toFixed(2)}
+                        </p>
+                    </div>
+
+                    {/* Category and Code */}
+                    <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+                        <span className="px-2 py-0.5 bg-gray-100 rounded-full">
+                            {produit.category.nom_cat}
+                        </span>
+                        <span>• Code: {produit.code_barre}</span>
+                    </div>
+
+                    {/* Spacer */}
+                    <div className="flex-grow"></div>
                 </div>
+            </Link>
 
-                {/* Spacer */}
-                <div className="flex-grow"></div>
-
-
-                <button
-                    onClick={(e) => {
-                        e.stopPropagation(); // prevent view action
-                        window.location.href = route("produits.edit", produit.id);
-                    }}
-                    className="absolute bottom-3 right-3 h-10 w-10 flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700 rounded-full shadow-md transition-all"
-                >
-                    <FontAwesomeIcon icon={faPen} size="sm" />
-                </button>
-            </div>
+            {/* Edit Button */}
+            <Link
+                href={route("produits.edit", produit.id)}
+                className="absolute bottom-3 right-3 h-10 w-10 flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700 rounded-full shadow-md transition-all"
+            >
+                <FontAwesomeIcon icon={faPen} size="sm" />
+            </Link>
         </div>
     );
 }

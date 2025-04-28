@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import {
     Home,
     Layers,
-    Box,
     Truck,
     Users,
-    TrendingUp,
     Settings,
     Bell,
     Package,
