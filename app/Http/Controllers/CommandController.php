@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\StockNotification;
 use App\Models\Client;
 use App\Models\Command;
 use App\Models\Produit;
@@ -65,7 +66,7 @@ class CommandController extends Controller
         $client_id = session()->get("client_id");
 
 
-        $produits = Produit::all();
+        $produits = Produit::with("stock")->get();
 
 
         $allLingsCommand = DB::table('ligne_commandes')
@@ -109,14 +110,38 @@ class CommandController extends Controller
         ->get();
 
 
-    foreach ($lignes as $ligne) {
-        DB::table('stocks')
-        ->where('produit_id', $ligne->produit_id)
-        ->decrement('stock_quantite', $ligne->quantite);
-    
-        DB::table('stocks')
-        ->where('produit_id', $ligne->produit_id)
-        ->update(['operation' => 'S']);    }
+        foreach ($lignes as $ligne) {
+            // نقص الكمية
+            DB::table('stocks')
+                ->where('produit_id', $ligne->produit_id)
+                ->decrement('stock_quantite', $ligne->quantite);
+        
+            // بدل العملية
+            DB::table('stocks')
+                ->where('produit_id', $ligne->produit_id)
+                ->update(['operation' => 'S']);
+        
+            // نجيب المعلومات من stocks + produits
+            $stockInfo = DB::table('stocks')
+                ->join('produits', 'stocks.produit_id', '=', 'produits.id')
+                ->where('stocks.produit_id', $ligne->produit_id)
+                ->select(
+                    'stocks.stock_quantite',
+                    'produits.nom_produit',
+                    'produits.min_stock',
+                    'produits.max_stock'
+                )
+                ->first();
+        
+            if ($stockInfo) {
+                if ($stockInfo->stock_quantite > $stockInfo->max_stock) {
+                    event(new StockNotification("Le produit {$stockInfo->nom_produit} a dépassé la quantité maximale en stock !", 'over_max'));
+                } elseif ($stockInfo->stock_quantite < $stockInfo->min_stock) {
+                    event(new StockNotification("Le produit {$stockInfo->nom_produit} est proche de la rupture de stock !", 'under_min'));
+                }
+            }
+        }
+        
 
     return redirect()->route(route: "commands.index")->with("success", "nouvelle command est ajouter avec success !");
 

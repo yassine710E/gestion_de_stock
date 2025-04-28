@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "@inertiajs/react";
 
 function Card({ produit, handleDelete }) {
     return (
@@ -54,7 +55,7 @@ function Card({ produit, handleDelete }) {
                 {/* Spacer */}
                 <div className="flex-grow"></div>
 
-                {/* Floating Edit Button */}
+
                 <button
                     onClick={(e) => {
                         e.stopPropagation(); // prevent view action

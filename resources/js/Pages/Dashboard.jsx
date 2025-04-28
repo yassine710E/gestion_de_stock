@@ -130,14 +130,14 @@ export default function Dashboard({
                                 Overview
                             </p>
                         </div>
-                        <div className="card-body p-0">
+                        <div className="card-body w-full h-full ">
                             <ResponsiveContainer width="100%" height={300}>
                                 <AreaChart
                                     data={results}
                                     margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
                                 >
                                     <defs>
-                                        <linearGradient id="colorDiff" x1="0" y1="0" x2="0" y2="1">
+                                        <linearGradient  id="colorDiff" x1="0" y1="0" x2="0" y2="1">
                                             <stop offset="5%" stopColor="#16a34a" stopOpacity={0.8} />
                                             <stop offset="95%" stopColor="#16a34a" stopOpacity={0} />
                                         </linearGradient>

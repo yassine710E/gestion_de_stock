@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\StockNotification;
 use App\Http\Requests\StockRequest;
 use App\Models\Produit;
 use App\Models\Stock;
@@ -35,7 +36,17 @@ class StockController extends Controller
        
         $data['operation'] = "E";
 
-        Stock::create($data);
+
+        $stock = Stock::create($data);
+
+        if ($stock->stock_quantite < $stock->produit->min_stock) 
+        {
+            event(new StockNotification("Le produit {$stock->produit->nom_produit} est proche de la rupture de stock !", 'under_min'));       
+        }elseif($stock->stock_quantite > $stock->produit->max_stock){
+            event(new StockNotification("Le produit {$stock->produit->nom_produit} a dépassé la quantité maximale en stock !", 'over_max'));
+        }
+
+
 
         return redirect()->route('stocks.index')->with('success',"Stock créé avec succès");
 
@@ -83,6 +94,12 @@ class StockController extends Controller
        }
 
        $stock->save();
+       if ($stock->stock_quantite < $stock->produit->min_stock) 
+       {
+           event(new StockNotification("Le produit {$stock->produit->nom_produit} est proche de la rupture de stock !", 'under_min'));       
+       }elseif($stock->stock_quantite > $stock->produit->max_stock){
+           event(new StockNotification("Le produit {$stock->produit->nom_produit} a dépassé la quantité maximale en stock !", 'over_max'));
+       }
        return redirect()->route("stocks.index")->with("success","Stock modifiée avec succès");
 
              

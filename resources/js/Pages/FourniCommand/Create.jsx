@@ -1,5 +1,5 @@
-import { Head,router } from '@inertiajs/react'
-import React, {  useEffect, useState } from 'react'
+import { Head, router } from '@inertiajs/react'
+import React, { useEffect, useState } from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import InputLabel from '@/Components/InputLabel';
 import useCreateForm from '@/hooks/Create';
@@ -13,6 +13,7 @@ import Error from '@/Components/Error';
 import useFilterForm from '@/hooks/Index';
 
 function Create({ errors, fournisseurs, produits, flash, fourni_id, allLingsCommand }) {
+    console.log(produits);
     const [isOpen, setIsOpen] = useState(false);
     const { handleDelete } = useFilterForm({}, "fou_lignes.index");
     const [sum, setSum] = useState(0)
@@ -37,26 +38,26 @@ function Create({ errors, fournisseurs, produits, flash, fourni_id, allLingsComm
         'fou_lignes.store', closeModal);
 
 
-        const validatedCommend = (e) => {
-            e.preventDefault();
-            console.log(sum, data.fournisseur_id)
-            router.post(route('fourniCommands.store'), {
-                total: sum,
-                fournisseur_id: data.fournisseur_id,
-            });
-        };
+    const validatedCommend = (e) => {
+        e.preventDefault();
+        console.log(sum, data.fournisseur_id)
+        router.post(route('fourniCommands.store'), {
+            total: sum,
+            fournisseur_id: data.fournisseur_id,
+        });
+    };
 
-        const changeSelect = (e) => {
-            const { id, value } = e.target;
-            setData(data => ({...data, [id]: value}));
-        }
+    const changeSelect = (e) => {
+        const { id, value } = e.target;
+        setData(data => ({ ...data, [id]: value }));
+    }
 
-        useEffect(() => {
-            const filteredProducts = allLingsCommand.filter(ele => ele.fournisseur_id == data.fournisseur_id);
-            setCommandProduits(filteredProducts);
-            setSum(filteredProducts.reduce((total, ele) => ele.sous_total + total, 0));
-            console.log(data)
-        }, [data.fournisseur_id, data, allLingsCommand]);
+    useEffect(() => {
+        const filteredProducts = allLingsCommand.filter(ele => ele.fournisseur_id == data.fournisseur_id);
+        setCommandProduits(filteredProducts);
+        setSum(filteredProducts.reduce((total, ele) => ele.sous_total + total, 0));
+        console.log(data)
+    }, [data.fournisseur_id, data, allLingsCommand]);
 
 
 
@@ -151,9 +152,11 @@ function Create({ errors, fournisseurs, produits, flash, fourni_id, allLingsComm
                                                 >
                                                     <option value="">--- Choisir Produit ---</option>
                                                     {produits.map((produit) => (
-                                                        <option key={produit.id} value={produit.id}>
-                                                            {`${produit.nom_produit}`}
-                                                        </option>
+                                                        produit.stock !== null && (
+                                                            <option key={produit.id} value={produit.id}>
+                                                                {`${produit.nom_produit} ${produit.stock.prix_stock} $`}
+                                                            </option>
+                                                        )
                                                     ))}
                                                 </select>
                                                 {errors.produit_id && <div className="text-sm text-red-600">{errors.produit_id}</div>}
@@ -211,54 +214,54 @@ function Create({ errors, fournisseurs, produits, flash, fourni_id, allLingsComm
                             {
                                 commandProduits.length > 0 ? (
                                     <table className="min-w-full bg-white border-gray-200 shadow-md border-2 rounded-lg overflow-hidden">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Photo Produit</th>
+                                        <thead className="bg-gray-50">
+                                            <tr>
+                                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Photo Produit</th>
 
-                                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Nom Produit</th>
-                                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Quantité</th>
-                                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Sous Total</th>
-                                        <th className="px-6 py-3 text-center text-sm font-semibold text-gray-600 uppercase tracking-wider">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200">
-                                    {commandProduits.map((ligne, index) => (
-                                        <tr key={index} className="hover:bg-gray-100 transition-colors duration-200">
-                                            <td className="px-6 text-center flex justify-center py-4 text-sm text-gray-800">
-                                                <img className='w-[70px] rounded' src={`/storage/${ligne.photo}`} alt="" />
+                                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Nom Produit</th>
+                                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Quantité</th>
+                                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Sous Total</th>
+                                                <th className="px-6 py-3 text-center text-sm font-semibold text-gray-600 uppercase tracking-wider">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-gray-200">
+                                            {commandProduits.map((ligne, index) => (
+                                                <tr key={index} className="hover:bg-gray-100 transition-colors duration-200">
+                                                    <td className="px-6 text-center flex justify-center py-4 text-sm text-gray-800">
+                                                        <img className='w-[70px] rounded' src={`/storage/${ligne.photo}`} alt="" />
 
-                                            </td>
+                                                    </td>
 
 
-                                            <td className="px-6 py-4 text-sm text-gray-800">{ligne.nom_produit}</td>
-                                            <td className="px-6 py-4 text-sm text-gray-800">{ligne.quantite}</td>
-                                            <td className="px-6 py-4 text-sm text-gray-800">{ligne.sous_total} $</td>
-                                            <td className="px-6 py-4 text-center">
-                                                <form onSubmit={(e) => handleDelete(e, ligne.id)}>
-                                                    <DangerButton type='submit'>
-                                                        Supprimer
-                                                    </DangerButton>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    <tr className="bg-gray-100">
-                                            <td colSpan="2" className="px-6 py-3 font-bold text-red-600 text-left">
-                                                Total Commande
-                                            </td>
-                                            <td colSpan="3" className="px-6 py-3 text-left font-bold">
-                                                {sum} $
-                                            </td>
-                                        </tr>
-                                </tbody>
-                            </table>
+                                                    <td className="px-6 py-4 text-sm text-gray-800">{ligne.nom_produit}</td>
+                                                    <td className="px-6 py-4 text-sm text-gray-800">{ligne.quantite}</td>
+                                                    <td className="px-6 py-4 text-sm text-gray-800">{ligne.sous_total} $</td>
+                                                    <td className="px-6 py-4 text-center">
+                                                        <form onSubmit={(e) => handleDelete(e, ligne.id)}>
+                                                            <DangerButton type='submit'>
+                                                                Supprimer
+                                                            </DangerButton>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                            <tr className="bg-gray-100">
+                                                <td colSpan="2" className="px-6 py-3 font-bold text-red-600 text-left">
+                                                    Total Commande
+                                                </td>
+                                                <td colSpan="3" className="px-6 py-3 text-left font-bold">
+                                                    {sum} $
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 ) : (
                                     <div className="text-center py-8">
-                                    <h1 className="text-red-500 text-lg sm:text-xl">
-                                        <i className="fa fa-circle-exclamation mx-2"></i>
-                                        pas du Commands
-                                    </h1>
-                                </div>
+                                        <h1 className="text-red-500 text-lg sm:text-xl">
+                                            <i className="fa fa-circle-exclamation mx-2"></i>
+                                            pas du Commands
+                                        </h1>
+                                    </div>
                                 )
                             }
                         </div>

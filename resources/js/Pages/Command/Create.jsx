@@ -168,12 +168,12 @@ function Create({
                                                     --- Choisir Produit ---
                                                 </option>
                                                 {produits.map((produit) => (
-                                                    <option
+                                                produit.stock !== null &&  (  <option
                                                         key={produit.id}
                                                         value={produit.id}
                                                     >
                                                         {`${produit.nom_produit} - ${produit.prix_vente}$`}
-                                                    </option>
+                                                    </option>)
                                                 ))}
                                             </select>
                                             {errors.produit_id && (

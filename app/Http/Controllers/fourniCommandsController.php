@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\StockNotification;
 use Inertia\Inertia;
 use App\Models\Command;
 use App\Models\Fournisseur;
@@ -52,9 +53,8 @@ class fourniCommandsController extends Controller
 
         $fourni_id = session()->get("fourni_id");
 
-
-        $produits = Produit::join("stocks", "produits.id", "=", "stocks.produit_id")->get();
-
+        $produits = Produit::with('stock')->get();
+      
         $allLingsCommand = [];
 
 
@@ -104,6 +104,25 @@ class fourniCommandsController extends Controller
                 DB::table('stocks')
                 ->where('produit_id', $ligne->produit_id)
                 ->update(['operation' => 'E']); 
+            
+                $stockInfo = DB::table('stocks')
+                ->join('produits', 'stocks.produit_id', '=', 'produits.id')
+                ->where('stocks.produit_id', $ligne->produit_id)
+                ->select(
+                    'stocks.stock_quantite',
+                    'produits.nom_produit',
+                    'produits.min_stock',
+                    'produits.max_stock'
+                )
+                ->first();
+        
+            if ($stockInfo) {
+                if ($stockInfo->stock_quantite > $stockInfo->max_stock) {
+                    event(new StockNotification("Le produit {$stockInfo->nom_produit} a dépassé la quantité maximale en stock !", 'over_max'));
+                } elseif ($stockInfo->stock_quantite < $stockInfo->min_stock) {
+                    event(new StockNotification("Le produit {$stockInfo->nom_produit} est proche de la rupture de stock !", 'under_min'));
+                }
+            }
         }
 
         return redirect()->route("fourniCommands.index")->with("success", "nouvelle command est ajouter avec success !");
