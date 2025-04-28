@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { Link } from "@inertiajs/react";
+import { ArrowRight } from "lucide-react";
 
 export default function HeroSection() {
     const component = useRef(null);
@@ -81,14 +82,15 @@ export default function HeroSection() {
             </div>
 
             {/* Content Container - Optimized for larger screens */}
-            <div className="container mx-auto px-4 h-full flex items-center relative z-10">
+            <div className="lg:container mx-auto px-4 h-full flex items-center relative z-10">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-8 xl:gap-12 2xl:gap-16">
                     {/* Text Content - Enhanced sizing for larger screens */}
                     <div className="md:w-1/2 space-y-6 xl:space-y-8 text-center md:text-left">
+
                         <h2 className="hero-title text-orange-500 text-xl md:text-2xl xl:text-2xl font-[900]">
                             BEST STOCK & PRODUCTS MANAGEMENT SYSTEM
                         </h2>
-                        <p className="hero-subtitle text-gray-800 text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold leading-tight font-volkhov">
+                        <p className="hero-subtitle text-gray-800 text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold leading-loose font-volkhov">
                             Organize Your Products And Stock Super Easily
                         </p>
                         <p className="hero-description text-gray-600 text-base md:text-lg xl:text-xl max-w-2xl">
@@ -100,31 +102,19 @@ export default function HeroSection() {
                         </p>
                         <div className="hero-buttons flex flex-col md:flex-row gap-4 justify-center md:justify-start">
                             <button
-                                className="bg-yellow-500 shadow-xl shadow-red-200 hover:bg-yellow-600 text-white 
-                    font-medium px-8 py-4 xl:text-lg rounded-full transition-colors duration-200"
+                                className="bg-yellow-500 shadow-md hover:shadow-red-200 hover:bg-yellow-600 text-white 
+                    font-medium px-7 py-3 xl:text-lg rounded-full transition-colors duration-200"
                             >
                                 Find out more
                             </button>
                             <Link
                                 href={route("register")}
                                 className="bg-orange-500 shadow-lg hover:bg-orange-600 text-white 
-                        font-medium px-8 py-4 xl:text-lg rounded-full flex items-center justify-center gap-2 
+                        font-medium px-7 py-3 xl:text-lg rounded-full flex items-center justify-center gap-2 
                         transition-all duration-300 hover:shadow-orange-200 hover:shadow-xl"
                             >
                                 <span>Get Started</span>
-                                <svg
-                                    className="w-5 h-5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M13 7l5 5m0 0l-5 5m5-5H6"
-                                    />
-                                </svg>
+                                <ArrowRight size={20} />
                             </Link>
                         </div>
                     </div>
@@ -132,7 +122,7 @@ export default function HeroSection() {
                     {/* Traveler Image - Enhanced sizing for larger screens */}
                     <div className="md:w-1/2 relative">
                         <img
-                            className="hero-image w-full h-auto max-w-xl xl:max-w-2xl 2xl:max-w-3xl mx-auto md:mx-0 object-contain"
+                            className="hero-image w-full h-auto max-w-xl xl:max-w-2xl 2xl:max-w-3xl mx-auto md:mx-0 object-cover"
                             src="/images/stock0.gif"
                             alt="Traveler"
                         />
