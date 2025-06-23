@@ -7,6 +7,8 @@ import { Head, Link } from "@inertiajs/react";
 import React from "react";
 import useFilterForm from "@/hooks/Index";
 import Badge from "@/Components/Badge";
+import Pagination from "@/Components/Pagination";
+import NoResults from "@/Components/NoResults";
 
 function Index({ stocks, flash }) {
     const { handleDelete } = useFilterForm({}, "stocks.index");
@@ -14,7 +16,7 @@ function Index({ stocks, flash }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
+                <h2 className="text-2xl font-semibold text-gray-800 h-8 flex items-center gap-2">
                     <i className="fas fa-folder-open"></i>
                     <span>Stocks Overview</span>
                 </h2>
@@ -25,8 +27,7 @@ function Index({ stocks, flash }) {
             <div className="mx-auto sm:px-6 lg:px-8">
                 <Link href={route("stocks.create")}>
                     <SecondaryButton className=" my-4 ">
-                        <i className="fas fa-plus-circle mr-2"></i> ajouter
-                        stock
+                        <i className="fas fa-plus-circle mr-2"></i> Add Stock
                     </SecondaryButton>
                 </Link>
 
@@ -34,9 +35,15 @@ function Index({ stocks, flash }) {
                 {flash.error && <Error flash={flash} />}
                 {flash.info && <Info flash={flash} />}
 
-                <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                    <div className="p-6 text-gray-900">
-                        <table className="min-w-full divide-y divide-gray-200">
+                <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg border">
+                    <div className="p-4">
+                        <h2 className="text-xl ml-3 mb-4 font-bold">
+                            Stock List
+                        </h2>
+                        <hr className=" border-gray-200" />
+                    </div>
+                    <div className="px-6 text-gray-900">
+                        <table className="min-w-full divide-y divide-gray-200 overflow-hidden outline outline-1 outline-gray-200 rounded-lg mb-6">
                             <thead className="bg-gray-50">
                                 <tr>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -52,7 +59,7 @@ function Index({ stocks, flash }) {
                                         Quantite
                                     </th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                      Derniere operation
+                                        Derniere operation
                                     </th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         localisation
@@ -142,27 +149,13 @@ function Index({ stocks, flash }) {
                                 )}
                             </tbody>
                         </table>
-                        <div className="mt-4 flex items-center justify-center">
-                            {stocks.links.map((link, index) => (
-                                <Link
-                                    key={index}
-                                    href={link.url}
-                                    className={`px-3 py-2 mx-1 text-sm font-medium rounded-md ${
-                                        link.active
-                                            ? "bg-blue-600 text-white"
-                                            : "bg-white text-gray-700 hover:bg-gray-50"
-                                    } ${
-                                        !link.url &&
-                                        "opacity-50 cursor-not-allowed"
-                                    }`}
-                                    dangerouslySetInnerHTML={{
-                                        __html: link.label,
-                                    }}
-                                />
-                            ))}
-                        </div>
                     </div>
                 </div>
+                {stocks.data.length ? (
+                    <Pagination links={stocks.links} />
+                ) : (
+                    <NoResults />
+                )}
             </div>
         </AuthenticatedLayout>
     );

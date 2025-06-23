@@ -15,20 +15,19 @@ class ClientController extends Controller
     public function index()
     {
         $query = Client::query();
-            if(request("name")){
-                $query->where("nom","like", "%". request("name"). "%")
-                ->orWhere("prenom","like", "%". request("name"). "%");
-            }
-            if(request("email")){
-                $query->where("email","like" ,"%".request("email")."%");
+        if (request("name")) {
+            $query->where("nom", "like", "%" . request("name") . "%")
+                ->orWhere("prenom", "like", "%" . request("name") . "%");
+        }
+        if (request("email")) {
+            $query->where("email", "like", "%" . request("email") . "%");
+        }
+        if (request("telephone")) {
+            $query->where("telephone", "like", "%" . request("telephone") . "%");
+        }
 
-            }
-            if(request("telephone")){
-                $query->where("telephone", "like", "%".request("telephone")."%");
-            }
-
-           $clients = $query->orderBy('nom','asc')->paginate(12);
-        return Inertia::render("Client/index",compact("clients"));
+        $clients = $query->orderBy('nom', 'asc')->paginate(5);
+        return Inertia::render("Client/index", compact("clients"));
     }
 
     /**
@@ -47,7 +46,7 @@ class ClientController extends Controller
         $data = $request->validated();
 
         Client::create($data);
-        
+
         return redirect()->route("clients.index")->with("success", "client ajouter avec success !");
     }
 
@@ -57,13 +56,12 @@ class ClientController extends Controller
     public function show(Client $client)
     {
         $commandes = DB::table('commands')
-        ->join('ligne_commandes', 'commands.id', '=', 'ligne_commandes.command_id')
-        ->where('ligne_commandes.client_id', $client->id)
-        ->select('commands.*', 'ligne_commandes.quantite', 'ligne_commandes.sous_total')
-        ->get();
+            ->join('ligne_commandes', 'commands.id', '=', 'ligne_commandes.command_id')
+            ->where('ligne_commandes.client_id', $client->id)
+            ->select('commands.*', 'ligne_commandes.quantite', 'ligne_commandes.sous_total')
+            ->get();
 
-        return Inertia::render("Client/Show" , compact("client"));
-
+        return Inertia::render("Client/Show", compact("client"));
     }
 
     /**
@@ -85,7 +83,6 @@ class ClientController extends Controller
 
         if ($client->isClean()) {
             return redirect()->route("clients.index")->with("info", "Aucune modification détectée.");
-
         }
 
         $client->save();
@@ -99,6 +96,5 @@ class ClientController extends Controller
     {
         $client->delete();
         return redirect()->route("clients.index")->with("success", "client supprimer avec success !");
-
     }
 }

@@ -77,19 +77,32 @@ export default function Navbar({ auth }) {
 
                 {/* Auth Section */}
                 <div className="flex items-center space-x-4 md:space-x-6">
-                    <Link
-                        href="/login"
-                        className="text-gray-700 hover:text-orange-500 transition-colors duration-200"
-                    >
-                        Login
-                    </Link>
-                    <Link
-                        href="/register"
-                        className="bg-orange-500 hover:bg-orange-600 text-white 
+                    {auth.user ? (
+                        <Link
+                            href={route("logout")}
+                            method="post"
+                            as="button"
+                            className="text-red-50 px-6 rounded-md py-2 bg-red-600 hover:text-red-200 hover:bg-red-400 transition-colors duration-200"
+                        >
+                            Logout
+                        </Link>
+                    ) : (
+                        <>
+                            <Link
+                                href="/login"
+                                className="text-gray-700 hover:text-orange-500 transition-colors duration-200"
+                            >
+                                Login
+                            </Link>
+                            <Link
+                                href="/register"
+                                className="bg-orange-500 hover:bg-orange-600 text-white 
                             font-medium px-5 py-2 rounded-sm transition-colors duration-200"
-                    >
-                        Sign Up
-                    </Link>
+                            >
+                                Sign Up
+                            </Link>
+                        </>
+                    )}
                 </div>
             </div>
         </header>

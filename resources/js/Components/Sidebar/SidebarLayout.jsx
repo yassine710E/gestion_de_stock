@@ -45,7 +45,7 @@ const menuItems = [
     { title: "Notifications", href: "#", icon: Bell, sub: [] },
 ];
 
-export default function SidebarLayout({ children }) {
+export default function SidebarLayout({ children, header }) {
     // Initialize expanded state from localStorage, default to false if not found
     const [expanded, setExpanded] = useState(() => {
         const savedState = localStorage.getItem("sidebarExpanded");
@@ -95,7 +95,7 @@ export default function SidebarLayout({ children }) {
                 </div>
 
                 {/* Sidebar - adding flex-1 to take remaining space */}
-                <div className={`mt-3 flex-1 flex flex-col justify-between bg-[#fbfbfb] p-4 rounded-lg transition-all duration-1000 ${expanded ? "w-64" : "w-16"}`}>
+                <div className={`mt-3 flex-1 flex flex-col justify-between bg-gray-800 p-4 rounded-lg transition-all duration-1000 ${expanded ? "w-64" : "w-16"}`}>
                     {/* Menu items */}
                     <nav className="flex-1">
                         {menuItems.map((item) => (
@@ -121,7 +121,6 @@ export default function SidebarLayout({ children }) {
             </aside>
 
             {/* Main Content */}
-
             <main className="flex-1 mt-3 mr-3 mb-3 bg-[hsl(0,0%,97%)] rounded-lg overflow-auto">
                 {children}
             </main>

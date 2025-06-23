@@ -7,18 +7,18 @@ function ClientCard({ client ,handleDelete }) {
         <div
             key={client.id}
             // onClick={() => navigateToDetails(client.id)}
-            className="group col-span-2 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-4 cursor-pointer"
+            className="group col-span-2 bg-white rounded-lg border hover:shadow-md transition-shadow duration-300 p-4 cursor-pointer"
         >
             {/* Client Information */}
-            <div className="mt-4 space-y-2">
+            <div className="">
                 {/* Client Name */}
-                <div className="flex justify-center items-center">
-                    <p className="text-xl font-bold text-indigo-600">
+                <div className="flex justify-center items-center bg-gray-100 py-4 rounded-lg">
+                    <p className="text-xl font-bold text-black">
                         {client.nom} {client.prenom}
                     </p>
                 </div>
                 <div className="flex items-center space-x-2 py-3">
-                    <span className="px-2 py-1 text-s font-semibold bg-gray-100 text-gray-600 rounded-full">
+                    <span className="px-14 py-1 text-s font-semibold bg-gray-100 text-gray-600 rounded-md">
                         Email:
                     </span>
                     <span className="text-s text-gray-500 font-bold">
@@ -26,7 +26,7 @@ function ClientCard({ client ,handleDelete }) {
                     </span>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <span className="px-2 py-1 text-sm font-semibold bg-gray-100 text-gray-600 rounded-full">
+                    <span className="px-14 py-1 text-s font-semibold bg-gray-100 text-gray-600 rounded-md">
                         Téléphone:
                     </span>
                     <span className="text-s text-gray-500 font-bold">
@@ -35,16 +35,16 @@ function ClientCard({ client ,handleDelete }) {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex justify-end space-x-2 mt-2">
+                <div className="flex justify-end space-x-4 ">
                     <Link
-                        className="text-green-600 hover:text-green-900 p-2 hover:bg-green-100 rounded-full transition duration-150"
+                        className="text-green-600 rounded-full transition duration-150"
                         href={route("clients.show", client.id)}
                     >
                         <i className="fas fa-eye"></i>
                     </Link>
                     {/* Edit Button */}
                     <Link
-                        className="text-blue-600 hover:text-blue-900 p-2 hover:bg-blue-100 rounded-full transition duration-150"
+                        className="text-blue-600 rounded-full transition duration-150"
                         href={route("clients.edit", client.id)}
                     >
                         <i className="fas fa-edit"></i>
@@ -59,7 +59,7 @@ function ClientCard({ client ,handleDelete }) {
                     >
                         <button
                             type="submit"
-                            className="p-2 text-red-600 hover:text-red-800"
+                            className="text-red-600"
                         >
                             <FontAwesomeIcon icon={faTrash} />
                         </button>

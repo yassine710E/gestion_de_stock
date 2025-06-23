@@ -8,7 +8,7 @@ function Show({ category }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
+                <h2 className="text-2xl font-semibold text-gray-800 h-8 flex items-center gap-2">
                     <i class="fa-solid fa-list"></i> <span>{category.nom_cat}</span>
                 </h2>
             }

@@ -10,6 +10,8 @@ import React from "react";
 import useFilterForm from "@/hooks/Index";
 import DangerButton from "@/Components/DangerButton";
 import InputLabel from "@/Components/InputLabel";
+import Pagination from "@/Components/Pagination";
+import NoResults from "@/Components/NoResults";
 
 function Index({ commands, flash }) {
     const { data, changeHandler, resetFilters, status, handleDelete } =
@@ -25,7 +27,7 @@ function Index({ commands, flash }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                <h2 className="text-2xl font-semibold text-gray-800 h-8 flex items-center gap-2">
                     <i className="fas fa-folder-open mr-2"></i>Clients Commands
                 </h2>
             }
@@ -35,7 +37,7 @@ function Index({ commands, flash }) {
             <div className="my-4">
                 <div className="mx-auto max-w-10xl sm:px-12 lg:px-8">
                     <Link href={route("commands.create")}>
-                        <SecondaryButton className="my-3">
+                        <SecondaryButton className="">
                             <i className="fas fa-plus-circle mr-2"></i> Add
                             command
                         </SecondaryButton>
@@ -44,12 +46,12 @@ function Index({ commands, flash }) {
                     {flash.error && <Error flash={flash} />}
                     {flash.info && <Info flash={flash} />}
 
-                    <div className="bg-white rounded-xl p-6 my-4 ">
+                    <div className="bg-white rounded-xl p-6 my-4 border">
                         <div className="flex flex-wrap gap-6 items-start justify-between">
                             <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div className="space-y-2">
                                     <InputLabel className="text-gray-700 font-semibold">
-                                        Nom Complet Client:
+                                        Client Name:
                                     </InputLabel>
                                     <TextInput
                                         type="text"
@@ -62,7 +64,7 @@ function Index({ commands, flash }) {
                                 </div>
                                 <div className="space-y-2">
                                     <InputLabel className="text-gray-700 font-semibold">
-                                        Date Début :
+                                        Starting Date:
                                     </InputLabel>
                                     <TextInput
                                         type="date"
@@ -75,7 +77,7 @@ function Index({ commands, flash }) {
 
                                 <div className="space-y-2">
                                     <InputLabel className="text-gray-700 font-semibold">
-                                        Date Fin:
+                                        Ending Date:
                                     </InputLabel>
                                     <TextInput
                                         type="date"
@@ -88,19 +90,26 @@ function Index({ commands, flash }) {
                             </div>
 
                             <div
-                                className="mt-8"
+                                className="mt-7"
                                 style={{ display: status() ? "none" : "block" }}
                                 hidden={status()}
                             >
                                 <button onClick={resetFilters}>
-                                    <DangerButton>X</DangerButton>
+                                    <DangerButton>Clear</DangerButton>
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-xl mt-4 p-6 text-gray-900 ">
-                        <table className="min-w-full divide-y divide-gray-200">
+                <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg border">
+                    <div className="p-4">
+                        <h2 className="text-xl ml-3 mb-4 font-bold">
+                            Commands List
+                        </h2>
+                        <hr className=" border-gray-200" />
+                    </div>
+                    <div className="px-6 text-gray-900">
+                        <table className="min-w-full divide-y divide-gray-200 overflow-hidden outline outline-1 outline-gray-200 rounded-lg mb-6">
                             <thead className="bg-gray-50">
                                 <tr>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -180,26 +189,14 @@ function Index({ commands, flash }) {
                                     ))}
                             </tbody>
                         </table>
-                        <div className="mt-4 flex items-center justify-center">
-                            {commands.links.map((link, index) => (
-                                <Link
-                                    key={index}
-                                    href={link.url}
-                                    className={`px-3 py-2 mx-1 text-sm font-medium rounded-md ${
-                                        link.active
-                                            ? "bg-blue-600 text-white"
-                                            : "bg-white text-gray-700 hover:bg-gray-50"
-                                    } ${
-                                        !link.url &&
-                                        "opacity-50 cursor-not-allowed"
-                                    }`}
-                                    dangerouslySetInnerHTML={{
-                                        __html: link.label,
-                                    }}
-                                />
-                            ))}
-                        </div>
                     </div>
+                    </div>
+                    
+                        {commands.data.length ? (
+                            <Pagination links={commands.links} />
+                        ) : (
+                            <NoResults />
+                        )}
                 </div>
             </div>
         </AuthenticatedLayout>

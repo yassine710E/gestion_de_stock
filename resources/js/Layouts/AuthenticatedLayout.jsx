@@ -22,15 +22,15 @@ export default function AuthenticatedLayout({ header, children }) {
 
     return (
         <SidebarLayout >
-            <div className="flex-1 overflow-auto">
+            <div className="flex-1 overflow-auto ">
                 {header && (
-                    <header className="bg-white shadow">
+                    <header className="bg-white">
                         <div className="mx-auto px-4 py-6 sm:px-6 lg:px-8">
                             {header}
                         </div>
                     </header>
                 )}
-                
+
                 {children}
             </div>
         </SidebarLayout>

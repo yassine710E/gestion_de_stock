@@ -27,12 +27,14 @@
         "@fortawesome/react-fontawesome": "^0.2.2",
         "@gsap/react": "^2.1.2",
         "framer": "^2.4.1",
+        "laravel-echo": "^1.19.0",
         "lodash": "^4.17.21",
         "lucide-react": "^0.503.0",
         "motion": "^12.9.2",
         "pusher-js": "^8.4.0",
         "react-router-dom": "^7.3.0",
         "recharts": "^2.15.3",
+        "socket.io-client": "^4.8.1",
         "sweetalert2": "^11.19.1"
     }
 }

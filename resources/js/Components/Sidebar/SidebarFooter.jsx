@@ -3,7 +3,7 @@ import { Link } from "@inertiajs/react"; // Inertia Link for redirecting
 
 export default function SideBarFooter({ setExpanded, expanded, href }) {
     return (
-        <div className="pt-4 border-t border-gray-200">
+        <div className="pt-4 border-t border-gray-200 text-white">
             <Link
                 href={href}
                 method="post" // POST request to logout

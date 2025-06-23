@@ -7,7 +7,7 @@ export default function Show({ command, fournisseur, products }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="flex items-center text-2xl font-bold leading-tight text-gray-800">
+                <h2 className="text-2xl font-semibold text-gray-800 h-8 flex items-center gap-2">
                     <i className="fas fa-folder-open mr-3 text-blue-600"></i>
                     {fournisseur.nom_complet}
                 </h2>

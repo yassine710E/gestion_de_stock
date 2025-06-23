@@ -3,7 +3,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 export default function ToggleButton({ setExpanded, expanded }) {
     return (
-        <div className="bg-[#fbfbfb] rounded-lg shrink-0 p-2">
+        <div className="bg-gray-800 rounded-lg p-4">
             <div
                 className={`flex transition-all duration-500 ease-in-out ${
                     expanded ? "justify-end" : "justify-start"
@@ -11,7 +11,7 @@ export default function ToggleButton({ setExpanded, expanded }) {
             >
                 <button
                     onClick={() => setExpanded(!expanded)}
-                    className={`w-8 h-8 rounded flex items-center justify-center transition-all duration-300 ease-in-out transform hover:scale-105 
+                    className={`w-full h-8 rounded flex items-center justify-center transition-all duration-300 ease-in-out transform 
                     ${
                         expanded
                             ? "bg-[#efefef] text-black"

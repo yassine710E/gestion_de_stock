@@ -4,13 +4,13 @@ function Select({method, data,currentData}) {
   return (
     <select
         onChange={method}
-        className={`px-4 py-2 border rounded-md mt-1 border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500`}
+        className={`rounded-md border-gray-200 bg-zinc-50 focus:border-amber-100 focus:ring-orange-400 `}
         name="category_id"
         id="category_id"
         value={currentData}
     >
 
-        <option value="">choisir :</option>
+        <option value="">Select :</option>
         {data.map((item) => (
             <option value={item.id}>{item.nom_cat}</option>
         ))}

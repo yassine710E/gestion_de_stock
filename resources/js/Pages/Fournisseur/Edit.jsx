@@ -18,7 +18,7 @@ function Edit({ fournisseur, errors }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                <h2 className="text-2xl font-semibold text-gray-800 h-8 flex items-center gap-2">
                     <i className="fas fa-user"></i> <span>Supplier Customisation</span>
                 </h2>
             }

@@ -39,7 +39,7 @@ function Card({ produit, handleDelete }) {
                         <h3 className="text-base font-semibold text-gray-900 truncate leading-tight">
                             {produit.nom_produit}
                         </h3>
-                        <p className="text-sm font-bold text-indigo-600 whitespace-nowrap">
+                        <p className="text-sm font-bold text-green-700 whitespace-nowrap">
                             ${parseFloat(produit.prix_vente).toFixed(2)}
                         </p>
                     </div>
@@ -60,7 +60,7 @@ function Card({ produit, handleDelete }) {
             {/* Edit Button */}
             <Link
                 href={route("produits.edit", produit.id)}
-                className="absolute bottom-3 right-3 h-10 w-10 flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700 rounded-full shadow-md transition-all"
+                className="absolute bottom-3 right-3 h-10 w-10 flex items-center justify-center bg-gray-600 text-white hover:bg-indigo-700 rounded-full shadow-md transition-all"
             >
                 <FontAwesomeIcon icon={faPen} size="sm" />
             </Link>

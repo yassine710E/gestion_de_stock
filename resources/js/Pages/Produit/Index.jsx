@@ -13,6 +13,7 @@ import UseFilterForm from "@/hooks/Index";
 import Card from "../../Components/Card";
 import FilterProduit from "@/Components/Produit/FilterProduit";
 import Pagination from "@/Components/Pagination";
+import NoResults from "@/Components/NoResults";
 
 function Index({ produits, flash, categories }) {
     const { data, changeHandler, resetFilters, status, handleDelete } =
@@ -29,7 +30,7 @@ function Index({ produits, flash, categories }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
+                <h2 className="text-2xl font-semibold text-gray-800 h-8 flex items-center gap-2">
                     <i className="fas fa-folder-open sha"></i>
                     <span>Product Overview</span>
                 </h2>
@@ -54,27 +55,28 @@ function Index({ produits, flash, categories }) {
                     status={status}
                     categories={categories}
                 />
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 bg-white p-4 rounded-lg shadow-md">
-                    {produits?.data &&
-                        produits.data.map((produit, index) => (
-                            <Card
-                                key={index}
-                                produit={produit}
-                                handleDelete={handleDelete}
-                            />
-                        ))}
+                <div className="p-4 bg-white my-4 gap-6 rounded-lg border">
+                    <div className="">
+                        <h2 className="text-xl ml-3 mb-4 font-bold">
+                            Products List
+                        </h2>
+                        <hr className="my-2 border-gray-200" />
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-4 gap-6  p-4 rounded-lg">
+                        {produits?.data &&
+                            produits.data.map((produit, index) => (
+                                <Card
+                                    key={index}
+                                    produit={produit}
+                                    handleDelete={handleDelete}
+                                />
+                            ))}
+                    </div>
                 </div>
-
                 {produits.data.length ? (
                     <Pagination links={produits.links} />
                 ) : (
-                    <div className="text-center py-24">
-                        <h1 className="text-red-500 text-xl">
-                            <i className="fa fa-circle-exclamation mx-2"></i>{" "}
-                            Pas de résultats
-                        </h1>
-                    </div>
+                    <NoResults />
                 )}
             </div>
         </AuthenticatedLayout>

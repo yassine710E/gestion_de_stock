@@ -8,6 +8,8 @@ import Info from "@/Components/Info";
 import TextInput from "@/Components/TextInput";
 import DangerButton from "@/Components/DangerButton";
 import useFilterForm from "@/hooks/Index";
+import Pagination from "@/Components/Pagination";
+import NoResults from "@/Components/NoResults";
 
 function Index({ fournisseurs, flash }) {
     const { data, changeHandler, resetFilters, handleDelete, status } =
@@ -16,20 +18,20 @@ function Index({ fournisseurs, flash }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 flex items-center gap-2">
+                <h2 className="text-2xl font-semibold text-gray-800 h-8 flex items-center gap-2">
                     <i className="fas fa-folder-open"></i>
                     <span>Supplier Overview</span>
                 </h2>
             }
         >
-            <Head title="Fournisseurs" />
+            <Head title="Suppliers" />
 
             <main>
                 <div className="mx-auto max-w-10xl sm:px-12 lg:px-8">
                     <Link href={route("fournisseurs.create")}>
-                        <SecondaryButton className="my-4">
-                            <i className="fas fa-plus-circle mr-2"></i>Ajouter
-                            Fournisseurs
+                        <SecondaryButton className="mt-4">
+                            <i className="fas fa-plus-circle mr-2"></i>Add
+                            Supplier
                         </SecondaryButton>
                     </Link>
 
@@ -37,128 +39,102 @@ function Index({ fournisseurs, flash }) {
                     {flash.error && <Error flash={flash} />}
                     {flash.info && <Info flash={flash} />}
 
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900 my-3 flex gap-4 items-center">
-                            <TextInput
-                                type="text"
-                                name="search"
-                                value={data.search}
-                                onChange={changeHandler}
-                                className="mt-6 block w-full"
-                                placeholder="Nom Complet ..."
-                            />
-                            <div className={`mt-6`} hidden={status()}>
-                                <button onClick={resetFilters}>
-                                    <DangerButton>X</DangerButton>
+                    <div className="overflow-hidden shadow-sm sm:rounded-lg">
+                        <div className="p-6 flex text-gray-900 my-4 items-center bg-white rounded-lg border">
+                            <div className="flex-1">
+                                <label
+                                    htmlFor=""
+                                    className="text-black font-medium text-sm"
+                                >
+                                    Supplier Name:
+                                </label>
+
+                                <TextInput
+                                    type="text"
+                                    name="search"
+                                    value={data.search}
+                                    onChange={changeHandler}
+                                    className="mt-2 block w-full"
+                                    placeholder="Nom Complet ..."
+                                />
+                            </div>
+                            <div className={`mt-8 ml-4`} >
+                                <button onClick={resetFilters} hidden={status()}>
+                                    <DangerButton>Clear</DangerButton>
                                 </button>
                             </div>
                         </div>
 
-                        <div className="p-6 text-gray-900">
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            #
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Nom Complet
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Email
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {fournisseurs?.data ? (
-                                        fournisseurs.data.map((fourni) => (
-                                            <tr
-                                                key={fourni.id}
-                                                className="hover:bg-gray-50"
-                                            >
-                                                <td className="px-6 py-4">
-                                                    {fourni.id}
-                                                </td>
-                                                <td className="px-6 py-4">
+                        <div className="space-y-4">
+                            {fournisseurs?.data ? (
+                                fournisseurs.data.map((fourni) => (
+                                    <div
+                                        key={fourni.id}
+                                        className="bg-white rounded-lg border shadow-sm p-6 hover:shadow-md transition-shadow"
+                                    >
+                                        <div className="flex justify-between items-center">
+                                            <div className="space-y-2">
+                                                <div className="text-sm text-gray-500 bg-gray-200 rounded-md px-2 py-1 w-12">
+                                                    ID: {fourni.id}
+                                                </div>
+                                                <div className="text-lg font-semibold">
                                                     {fourni.nom_complet}
-                                                </td>
-                                                <td className="px-6 py-4">
+                                                </div>
+                                                <div className="text-gray-600">
                                                     {fourni.email}
-                                                </td>
-                                                <td className="px-6 py-4 flex gap-3">
-                                                    <Link
-                                                        className="text-blue-600 hover:text-blue-900 p-2 rounded-full"
-                                                        href={route(
-                                                            "fournisseurs.edit",
+                                                </div>
+                                            </div>
+                                            <div className="flex gap-3">
+                                                <Link
+                                                    className="text-blue-600 hover:text-blue-900 p-2 rounded-full"
+                                                    href={route(
+                                                        "fournisseurs.edit",
+                                                        fourni.id
+                                                    )}
+                                                >
+                                                    <i className="fas fa-edit"></i>
+                                                </Link>
+                                                <Link
+                                                    className="text-green-600 hover:text-green-900 p-2 rounded-full"
+                                                    href={route(
+                                                        "fournisseurs.show",
+                                                        fourni.id
+                                                    )}
+                                                >
+                                                    <i className="fas fa-eye"></i>
+                                                </Link>
+                                                <form
+                                                    onSubmit={(e) =>
+                                                        handleDelete(
+                                                            e,
                                                             fourni.id
-                                                        )}
+                                                        )
+                                                    }
+                                                >
+                                                    <button
+                                                        type="submit"
+                                                        className="text-red-600 hover:text-red-900 p-2 rounded-full"
                                                     >
-                                                        <i className="fas fa-edit"></i>
-                                                    </Link>
-                                                    <Link
-                                                        className="text-green-600 hover:text-green-900 p-2 rounded-full"
-                                                        href={route(
-                                                            "fournisseurs.show",
-                                                            fourni.id
-                                                        )}
-                                                    >
-                                                        <i className="fas fa-eye"></i>
-                                                    </Link>
-                                                    <form
-                                                        onSubmit={(e) =>
-                                                            handleDelete(
-                                                                e,
-                                                                fourni.id
-                                                            )
-                                                        }
-                                                    >
-                                                        <button
-                                                            type="submit"
-                                                            className="text-red-600 hover:text-red-900 p-2 rounded-full"
-                                                        >
-                                                            <i className="fas fa-trash"></i>
-                                                        </button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td
-                                                colSpan="4"
-                                                className="px-6 py-4 text-center text-gray-500"
-                                            >
-                                                <i className="fas fa-inbox mr-2"></i>
-                                                Not Found
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
-
-                            <div className="mt-4 flex items-center justify-center">
-                                {fournisseurs.links.map((link, index) => (
-                                    <Link
-                                        key={index}
-                                        href={link.url}
-                                        className={`px-3 py-2 mx-1 text-sm font-medium rounded-md ${
-                                            link.active
-                                                ? "bg-blue-600 text-white"
-                                                : "bg-white text-gray-700 hover:bg-gray-50"
-                                        } ${
-                                            !link.url &&
-                                            "opacity-50 cursor-not-allowed"
-                                        }`}
-                                        dangerouslySetInnerHTML={{
-                                            __html: link.label,
-                                        }}
-                                    />
-                                ))}
-                            </div>
+                                                        <i className="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="text-center text-gray-500 py-4">
+                                    <i className="fas fa-inbox mr-2"></i>
+                                    Not Found
+                                </div>
+                            )}
                         </div>
+
+                        {fournisseurs.data.length ? (
+                            <Pagination links={fournisseurs.links} />
+                        ) : (
+                            <NoResults />
+                        )}
                     </div>
                 </div>
             </main>
